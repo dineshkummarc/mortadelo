@@ -1,0 +1,7 @@
+2007-06-04  Federico Mena Quintero  <federico@novell.com>
+
+	* syscall.cs: Basic struct to hold a syscall.
+
+	* Makefile: Basic Makefile.
+
+	* ChangeLog: Start the ChangeLog.
