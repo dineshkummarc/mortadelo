@@ -1,4 +1,6 @@
-sources = 	\
+sources = 		\
+	errno.cs	\
+	log.cs		\
 	syscall.cs
 
 mortadelo.exe: $(sources)

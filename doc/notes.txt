@@ -1,0 +1,21 @@
++ Log:
+
+	+ Array of syscalls
+
++ Parser:
+
+	+ Parse a line of text into a Syscall
+
++ Driver:
+
+	+ Read a line
+
+	+ Parse the line
+
+	+ Feed Syscall to the Log
+
++ For Friday: 
+	+ log open() calls
+	+ filtering
+	+ highlight errors
+	+ saving/loading
