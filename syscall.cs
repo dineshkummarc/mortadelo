@@ -1,3 +1,5 @@
+using System;
+
 namespace Mortadelo {
 	public struct Syscall {
 		/* Syscall index within its parent log */
@@ -89,6 +91,29 @@ namespace Mortadelo {
 
 			is_syscall_end   = false;
 			start_index      = -1;
+		}
+
+		public override string ToString ()
+		{
+			return String.Format ("{{ index = {0}, pid = {1}, tid = {2}, execname = {3}, timestamp = {4}, " +
+					      "name = {5}, arguments = \"{6}\", extra_info = \"{7}\", " +
+					      "have_result = {8}, result = {9}, " +
+					      "is_syscall_start = {10}, end_index = {11}, " +
+					      "is_syscall_end = {12}, start_index = {13} }}",
+					      index,
+					      pid,
+					      tid,
+					      execname,
+					      timestamp,
+					      name,
+					      arguments,
+					      extra_info,
+					      have_result,
+					      result,
+					      is_syscall_start,
+					      end_index,
+					      is_syscall_end,
+					      start_index);
 		}
 	}
 }

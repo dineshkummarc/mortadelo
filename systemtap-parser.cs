@@ -8,8 +8,8 @@ namespace Mortadelo {
 		{
 			// open: 1180976736974992: gnome-panel (3630:3630): "/proc/partitions", O_RDONLY
 			open_regex = new Regex (@"open: (?<timestamp>\d+): (?<execname>.+) \((?<pid>\d+):(?<tid>\d+)\): (?<arguments>.*)");
-			// open.return: 1180976736975010: (3630:3630): 27
-			open_return_regex = new Regex (@"open.return: (?<timestamp>\d+): \((?<pid>\d+):(?<tid>\d+)\): (?<result>.*)");
+			// open.return: 1180976736975010: gnome-panel (3630:3630): 27
+			open_return_regex = new Regex (@"open.return: (?<timestamp>\d+): (?<execname>.+) \((?<pid>\d+):(?<tid>\d+)\): (?<result>.*)");
 		}
 
 		public bool Parse (string str, out Syscall syscall)
@@ -69,7 +69,7 @@ namespace Mortadelo {
 		{
 			Syscall s;
 			Match m;
-			string timestamp_str, pid_str, tid_str, result_str;
+			string timestamp_str, execname_str, pid_str, tid_str, result_str;
 			bool retval;
 
 			s = new Syscall ();
@@ -82,12 +82,14 @@ namespace Mortadelo {
 			}
 
 			timestamp_str = m.Groups["timestamp"].Value;
+			execname_str  = m.Groups["execname"].Value;
 			pid_str       = m.Groups["pid"].Value;
 			tid_str       = m.Groups["tid"].Value;
 			result_str    = m.Groups["result"].Value;
 
 			s.name      = "open";
 			s.timestamp = long.Parse (timestamp_str);
+			s.execname  = execname_str;
 			s.pid       = int.Parse (pid_str);
 			s.tid       = int.Parse (tid_str);
 
@@ -150,7 +152,7 @@ namespace Mortadelo {
 			Syscall syscall;
 			Syscall expected;
 
-			result = parser.Parse ("open.return: 1180976736975010: (3630:3630): 27",
+			result = parser.Parse ("open.return: 1180976736975010: gnome-panel (3630:3630): 27",
 					       out syscall);
 
 			Assert.IsTrue (result, "Parse open.return - presence of a match");
@@ -159,6 +161,7 @@ namespace Mortadelo {
 			expected.Clear ();
 			expected.name = "open";
 			expected.timestamp = 1180976736975010;
+			expected.execname = "gnome-panel";
 			expected.pid = 3630;
 			expected.tid = 3630;
 			expected.have_result = true;

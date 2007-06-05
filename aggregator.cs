@@ -106,7 +106,7 @@ namespace Mortadelo {
 		public void OpenTest () {
 			string[] lines = {
 				"open: 1180976736974992: gnome-panel (3630:3630): \"/proc/partitions\", O_RDONLY",
-				"open.return: 1180976736975010: (3630:3630): 27"
+				"open.return: 1180976736975010: gnome-panel (3630:3630): 27"
 			};
 
 			Syscall expected0;
@@ -134,7 +134,7 @@ namespace Mortadelo {
 			expected0.is_syscall_start = true;
 			expected0.end_index        = 1;
 			expected0.is_syscall_end   = false;
-			expected0.start_index      = 0;
+			expected0.start_index      = -1;
 
 			expected1 = new Syscall ();
 			expected1.index            = 1;
@@ -148,7 +148,7 @@ namespace Mortadelo {
 			expected1.have_result      = true;
 			expected1.result           = 27;
 			expected1.is_syscall_start = false;
-			expected1.end_index        = 1;
+			expected1.end_index        = -1;
 			expected1.is_syscall_end   = true;
 			expected1.start_index      = 0;
 

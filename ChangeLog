@@ -1,3 +1,16 @@
+2007-06-05  Federico Mena Quintero  <federico@novell.com>
+
+	* aggregator.cs: Fix the code and tests to pass.
+
+	* systemtap-parser.cs (SystemtapParser.SystemtapParser): Also read
+	the execname for open.return.
+	(SystemtapParser.try_parse_open_return): Likewise.
+	(SystemtapParserTest.OpenReturn): Add the execname to the passed/expected data.
+
+	* syscall.cs (Syscall.ToString): New method.
+
+	* Makefile (check): Added a "make check" target.
+
 2007-06-04  Federico Mena Quintero  <federico@novell.com>
 
 	* aggregator.cs: Aggregator of parsed syscalls into a log;
