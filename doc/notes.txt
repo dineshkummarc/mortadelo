@@ -2,9 +2,9 @@
 
 	+ Array of syscalls
 
-+ Parser:
+- Parser:
 
-	+ Parse a line of text into a Syscall
+	- Parse a line of text into a Syscall
 
 + Driver:
 

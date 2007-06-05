@@ -156,14 +156,17 @@ namespace Mortadelo {
 
 		public static bool GetErrno (int num, out string name, out string description)
 		{
-			if (num < 0 || num >= errors.Length) {
+			if (num < 0)
+				throw new ArgumentOutOfRangeException ("num", num, "must be nonnegative");
+
+			if (num >= errors.Length) {
 				name = null;
 				description = null;
 				return false;
 			}
 
 			if (errors[num].code != num) {
-				string str = String.Format ("Error in internal table of errno mappings (requested error {0})", num);
+				string str = String.Format ("error in internal table of errno mappings (requested error {0})", num);
 				throw new ApplicationException (str);
 			}
 

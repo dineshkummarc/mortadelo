@@ -7,6 +7,9 @@ namespace Mortadelo {
 		public int pid;
 		public int tid;
 
+		/* Process name */
+		public string execname;
+
 		/* Timestamp in microseconds */
 		public long timestamp;
 
@@ -73,6 +76,8 @@ namespace Mortadelo {
 
 			pid = -1;
 			tid = -1;
+
+			execname = null;
 
 			timestamp = 0;
 
