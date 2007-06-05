@@ -6,6 +6,8 @@
 
 	- Parse a line of text into a Syscall
 
++ TextLineProvider in ~/src/stracer
+
 + Driver:
 
 	+ Read a line

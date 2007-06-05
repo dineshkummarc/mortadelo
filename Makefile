@@ -1,4 +1,5 @@
 sources = 			\
+	aggregator.cs		\
 	errno.cs		\
 	log.cs			\
 	parser.cs		\
@@ -6,4 +7,4 @@ sources = 			\
 	syscall.cs
 
 mortadelo.exe: $(sources)
-	mcs -warn:4 -out:$@ $(sources) -pkg:mono-nunit
+	gmcs -warn:4 -out:$@ $(sources) -pkg:mono-nunit -r:Mono.C5

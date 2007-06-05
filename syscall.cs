@@ -72,25 +72,23 @@ namespace Mortadelo {
 
 		public void Clear ()
 		{
-			index = -1;
+			index            = -1;
+			pid              = -1;
+			tid              = -1;
+			execname         = null;
+			timestamp        = 0;
+			name             = null;
+			arguments        = null;
+			extra_info       = null;
 
-			pid = -1;
-			tid = -1;
-
-			execname = null;
-
-			timestamp = 0;
-
-			name = null;
-
-			have_result = false;
-			result = -1;
+			have_result      = false;
+			result           = -1;
 
 			is_syscall_start = false;
-			end_index = -1;
+			end_index        = -1;
 
-			is_syscall_end = false;
-			start_index = -1;
+			is_syscall_end   = false;
+			start_index      = -1;
 		}
 	}
 }
