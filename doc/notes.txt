@@ -16,6 +16,10 @@
 
 	+ Feed Syscall to the Log
 
++ GUI:
+
+	+ Every second, update from the log.
+
 + For Friday: 
 	- log open() calls
 	+ filtering

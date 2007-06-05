@@ -171,11 +171,4 @@ namespace Mortadelo {
 			Assert.AreEqual (syscall, expected, "Parse open.return - syscall contents");
 		}
 	}
-
-	public class Driver {
-		public static void Main ()
-		{
-			Console.WriteLine ("hello world");
-		}
-	}
 }
