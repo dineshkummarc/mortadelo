@@ -106,54 +106,132 @@ namespace Mortadelo {
 		public void OpenTest () {
 			string[] lines = {
 				"open: 1180976736974992: gnome-panel (3630:3630): \"/proc/partitions\", O_RDONLY",
-				"open.return: 1180976736975010: gnome-panel (3630:3630): 27"
+				"open.return: 1180976736975010: gnome-panel (3630:3630): 27",
+				"open: 1181064007999786: hald-addon-stor (2882:2883): \"/dev/hdc\", O_RDONLY|O_EXCL|O_LARGEFILE|O_NONBLOCK",
+				"open: 1181064008000173: gimp-2.2 (27920:27920): \"/home/federico/.gimp-2.2/tool-options/gimp-free-select-tool.presetsysBTNg\", O_RDWR|O_CREAT|O_EXCL|O_LARGEFILE, 0600",
+				"open.return: 1181064008031945: NetworkManager (2539:26181): 19",
+				"open.return: 1181064008000205: gimp-2.2 (27920:27920): 7",
 			};
 
-			Syscall expected0;
-			Syscall expected1;
-			Syscall syscall0;
-			Syscall syscall1;
+			Syscall[] expected;
+			Syscall[] syscall;
+			int i;
+			int num_syscalls;
 
 			foreach (string l in lines)
 				aggregator.ProcessLine (l);
 
-			syscall0 = log.GetSyscall (0);
-			syscall1 = log.GetSyscall (1);
+			expected = new Syscall[lines.Length];
+			syscall = new Syscall[lines.Length];
 
-			expected0 = new Syscall ();
-			expected0.index            = 0;
-			expected0.pid              = 3630;
-			expected0.tid              = 3630;
-			expected0.execname         = "gnome-panel";
-			expected0.timestamp        = 1180976736974992;
-			expected0.name             = "open";
-			expected0.arguments        = "\"/proc/partitions\", O_RDONLY";
-			expected0.extra_info       = null;
-			expected0.have_result      = false;
-			expected0.result           = -1;
-			expected0.is_syscall_start = true;
-			expected0.end_index        = 1;
-			expected0.is_syscall_end   = false;
-			expected0.start_index      = -1;
+			for (i = 0; i < lines.Length; i++) {
+				syscall[i] = log.GetSyscall (i);
+				expected[i].Clear ();
+			}
 
-			expected1 = new Syscall ();
-			expected1.index            = 1;
-			expected1.pid              = 3630;
-			expected1.tid              = 3630;
-			expected1.execname         = "gnome-panel";
-			expected1.timestamp        = 1180976736975010;
-			expected1.name             = "open";
-			expected1.arguments        = null;
-			expected1.extra_info       = null;
-			expected1.have_result      = true;
-			expected1.result           = 27;
-			expected1.is_syscall_start = false;
-			expected1.end_index        = -1;
-			expected1.is_syscall_end   = true;
-			expected1.start_index      = 0;
+			num_syscalls = log.GetNumSyscalls ();
 
-			Assert.AreEqual (syscall0, expected0, "Start of open syscall");
-			Assert.AreEqual (syscall1, expected1, "Return of open syscall");
+			expected[0].index            = 0;
+			expected[0].pid              = 3630;
+			expected[0].tid              = 3630;
+			expected[0].execname         = "gnome-panel";
+			expected[0].timestamp        = 1180976736974992;
+			expected[0].name             = "open";
+			expected[0].arguments        = "\"/proc/partitions\", O_RDONLY";
+			expected[0].extra_info       = null;
+			expected[0].have_result      = false;
+			expected[0].result           = -1;
+			expected[0].is_syscall_start = true;
+			expected[0].end_index        = 1;
+			expected[0].is_syscall_end   = false;
+			expected[0].start_index      = -1;
+
+			expected[1].index            = 1;
+			expected[1].pid              = 3630;
+			expected[1].tid              = 3630;
+			expected[1].execname         = "gnome-panel";
+			expected[1].timestamp        = 1180976736975010;
+			expected[1].name             = "open";
+			expected[1].arguments        = null;
+			expected[1].extra_info       = null;
+			expected[1].have_result      = true;
+			expected[1].result           = 27;
+			expected[1].is_syscall_start = false;
+			expected[1].end_index        = -1;
+			expected[1].is_syscall_end   = true;
+			expected[1].start_index      = 0;
+			
+			expected[2].index            = 2;
+			expected[2].pid              = 2882;
+			expected[2].tid              = 2883;
+			expected[2].execname         = "hald-addon-stor";
+			expected[2].timestamp        = 1181064007999786;
+			expected[2].name             = "open";
+			expected[2].arguments        = "\"/dev/hdc\", O_RDONLY|O_EXCL|O_LARGEFILE|O_NONBLOCK";
+			expected[2].extra_info       = null;
+			expected[2].have_result      = false;
+			expected[2].result           = -1;
+			expected[2].is_syscall_start = true;
+			expected[2].end_index        = -1;
+			expected[2].is_syscall_end   = false;
+			expected[2].start_index      = -1;
+
+			expected[3].index            = 3;
+			expected[3].pid              = 27920;
+			expected[3].tid              = 27920;
+			expected[3].execname         = "gimp-2.2";
+			expected[3].timestamp        = 1181064008000173;
+			expected[3].name             = "open";
+			expected[3].arguments        = "\"/home/federico/.gimp-2.2/tool-options/gimp-free-select-tool.presetsysBTNg\", O_RDWR|O_CREAT|O_EXCL|O_LARGEFILE, 0600";
+			expected[3].extra_info       = null;
+			expected[3].have_result      = false;
+			expected[3].result           = -1;
+			expected[3].is_syscall_start = true;
+			expected[3].end_index        = 5;
+			expected[3].is_syscall_end   = false;
+			expected[3].start_index      = -1;
+
+			expected[4].index            = 4;
+			expected[4].pid              = 2539;
+			expected[4].tid              = 26181;
+			expected[4].execname         = "NetworkManager";
+			expected[4].timestamp        = 1181064008031945;
+			expected[4].name             = "open";
+			expected[4].arguments        = null;
+			expected[4].extra_info       = null;
+			expected[4].have_result      = true;
+			expected[4].result           = 19;
+			expected[4].is_syscall_start = false;
+			expected[4].end_index        = -1;
+			expected[4].is_syscall_end   = true;
+			expected[4].start_index      = -1;
+
+			expected[5].index            = 5;
+			expected[5].pid              = 27920;
+			expected[5].tid              = 27920;
+			expected[5].execname         = "gimp-2.2";
+			expected[5].timestamp        = 1181064008000205;
+			expected[5].name             = "open";
+			expected[5].arguments        = null;
+			expected[5].extra_info       = null;
+			expected[5].have_result      = true;
+			expected[5].result           = 7;
+			expected[5].is_syscall_start = false;
+			expected[5].end_index        = -1;
+			expected[5].is_syscall_end   = true;
+			expected[5].start_index      = 3;
+
+			for (i = 0; i < lines.Length; i++) {
+				string str;
+
+				str = String.Format ("Start of open syscall ({0})", i);
+				Assert.AreEqual (syscall[i], expected[i], str);
+
+				str = String.Format ("Return of open syscall ({0})", i);
+				Assert.AreEqual (syscall[i], expected[i], str);
+			}
+
+			Assert.AreEqual (num_syscalls, lines.Length, "Number of parsed syscalls");
 		}
 
 		SystemtapParser parser;

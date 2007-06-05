@@ -1,5 +1,12 @@
 2007-06-05  Federico Mena Quintero  <federico@novell.com>
 
+	* log.cs: (Log.GetNumSyscalls): New method.
+
+	* aggregator.cs (AggregatorTest.OpenTest): Test the number of
+	syscalls parsed.  Add more interleaved syscalls to test.
+
+2007-06-05  Federico Mena Quintero  <federico@novell.com>
+
 	* aggregator.cs: Fix the code and tests to pass.
 
 	* systemtap-parser.cs (SystemtapParser.SystemtapParser): Also read

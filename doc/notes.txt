@@ -1,6 +1,6 @@
-+ Log:
+- Log:
 
-	+ Array of syscalls
+	- Array of syscalls
 
 - Parser:
 
@@ -17,7 +17,7 @@
 	+ Feed Syscall to the Log
 
 + For Friday: 
-	+ log open() calls
+	- log open() calls
 	+ filtering
 	+ highlight errors
 	+ saving/loading

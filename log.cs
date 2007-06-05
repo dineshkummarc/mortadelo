@@ -9,6 +9,11 @@ namespace Mortadelo {
 			syscalls = new List<Syscall> ();
 		}
 
+		public int GetNumSyscalls ()
+		{
+			return syscalls.Count;
+		}
+
 		public int AppendSyscall (Syscall syscall)
 		{
 			syscall.index = syscalls.Count;
