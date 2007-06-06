@@ -8,15 +8,17 @@ namespace Mortadelo {
 			stream = new UnixStream (fd, false);
 
 			io_channel = new NDesk.GLib.IOChannel (fd);
-			watch_id = AddWatch (io_channel, NDesk.GLib.IOCondition.In | NDesk.GLib.IOCondition.Hup, io_callback);
+			watch_id = NDesk.GLib.IO.AddWatch (io_channel,
+							   NDesk.GLib.IOCondition.In | NDesk.GLib.IOCondition.Hup,
+							   io_callback);
 		}
 
 		bool io_callback (NDesk.GLib.IOChannel source, NDesk.GLib.IOCondition condition, IntPtr data)
 		{
-			if (condition & NDesk.GLib.IOCondition.In)
+			if ((condition & NDesk.GLib.IOCondition.In) != 0)
 				read ();
 
-			if (condition & NDesk.GLib.IOCondition.Hup) {
+			if ((condition & NDesk.GLib.IOCondition.Hup) != 0) {
 				Closed ();
 				return false;
 			}
@@ -26,10 +28,10 @@ namespace Mortadelo {
 
 		void read ()
 		{
-			byte[BUFFER_SIZE] buffer;
+			byte[] buffer = new byte[BUFFER_SIZE];
 			int num_read;
 
-			while ((num_read = stream.Read (buffer, 0, buffer.Length)) != 0) {
+			while ((num_read = stream.Read (buffer, 0, buffer.Length)) != 0)
 				DataAvailable (buffer, num_read);
 		}
 

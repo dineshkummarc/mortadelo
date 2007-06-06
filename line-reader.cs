@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Text;
+using NUnit.Framework;
 
 namespace Mortadelo {
 	public class LineReader {
@@ -9,15 +11,14 @@ namespace Mortadelo {
 			closed = false;
 		}
 
-		public void ReadLines (Stream stream)
+		public void ReadLines (TextReader text_reader)
 		{
 			int ch;
-			int num_read;
 
 			if (closed)
 				throw new ApplicationException ("Tried to read lines from a LineReader which is already closed");
 
-			while ((ch = stream.ReadByte()) != -1) {
+			while ((ch = text_reader.Read()) != -1) {
 				line.Append ((char) ch);
 
 				if (ch == '\n') {
@@ -36,7 +37,7 @@ namespace Mortadelo {
 		StringBuilder line;
 		bool closed;
 
-		delegate void LineAvailableDelegate (string line);
+		public delegate void LineAvailableDelegate (string line);
 
 		public event LineAvailableDelegate LineAvailable;
 	}
@@ -58,7 +59,7 @@ namespace Mortadelo {
 
 			line_num = 0;
 
-			reader.LineAvailable += new LineAvailableDelegate (delegate (string line) {
+			reader.LineAvailable += new LineReader.LineAvailableDelegate (delegate (string line) {
 				Assert.AreEqual (line, expected_lines[line_num]);
 				line_num++;
 			});

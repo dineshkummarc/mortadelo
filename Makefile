@@ -11,7 +11,7 @@ sources = 			\
 	unix-reader.cs
 
 mortadelo.exe: $(sources)
-	gmcs -warn:4 -out:$@ $(sources) -pkg:mono-nunit -r:Mono.C5 -pkg:glib-sharp-2.0
+	gmcs -warn:4 -out:$@ $(sources) -pkg:mono-nunit -r:Mono.C5 -pkg:glib-sharp-2.0 -r:Mono.Posix
 
 .PHONY: check
 

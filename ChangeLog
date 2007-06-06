@@ -1,5 +1,9 @@
 2007-06-05  Federico Mena Quintero  <federico@novell.com>
 
+	* Makefile (mortadelo.exe): Use -r:Mono.Posix to get Mono.Unix.
+
+2007-06-05  Federico Mena Quintero  <federico@novell.com>
+
 	* line-reader.cs: Simple reader of lines from a stream.
 
 	* unix-reader.cs: Buffered reader for Unix file descriptors that
