@@ -1,5 +1,14 @@
 2007-06-06  Federico Mena Quintero  <federico@novell.com>
 
+	* unix-reader.cs (UnixReader.Dispose): Add a Dispose() method;
+	remove the watch source if we get disposed prematurely.
+
+	* spawn.cs (Spawn): Make this an instantiable class, so that we
+	can hold on to the ChildWatchFunc --- the GC would otherwise
+	collect the trampoline for the callback.
+	(SpawnTest): Added a test fixture; tests the Spawn class in
+	conjunction with UnixReader.
+
 	* Makefile (sources): Add systemtap-runner.cs.
 
 	* systemtap-runner.cs: Plug everything together:  Spawn the child

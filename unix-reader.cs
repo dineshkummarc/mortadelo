@@ -2,7 +2,7 @@ using System;
 using Mono.Unix;
 
 namespace Mortadelo {
-	public class UnixReader {
+	public class UnixReader : IDisposable {
 		public UnixReader (int fd)
 		{
 			stream = new UnixStream (fd, false);
@@ -13,6 +13,14 @@ namespace Mortadelo {
 							   io_callback);
 		}
 
+		public void Dispose ()
+		{
+			if (watch_id != 0) {
+				GLib.Source.Remove (watch_id);
+				watch_id = 0;
+			}
+		}
+
 		bool io_callback (NDesk.GLib.IOChannel source, NDesk.GLib.IOCondition condition, IntPtr data)
 		{
 			if ((condition & NDesk.GLib.IOCondition.In) != 0)
@@ -20,6 +28,7 @@ namespace Mortadelo {
 
 			if ((condition & NDesk.GLib.IOCondition.Hup) != 0) {
 				Closed ();
+				watch_id = 0;
 				return false;
 			}
 
@@ -31,12 +40,8 @@ namespace Mortadelo {
 			byte[] buffer = new byte[BUFFER_SIZE];
 			int num_read;
 
-//			Console.WriteLine ("reading from unix fd");
-
-			while ((num_read = stream.Read (buffer, 0, buffer.Length)) != 0) {
-//				Console.WriteLine ("read {0} bytes", num_read);
+			while ((num_read = stream.Read (buffer, 0, buffer.Length)) != 0)
 				DataAvailable (buffer, num_read);
-			}
 		}
 
 		const int BUFFER_SIZE = 65536;
