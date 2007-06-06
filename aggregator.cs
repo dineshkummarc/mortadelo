@@ -237,9 +237,5 @@ namespace Mortadelo {
 		SystemtapParser parser;
 		Log log;
 		Aggregator aggregator;
-
-		public static void Main ()
-		{
-		}
 	}
 }

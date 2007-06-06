@@ -8,13 +8,16 @@
 
 + TextLineProvider in ~/src/stracer
 
-+ Driver:
+- Driver:
 
-	+ Read a line
+	- Read a line
 
-	+ Parse the line
+	- MemoryStream to turn a byte[] into a Stream, then StreamReader to turn the Stream into a TextReader,
+	  then feed the TextReader into our LineReader.
 
-	+ Feed Syscall to the Log
+	- Parse the line
+
+	- Feed Syscall to the Log
 
 + GUI:
 
