@@ -30,7 +30,8 @@ namespace NDesk.GLib
 	[StructLayout (LayoutKind.Sequential)]
 	struct IOChannel
 	{
-		const string GLIB = "libglib-2.0-0.dll";
+//		const string GLIB = "libglib-2.0-0.dll";
+		const string GLIB = "glib-2.0";
 
 		public IntPtr Handle;
 
@@ -108,7 +109,8 @@ namespace NDesk.GLib
 
 	class IO
 	{
-		const string GLIB = "libglib-2.0-0.dll";
+//		const string GLIB = "libglib-2.0-0.dll";
+		const string GLIB = "glib-2.0";
 
 		//TODO: better memory management
 		public static ArrayList objs = new ArrayList ();

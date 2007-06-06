@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Mortadelo {
@@ -18,6 +19,8 @@ namespace Mortadelo {
 		{
 			syscall.index = syscalls.Count;
 			syscalls.Add (syscall);
+
+//			Console.WriteLine ("appended syscall; count = {0}", syscall.index);
 
 			return syscall.index;
 		}

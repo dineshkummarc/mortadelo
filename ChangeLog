@@ -1,5 +1,7 @@
 2007-06-06  Federico Mena Quintero  <federico@novell.com>
 
+	* Makefile (sources): Add systemtap-runner.cs.
+
 	* systemtap-runner.cs: Plug everything together:  Spawn the child
 	process, create a UnixReader for it, feed incoming data to an
 	Aggregator.

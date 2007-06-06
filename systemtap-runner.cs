@@ -1,5 +1,9 @@
 using System;
 using System.IO;
+using System.Text;
+using GLib;
+using Mono.Unix;
+using Gtk;
 
 namespace Mortadelo {
 	public class SystemtapRunner {
@@ -29,16 +33,20 @@ namespace Mortadelo {
 
 				state = State.Running;
 
-				unix_reader = new UnixReader (child_stdout);
-				unix_reader.DataAvailable += unix_reader_data_available_cb;
-				unix_reader.Closed += unix_reader_closed_cb;
+				stdout_reader = new UnixReader (child_stdout);
+				stdout_reader.DataAvailable += stdout_reader_data_available_cb;
+				stdout_reader.Closed += stdout_reader_closed_cb;
+
+				stderr_reader = new UnixReader (child_stderr);
+				stderr_reader.DataAvailable += stderr_reader_data_available_cb;
+				stderr_reader.Closed += stderr_reader_closed_cb;
 
 				line_reader = new LineReader ();
 				line_reader.LineAvailable += line_reader_line_available_cb;
 
 				write_script_to_child ();
 			} catch (GException e) {
-				/* FIXME: print the error */
+				Console.WriteLine ("error when spawning");
 				state = State.Error;
 			}
 		}
@@ -58,6 +66,8 @@ namespace Mortadelo {
 			argv[0] = "stap";
 			argv[1] = "stap";
 			argv[2] = "-";
+
+			return argv;
 		}
 
 		void write_script_to_child ()
@@ -73,15 +83,37 @@ namespace Mortadelo {
 			writer.Write (script);
 			writer.Close (); /* this will close the child_stdin fd */
 			child_stdin = -1;
+
+			Console.WriteLine ("wrote the script to the child");
+		}
+
+		string build_script ()
+		{
+			StringBuilder builder = new StringBuilder ();
+
+			builder.Append (@"probe syscall.open {
+						printf (""open: %d: %s (%d:%d): %s\n"",
+							gettimeofday_us (), execname (), pid (), tid (), argstr);
+					  }
+
+					  probe syscall.open.return {
+						printf (""open.return: %d: %s (%d:%d): %d\n"",
+							gettimeofday_us (), execname (), pid (), tid (), $return);
+					  }");
+
+			return builder.ToString ();
 		}
 
 		void child_watch_cb (int pid, int status, IntPtr user_data)
 		{
+			Console.WriteLine ("CHILD WATCH pid {0}, status {1}", pid, status);
 			/* FIXME */
 		}
 
-		void unix_reader_data_available_cb (byte[] buffer, int len)
+		void stdout_reader_data_available_cb (byte[] buffer, int len)
 		{
+//			Console.WriteLine ("child stdout data available, len {0}", len);
+
 			MemoryStream stream = new MemoryStream (buffer, 0, len);
 			StreamReader stream_reader = new StreamReader (stream);
 
@@ -90,13 +122,34 @@ namespace Mortadelo {
 			stream_reader.Close ();
 		}
 
-		void unix_reader_closed_cb ()
+		void stdout_reader_closed_cb ()
 		{
+//			Console.WriteLine ("child stdout closed");
+			line_reader.Close ();
+		}
+
+		void stderr_reader_data_available_cb (byte[] buffer, int len)
+		{
+//			Console.WriteLine ("child stderr data available, len {0}", len);
+
+			MemoryStream stream = new MemoryStream (buffer, 0, len);
+			StreamReader stream_reader = new StreamReader (stream);
+
+			string str = stream_reader.ReadToEnd ();
+//			Console.WriteLine ("child stderr --------------\n{0}\n-------------------------", str);
+
+			stream_reader.Close ();
+		}
+
+		void stderr_reader_closed_cb ()
+		{
+//			Console.WriteLine ("child stderr closed");
 			line_reader.Close ();
 		}
 
 		void line_reader_line_available_cb (string line)
 		{
+//			Console.WriteLine ("processing line: {0}", line);
 			aggregator.ProcessLine (line);
 		}
 
@@ -112,12 +165,45 @@ namespace Mortadelo {
 		Aggregator aggregator;
 		SystemtapParser parser;
 		uint child_watch_id;
-		UnixReader unix_reader;
+		UnixReader stdout_reader;
+		UnixReader stderr_reader;
 		LineReader line_reader;
 
 		int child_pid;
 		int child_stdin;
 		int child_stdout;
 		int child_stderr;
+
+		public static void Main ()
+		{
+			SystemtapRunner runner;
+			Log log;
+
+			Application.Init ();
+
+			log = new Log ();
+			runner = new SystemtapRunner (log);
+
+			runner.Run ();
+
+			Window w;
+
+			w = new Window ("hola");
+			Button b;
+
+			b = new Button ("hola mundo");
+			w.Add (b);
+			w.ShowAll ();
+
+			GLib.Timeout.Add (5000, delegate {
+				int num;
+
+				num = log.GetNumSyscalls ();
+				Console.WriteLine ("syscalls: {0}", num);
+				return true;
+			});
+
+			Application.Run ();
+		}
 	}
 }

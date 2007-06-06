@@ -7,11 +7,12 @@ sources = 			\
 	parser.cs		\
 	spawn.cs		\
 	systemtap-parser.cs	\
+	systemtap-runner.cs	\
 	syscall.cs		\
 	unix-reader.cs
 
 mortadelo.exe: $(sources)
-	gmcs -warn:4 -out:$@ $(sources) -pkg:mono-nunit -r:Mono.C5 -pkg:glib-sharp-2.0 -r:Mono.Posix
+	gmcs -warn:4 -out:$@ $(sources) -pkg:mono-nunit -r:Mono.C5 -pkg:glib-sharp-2.0 -r:Mono.Posix -pkg:gtk-sharp-2.0
 
 .PHONY: check
 

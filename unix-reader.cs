@@ -31,8 +31,12 @@ namespace Mortadelo {
 			byte[] buffer = new byte[BUFFER_SIZE];
 			int num_read;
 
-			while ((num_read = stream.Read (buffer, 0, buffer.Length)) != 0)
+//			Console.WriteLine ("reading from unix fd");
+
+			while ((num_read = stream.Read (buffer, 0, buffer.Length)) != 0) {
+//				Console.WriteLine ("read {0} bytes", num_read);
 				DataAvailable (buffer, num_read);
+			}
 		}
 
 		const int BUFFER_SIZE = 65536;
