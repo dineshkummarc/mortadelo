@@ -105,12 +105,12 @@ namespace Mortadelo {
 		[Test]
 		public void OpenTest () {
 			string[] lines = {
-				"open: 1180976736974992: gnome-panel (3630:3630): \"/proc/partitions\", O_RDONLY",
-				"open.return: 1180976736975010: gnome-panel (3630:3630): 27",
-				"open: 1181064007999786: hald-addon-stor (2882:2883): \"/dev/hdc\", O_RDONLY|O_EXCL|O_LARGEFILE|O_NONBLOCK",
-				"open: 1181064008000173: gimp-2.2 (27920:27920): \"/home/federico/.gimp-2.2/tool-options/gimp-free-select-tool.presetsysBTNg\", O_RDWR|O_CREAT|O_EXCL|O_LARGEFILE, 0600",
-				"open.return: 1181064008031945: NetworkManager (2539:26181): 19",
-				"open.return: 1181064008000205: gimp-2.2 (27920:27920): 7",
+				"open: 1180976736974992: gnome-panel (3630:3630): \"/proc/partitions\", O_RDONLY\n",
+				"open.return: 1180976736975010: gnome-panel (3630:3630): 27\n",
+				"open: 1181064007999786: hald-addon-stor (2882:2883): \"/dev/hdc\", O_RDONLY|O_EXCL|O_LARGEFILE|O_NONBLOCK\n",
+				"open: 1181064008000173: gimp-2.2 (27920:27920): \"/home/federico/.gimp-2.2/tool-options/gimp-free-select-tool.presetsysBTNg\", O_RDWR|O_CREAT|O_EXCL|O_LARGEFILE, 0600\n",
+				"open.return: 1181064008031945: NetworkManager (2539:26181): 19\n",
+				"open.return: 1181064008000205: gimp-2.2 (27920:27920): 7\n",
 			};
 
 			Syscall[] expected;
@@ -237,5 +237,9 @@ namespace Mortadelo {
 		SystemtapParser parser;
 		Log log;
 		Aggregator aggregator;
+
+		public static void Main ()
+		{
+		}
 	}
 }

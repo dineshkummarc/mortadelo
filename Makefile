@@ -2,11 +2,13 @@ sources = 			\
 	aggregator.cs		\
 	errno.cs		\
 	GLib.IO.cs		\
+	line-reader.cs		\
 	log.cs			\
 	parser.cs		\
 	spawn.cs		\
 	systemtap-parser.cs	\
-	syscall.cs
+	syscall.cs		\
+	unix-reader.cs
 
 mortadelo.exe: $(sources)
 	gmcs -warn:4 -out:$@ $(sources) -pkg:mono-nunit -r:Mono.C5 -pkg:glib-sharp-2.0

@@ -92,7 +92,7 @@ namespace Mortadelo {
 				throw new GException (error);
 		}
 
-		delegate void ChildWatchFunc (int pid, int status, IntPtr user_data);
+		public delegate void ChildWatchFunc (int pid, int status, IntPtr user_data);
 
 		[DllImport ("glib-2.0")]
 		static extern uint g_child_watch_add (int pid, ChildWatchFunc watch_func, IntPtr user_data);

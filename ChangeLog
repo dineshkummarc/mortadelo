@@ -1,5 +1,10 @@
 2007-06-05  Federico Mena Quintero  <federico@novell.com>
 
+	* line-reader.cs: Simple reader of lines from a stream.
+
+	* unix-reader.cs: Buffered reader for Unix file descriptors that
+	plugs into the Glib main loop.
+
 	* spawn.cs: Wrapper for g_spawn_async_with_pipes() and g_child_watch_add().
 
 	* GLib.IO.cs: Stolen from dbus-sharp-glib; this is a binding for
