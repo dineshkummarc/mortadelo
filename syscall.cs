@@ -115,5 +115,35 @@ namespace Mortadelo {
 					      is_syscall_end,
 					      start_index);
 		}
+
+		public override bool Equals (object o)
+		{
+			Syscall s;
+
+			if (!(o is Syscall))
+				return false;
+
+			s = (Syscall) o;
+
+			return (index == s.index
+				&& pid == s.pid
+				&& tid == s.tid
+				&& execname == s.execname
+				&& timestamp == s.timestamp
+				&& name == s.name
+				&& arguments == s.arguments
+				&& extra_info == s.extra_info
+				&& have_result == s.have_result
+				&& result == s.result
+				&& is_syscall_start == s.is_syscall_start
+				&& end_index == s.end_index
+				&& is_syscall_end == s.is_syscall_end
+				&& start_index == s.start_index);
+		}
+
+		public override int GetHashCode ()
+		{
+			return base.GetHashCode ();
+		}
 	}
 }

@@ -19,15 +19,15 @@ namespace Mortadelo {
 
 			parsed = parser.Parse (str, out syscall);
 			if (!parsed) {
-//				Console.WriteLine ("could not parse: {0}", str);
+				// Console.WriteLine ("could not parse: {0}", str);
 				return;
 			}
 
 			if (syscall.is_syscall_start && !syscall.is_syscall_end) {
-//				Console.WriteLine ("adding start syscall: {0}", syscall);
+				// Console.WriteLine ("adding start syscall: {0}", syscall);
 				add_start_syscall (syscall);
 			} else if (!syscall.is_syscall_start && syscall.is_syscall_end) {
-//				Console.WriteLine ("adding end syscall: {0}", syscall);
+				// Console.WriteLine ("adding end syscall: {0}", syscall);
 				add_end_syscall (syscall);
 			}
 		}

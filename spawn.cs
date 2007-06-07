@@ -212,7 +212,5 @@ namespace Mortadelo {
 		bool pids_matched;
 		bool exit_status_is_good;
 		MainLoop loop;
-
-		public static void Main () {}
 	}
 }

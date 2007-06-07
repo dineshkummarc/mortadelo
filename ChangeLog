@@ -1,5 +1,8 @@
 2007-06-06  Federico Mena Quintero  <federico@novell.com>
 
+	* runner.cs: Generic engine to run an Aggregator plugged to the
+	output of a subprocess.
+
 	* unix-reader.cs (UnixReader.Dispose): Add a Dispose() method;
 	remove the watch source if we get disposed prematurely.
 
@@ -9,7 +12,7 @@
 	(SpawnTest): Added a test fixture; tests the Spawn class in
 	conjunction with UnixReader.
 
-	* Makefile (sources): Add systemtap-runner.cs.
+	* syscall.cs (Syscall.==): Added an == operator.
 
 	* systemtap-runner.cs: Plug everything together:  Spawn the child
 	process, create a UnixReader for it, feed incoming data to an
