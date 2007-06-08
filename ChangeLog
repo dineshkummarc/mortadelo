@@ -1,5 +1,9 @@
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
+	* log.cs: Use a string pool to reduce memory consuption; programs
+	frequently make exactly the same syscalls in timers and their
+	names / arguments / etc. can be thus shared.
+
 	* string-pool.cs: Allow null strings.
 
 2007-06-08  Federico Mena Quintero  <federico@novell.com>

@@ -9,6 +9,7 @@ namespace Mortadelo {
 		public Log ()
 		{
 			syscalls = new List<Syscall> ();
+			pool = new StringPool ();
 
 			modified_hash = new Hashtable ();
 		}
@@ -62,6 +63,12 @@ namespace Mortadelo {
 			return modified_array;
 		}
 
+		public void uniquify_strings (ref Syscall syscall)
+		{
+			syscall.execname = pool.AddString (syscall.execname);
+		}
+
+		StringPool pool;
 		Hashtable modified_hash;
 	}
 }
