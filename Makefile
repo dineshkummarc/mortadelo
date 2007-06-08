@@ -11,6 +11,7 @@ sources = 			\
 	systemtap-runner.cs	\
 	syscall.cs		\
 	syscall-list-model.cs	\
+	syscall-tree-view.cs	\
 	unix-reader.cs
 
 mortadelo.exe: $(sources)

@@ -1,9 +1,13 @@
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
+	* syscall-tree-view.cs: TreeView derivative for a syscall log.  It
+	lives!
+
 	* syscall-list-model.cs: ListStore derivative for syscalls; can
 	update itself from a Log.
 
 	* Makefile (sources): Added syscall-list-model.cs.
+	(sources): Added syscall-tree-view.cs.
 
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
