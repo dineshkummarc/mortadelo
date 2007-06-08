@@ -28,3 +28,13 @@
 	+ filtering
 	+ highlight errors
 	+ saving/loading
+
++ Reducing memory consumption:
+
+	+ Write a big log directly from systemtap
+
+	+ "make memory-profile"
+
+	+ Load the log
+
+	+ Use a pool of shared strings in the Log.
