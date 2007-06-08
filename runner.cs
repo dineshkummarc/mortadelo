@@ -23,6 +23,8 @@ namespace Mortadelo {
 				throw new ApplicationException ("Tried to Run() an AggregatorRunner which was not in PreRun state");
 
 			try {
+				int fl;
+
 				spawn = new Spawn ();
 
 				spawn.SpawnAsyncWithPipes (null,
@@ -37,6 +39,13 @@ namespace Mortadelo {
 				child_watch_id = spawn.ChildWatchAdd (child_pid, child_watch_cb);
 
 				state = State.Running;
+
+				fl = Mono.Unix.Native.Syscall.fcntl (child_stdout,
+								     Mono.Unix.Native.FcntlCommand.F_GETFL);
+								     
+				Mono.Unix.Native.Syscall.fcntl (child_stdout,
+								Mono.Unix.Native.FcntlCommand.F_SETFL,
+								fl | (int) Mono.Unix.Native.OpenFlags.O_NONBLOCK);
 
 				stdout_reader = new UnixReader (child_stdout);
 				stdout_reader.DataAvailable += stdout_reader_data_available_cb;
@@ -55,6 +64,11 @@ namespace Mortadelo {
 				/* FIXME: report something better --- re-throw the exception here? */
 				state = State.Error;
 			}
+		}
+
+		public void Stop ()
+		{
+			/* FIXME: kill the child */
 		}
 
 		void child_watch_cb (int pid, int status)
@@ -319,11 +333,8 @@ namespace Mortadelo {
 		Log log;
 		ISyscallParser parser;
 		Aggregator aggregator;
-		AggregatorRunner runner;
 
 		MainLoop loop;
 		int child_status;
-
-		public static void Main () {}
 	}
 }

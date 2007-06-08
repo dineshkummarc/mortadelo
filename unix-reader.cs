@@ -40,8 +40,20 @@ namespace Mortadelo {
 			byte[] buffer = new byte[BUFFER_SIZE];
 			int num_read;
 
-			while ((num_read = stream.Read (buffer, 0, buffer.Length)) != 0)
-				DataAvailable (buffer, num_read);
+			do {
+				try {
+					num_read = stream.Read (buffer, 0, buffer.Length);
+				} catch (Mono.Unix.UnixIOException e) {
+					if (e.ErrorCode == Mono.Unix.Native.Errno.EWOULDBLOCK)
+						num_read = 0;
+					else
+						throw (e);
+					/* UnixStream already handles EINTR for us */
+				}
+
+				if (num_read > 0)
+					DataAvailable (buffer, num_read);
+			} while (num_read > 0);
 		}
 
 		const int BUFFER_SIZE = 65536;

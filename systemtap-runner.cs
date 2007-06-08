@@ -11,24 +11,20 @@ namespace Mortadelo {
 		{
 			parser = new SystemtapParser ();
 			aggregator = new Aggregator (log, parser);
+			runner = new AggregatorRunner (build_systemtap_argv (), build_script (), aggregator);
 		}
 
-
-		public void Stop ()
+		public void Run ()
 		{
-			if (state != State.Running)
-				throw new ApplicationException ("Tried to Stop() a SystemtapRunner which was not in Running state");
-
-			/* FIXME: kill the child */
+			runner.Run ();
 		}
 
 		string[] build_systemtap_argv ()
 		{
-			string[] argv = new string[3];
+			string[] argv = new string[2];
 
 			argv[0] = "stap";
-			argv[1] = "stap";
-			argv[2] = "-";
+			argv[1] = "-";
 
 			return argv;
 		}
@@ -52,8 +48,9 @@ namespace Mortadelo {
 
 		Aggregator aggregator;
 		SystemtapParser parser;
+		AggregatorRunner runner;
 
-		public static void MainMain ()
+		public static void Main ()
 		{
 			SystemtapRunner runner;
 			Log log;
@@ -74,7 +71,7 @@ namespace Mortadelo {
 			w.Add (b);
 			w.ShowAll ();
 
-			GLib.Timeout.Add (5000, delegate {
+			GLib.Timeout.Add (1000, delegate {
 				int num;
 
 				num = log.GetNumSyscalls ();

@@ -1,3 +1,10 @@
+2007-06-08  Federico Mena Quintero  <federico@novell.com>
+
+	* runner.cs (AggregatorRunner.Run): Make the child stdout non-blocking.
+
+	* unix-reader.cs: If we get EWOULDBLOCK from a read(), don't emit
+	the DataAvailable event.
+
 2007-06-06  Federico Mena Quintero  <federico@novell.com>
 
 	* runner.cs: Generic engine to run an Aggregator plugged to the
