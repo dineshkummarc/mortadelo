@@ -1,5 +1,12 @@
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
+	* syscall-list-model.cs: ListStore derivative for syscalls; can
+	update itself from a Log.
+
+	* Makefile (sources): Added syscall-list-model.cs.
+
+2007-06-08  Federico Mena Quintero  <federico@novell.com>
+
 	* *.cs: Fix the order of arguments to Assert.AreEqual() so that
 	they are (expected, actual).
 

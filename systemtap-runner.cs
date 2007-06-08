@@ -49,37 +49,5 @@ namespace Mortadelo {
 		Aggregator aggregator;
 		SystemtapParser parser;
 		AggregatorRunner runner;
-
-		public static void Main ()
-		{
-			SystemtapRunner runner;
-			Log log;
-
-			Application.Init ();
-
-			log = new Log ();
-			runner = new SystemtapRunner (log);
-
-			runner.Run ();
-
-			Window w;
-
-			w = new Window ("hola");
-			Button b;
-
-			b = new Button ("hola mundo");
-			w.Add (b);
-			w.ShowAll ();
-
-			GLib.Timeout.Add (1000, delegate {
-				int num;
-
-				num = log.GetNumSyscalls ();
-				Console.WriteLine ("syscalls: {0}", num);
-				return true;
-			});
-
-			Application.Run ();
-		}
 	}
 }
