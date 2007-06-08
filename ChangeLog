@@ -8,6 +8,7 @@
 
 	* Makefile (sources): Added syscall-list-model.cs.
 	(sources): Added syscall-tree-view.cs.
+	(upload): Added an "upload" target to do "git push".
 
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
