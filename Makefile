@@ -4,11 +4,14 @@ sources = 			\
 	GLib.IO.cs		\
 	line-reader.cs		\
 	log.cs			\
+	log-io.cs		\
 	parser.cs		\
 	runner.cs		\
+	serializer.cs		\
 	spawn.cs		\
 	systemtap-parser.cs	\
 	systemtap-runner.cs	\
+	systemtap-serializer.cs	\
 	syscall.cs		\
 	syscall-list-model.cs	\
 	syscall-tree-view.cs	\

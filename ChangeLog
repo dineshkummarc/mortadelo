@@ -1,5 +1,16 @@
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
+	* serializer.cs: Interface to serialize syscalls.
+
+	* systemtap-serializer.cs: Simple serializer so we can write
+	syscalls in the same format as we read them from the Systemtap script.
+
+	* log-io.cs: Simple class to load/save logs from/to a stream.
+
+	* Makefile (sources): Added the new source files.
+
+2007-06-08  Federico Mena Quintero  <federico@novell.com>
+
 	* syscall-tree-view.cs: TreeView derivative for a syscall log.  It
 	lives!
 
