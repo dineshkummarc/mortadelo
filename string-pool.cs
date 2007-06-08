@@ -10,6 +10,9 @@ namespace Mortadelo {
 
 		public string AddString (string str)
 		{
+			if (str == null)
+				return null;
+
 			if (hash.ContainsKey (str))
 				return (string) hash[str];
 
@@ -26,7 +29,7 @@ namespace Mortadelo {
 		public void Pool ()
 		{
 			StringPool pool;
-			string a, b, c, d;
+			string a, b, c, d, e, f;
 
 			pool = new StringPool ();
 
@@ -34,9 +37,13 @@ namespace Mortadelo {
 			b = pool.AddString ("hello");
 			c = pool.AddString ("world");
 			d = pool.AddString ("world");
+			e = pool.AddString (null);
+			f = pool.AddString (null);
 
 			Assert.AreEqual (a, b, "Unique string 1");
 			Assert.AreEqual (c, d, "Unique string 2");
+			Assert.AreEqual (e, f, "Null string 1");
+			Assert.AreEqual (e, null, "Null string 2");
 		}
 	}
 }

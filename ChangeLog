@@ -1,5 +1,9 @@
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
+	* string-pool.cs: Allow null strings.
+
+2007-06-08  Federico Mena Quintero  <federico@novell.com>
+
 	* string-pool.cs: Trivial class for a string pool, to share
 	strings across the program.
 
