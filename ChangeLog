@@ -1,5 +1,12 @@
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
+	* memory-profile.cs: Simple program to analyze memory usage and
+	loading speed.
+
+	* Makefile (mortadelo-memory-profile.exe): Added a target for this.
+
+2007-06-08  Federico Mena Quintero  <federico@novell.com>
+
 	* serializer.cs: Interface to serialize syscalls.
 
 	* systemtap-serializer.cs: Simple serializer so we can write
