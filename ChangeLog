@@ -1,5 +1,18 @@
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
+	* *.cs: Fix the order of arguments to Assert.AreEqual() so that
+	they are (expected, actual).
+
+	* log.cs (Log.ModifySyscall): Keep a set of the indices of
+	syscalls which have been modified.
+	(Log.GetModifiedIndexes): Public method to extract the set of
+	modified indices.
+
+	* aggregator.cs (AggregatorTest.OpenTest): Test the set of
+	modified syscalls.
+
+2007-06-08  Federico Mena Quintero  <federico@novell.com>
+
 	* runner.cs (AggregatorRunner.Run): Make the child stdout non-blocking.
 
 	* unix-reader.cs: If we get EWOULDBLOCK from a read(), don't emit

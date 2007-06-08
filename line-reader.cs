@@ -60,7 +60,7 @@ namespace Mortadelo {
 			line_num = 0;
 
 			reader.LineAvailable += new LineReader.LineAvailableDelegate (delegate (string line) {
-				Assert.AreEqual (line, expected_lines[line_num]);
+				Assert.AreEqual (expected_lines[line_num], line, "Contents of a line");
 				line_num++;
 			});
 

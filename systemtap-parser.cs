@@ -142,7 +142,7 @@ namespace Mortadelo {
 			expected.arguments = "\"/proc/partitions\", O_RDONLY";
 			expected.is_syscall_start = true;
 
-			Assert.AreEqual (syscall, expected, "Parse open - syscall contents");
+			Assert.AreEqual (expected, syscall, "Parse open - syscall contents");
 		}
 
 		[Test]
@@ -168,7 +168,7 @@ namespace Mortadelo {
 			expected.result = 27;
 			expected.is_syscall_end = true;
 
-			Assert.AreEqual (syscall, expected, "Parse open.return - syscall contents");
+			Assert.AreEqual (expected, syscall, "Parse open.return - syscall contents");
 		}
 	}
 }

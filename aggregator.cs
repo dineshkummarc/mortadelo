@@ -118,13 +118,41 @@ namespace Mortadelo {
 				"open.return: 1181064008000205: gimp-2.2 (27920:27920): 7\n",
 			};
 
+			int [][] expected_modified = {
+				new int[0] { },
+				new int[1] { 0 },
+				new int[0] { },
+				new int[0] { },
+				new int[0] { },
+				new int[1] { 3 },
+				new int[0] { }
+			};
+
 			Syscall[] expected;
 			Syscall[] syscall;
 			int i;
 			int num_syscalls;
 
-			foreach (string l in lines)
-				aggregator.ProcessLine (l);
+			for (i = 0; i < lines.Length; i++) {
+				int[] modified;
+				int j;
+				string str;
+
+				aggregator.ProcessLine (lines[i]);
+
+				/* Check that this line modified the appropriate syscalls previously processed */
+
+				modified = log.GetModifiedIndexes ();
+
+				str = String.Format ("Number of modified syscalls after syscall {0} was processed", i);
+				Assert.AreEqual (expected_modified[i].Length, modified.Length, str);
+
+				for (j = 0; j < modified.Length; j++) {
+					str = String.Format ("Modified syscalls after syscall {0} was processed", j);
+					Assert.AreEqual (expected_modified[i][j], modified[j], str);
+				}
+
+			}
 
 			expected = new Syscall[lines.Length];
 			syscall = new Syscall[lines.Length];
@@ -230,13 +258,13 @@ namespace Mortadelo {
 				string str;
 
 				str = String.Format ("Start of open syscall ({0})", i);
-				Assert.AreEqual (syscall[i], expected[i], str);
+				Assert.AreEqual (expected[i], syscall[i], str);
 
 				str = String.Format ("Return of open syscall ({0})", i);
-				Assert.AreEqual (syscall[i], expected[i], str);
+				Assert.AreEqual (expected[i], syscall[i], str);
 			}
 
-			Assert.AreEqual (num_syscalls, lines.Length, "Number of parsed syscalls");
+			Assert.AreEqual (lines.Length, num_syscalls, "Number of parsed syscalls");
 		}
 
 		SystemtapParser parser;
