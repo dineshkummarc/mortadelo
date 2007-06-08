@@ -1,5 +1,12 @@
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
+	* string-pool.cs: Trivial class for a string pool, to share
+	strings across the program.
+
+	* Makefile (sources): Added string-pool.cs.
+
+2007-06-08  Federico Mena Quintero  <federico@novell.com>
+
 	* serializer.cs: Interface to serialize syscalls.
 
 	* systemtap-serializer.cs: Simple serializer so we can write

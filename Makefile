@@ -9,6 +9,7 @@ sources = 			\
 	runner.cs		\
 	serializer.cs		\
 	spawn.cs		\
+	string-pool.cs		\
 	systemtap-parser.cs	\
 	systemtap-runner.cs	\
 	systemtap-serializer.cs	\
