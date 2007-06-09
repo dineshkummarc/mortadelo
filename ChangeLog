@@ -4,6 +4,9 @@
 	frequently make exactly the same syscalls in timers and their
 	names / arguments / etc. can be thus shared.
 
+	* memory-profile.cs: Simple program to analyze memory usage and
+	loading speed.
+
 	* string-pool.cs: Allow null strings.
 
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
@@ -12,6 +15,8 @@
 	strings across the program.
 
 	* Makefile (sources): Added string-pool.cs.
+
+	* Makefile (mortadelo-memory-profile.exe): Added a target for this.
 
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
