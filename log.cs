@@ -22,6 +22,8 @@ namespace Mortadelo {
 		public int AppendSyscall (Syscall syscall)
 		{
 			syscall.index = syscalls.Count;
+			uniquify_strings (ref syscall);
+
 			syscalls.Add (syscall);
 
 			return syscall.index;
@@ -35,6 +37,8 @@ namespace Mortadelo {
 		public void ModifySyscall (int num, Syscall syscall)
 		{
 			syscall.index = num;
+			uniquify_strings (ref syscall);
+
 			syscalls[num] = syscall;
 
 			modified_hash[num] = true;
@@ -63,9 +67,12 @@ namespace Mortadelo {
 			return modified_array;
 		}
 
-		public void uniquify_strings (ref Syscall syscall)
+		void uniquify_strings (ref Syscall syscall)
 		{
 			syscall.execname = pool.AddString (syscall.execname);
+			syscall.name = pool.AddString (syscall.name);
+			syscall.arguments = pool.AddString (syscall.arguments);
+			syscall.extra_info = pool.AddString (syscall.extra_info);
 		}
 
 		StringPool pool;
