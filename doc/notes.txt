@@ -6,8 +6,6 @@
 
 	- Parse a line of text into a Syscall
 
-+ TextLineProvider in ~/src/stracer
-
 - Driver:
 
 	- Read a line
@@ -19,22 +17,23 @@
 
 	- Feed Syscall to the Log
 
-+ GUI:
+- GUI:
 
 	+ Every second, update from the log.
 
-+ For Friday: 
++ Basic functionality:
 	- log open() calls
+	- saving
+	+ loading
 	+ filtering
 	+ highlight errors
-	+ saving/loading
 
-+ Reducing memory consumption:
+- Reducing memory consumption:
 
-	+ Write a big log directly from systemtap
+	- Write a big log directly from systemtap
 
-	+ "make memory-profile"
+	- "make memory-profile"
 
-	+ Load the log
+	- Load the log
 
-	+ Use a pool of shared strings in the Log.
+	- Use a pool of shared strings in the Log.

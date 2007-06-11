@@ -5,18 +5,17 @@ using NUnit.Framework;
 
 namespace Mortadelo {
 	public class LogIO {
-		public LogIO (ISyscallParser parser)
+		public LogIO ()
 		{
-			if (parser == null)
-				throw new ArgumentNullException ("parser");
-
-			this.parser = parser;
 		}
 
-		public Log Load (TextReader reader)
+		public Log Load (TextReader reader, ISyscallParser parser)
 		{
 			if (reader == null)
 				throw new ArgumentNullException ("reader");
+
+			if (parser == null)
+				throw new ArgumentNullException ("parser");
 
 			Log log;
 			Aggregator aggregator;
@@ -54,8 +53,6 @@ namespace Mortadelo {
 				serializer.Serialize (writer, syscall);
 			}
 		}
-
-		ISyscallParser parser;
 	}
 
 	[TestFixture]
@@ -71,9 +68,9 @@ namespace Mortadelo {
 			LogIO io;
 			Log log;
 
-			io = new LogIO (parser);
+			io = new LogIO ();
 
-			log = io.Load (new StringReader (string_log));
+			log = io.Load (new StringReader (string_log), parser);
 
 			/* Save */
 

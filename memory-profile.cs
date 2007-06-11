@@ -10,16 +10,17 @@ namespace Mortadelo {
 				return 1;
 			}
 
-			ISyscallParser parser = new SystemtapParser ();
+			ISyscallParser parser;
 			LogIO io;
 			StreamReader reader;
 			Stream stream;
 			Log log;
 
-			io = new LogIO (parser);
+			parser = new SystemtapParser ();
+			io = new LogIO ();
 			reader = new StreamReader (args[0]);
 			stream = reader.BaseStream;
-			log = io.Load (reader);
+			log = io.Load (reader, parser);
 
 			Console.WriteLine ("{0} syscalls processed ({1:0.00} KB from the file)",
 					   log.GetNumSyscalls (),

@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.IO;
 using Gtk;
 using Mono.Unix;
 
@@ -226,7 +227,37 @@ namespace Mortadelo {
 
 		void save_as_cb (object o, EventArgs args)
 		{
-			/* FIXME */
+			FileChooserDialog chooser;
+
+			chooser = new FileChooserDialog (Mono.Unix.Catalog.GetString ("Save log of system calls"),
+							 this,
+							 FileChooserAction.Save);
+
+			chooser.AddButton (Stock.Cancel, ResponseType.Cancel);
+			chooser.AddButton (Stock.Save, ResponseType.Accept);
+			chooser.DefaultResponse = ResponseType.Accept;
+
+			if (chooser.Run () == (int) ResponseType.Accept)
+				do_save_as (chooser.Filename);
+
+			chooser.Destroy ();
+		}
+
+		void do_save_as (string filename)
+		{
+			LogIO io;
+			StreamWriter writer;
+
+			io = new LogIO ();
+
+			try {
+				writer = new StreamWriter (filename);
+				io.Save (writer, full_log, new SystemtapSerializer ());
+				writer.Close ();
+			} catch (Exception e) {
+				Console.WriteLine ("{0}", e);
+				/* FIXME */
+			}
 		}
 
 		void clear_cb (object o, EventArgs args)
@@ -344,19 +375,5 @@ namespace Mortadelo {
 		SyscallListModel model;
 
 		uint update_timeout_id;
-	}
-
-	public class Driver {
-		public static void Main ()
-		{
-			MainWindow window;
-
-			Application.Init ();
-
-			window = new MainWindow ();
-			window.ShowAll ();
-
-			Application.Run ();
-		}
 	}
 }

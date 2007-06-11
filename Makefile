@@ -19,6 +19,7 @@ shared_sources =		\
 
 mortadelo_sources = 		\
 	$(shared_sources)	\
+	main.cs			\
 	main-window.cs		\
 	syscall-tree-view.cs	\
 

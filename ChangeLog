@@ -1,5 +1,10 @@
 2007-06-11  Federico Mena Quintero  <federico@novell.com>
 
+	* log-io.cs (LogIO): Don't take in an ISyscallParser in the
+	constructor; instead, have it passed to LogIO.Load().
+
+	* main.cs: File for the Main function.
+
 	* syscall-tree-view.cs (SyscallTreeView.SetModelAndLog): Oops, make this public.
 
 	* main-window.cs (MainWindow.build_normal_action_entries): Include
@@ -8,6 +13,8 @@
 	(MainWindow.start_recording): New function to start a recording run.
 	(MainWindow.build_action_group): Start the record-mode widgets in Recording state.
 	(MainWindow.build_tree_view): Make the shadow EtchedIn for the scrolled window.
+	(MainWindow.save_as_cb): Implement.
+	(MainWindow.do_save_as): Implement.
 
 2007-06-11  Federico Mena Quintero  <federico@novell.com>
 
