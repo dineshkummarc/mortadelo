@@ -222,7 +222,45 @@ namespace Mortadelo {
 
 		void open_cb (object o, EventArgs args)
 		{
-			/* FIXME */
+			FileChooserDialog chooser;
+
+			chooser = new FileChooserDialog (Mono.Unix.Catalog.GetString ("Open a log of system calls"),
+							 this,
+							 FileChooserAction.Open);
+
+			chooser.AddButton (Stock.Cancel, ResponseType.Cancel);
+			chooser.AddButton (Stock.Open, ResponseType.Accept);
+			chooser.DefaultResponse = ResponseType.Accept;
+
+			if (chooser.Run () == (int) ResponseType.Accept)
+				do_open (chooser.Filename);
+
+			chooser.Destroy ();
+		}
+
+		void do_open (string filename)
+		{
+			LogIO io;
+			StreamReader reader;
+			Log new_log;
+
+			try {
+				io = new LogIO ();
+				reader = new StreamReader (filename);
+				new_log = io.Load (reader, new SystemtapParser ());
+				reader.Close ();
+			} catch (Exception e) {
+				Console.WriteLine ("exception while loading: {0}", e);
+				/* FIXME */
+				return;
+			}
+
+			set_record_mode (RecordMode.Stopped);
+
+			full_log = new_log;
+			model = new SyscallListModel (full_log);
+			tree_view.SetModelAndLog (model, full_log);
+			update_statusbar_with_syscall_count ();
 		}
 
 		void save_as_cb (object o, EventArgs args)
@@ -255,7 +293,7 @@ namespace Mortadelo {
 				io.Save (writer, full_log, new SystemtapSerializer ());
 				writer.Close ();
 			} catch (Exception e) {
-				Console.WriteLine ("{0}", e);
+				Console.WriteLine ("exception while saving: {0}", e);
 				/* FIXME */
 			}
 		}
@@ -322,6 +360,13 @@ namespace Mortadelo {
 
 		bool update_timeout_cb ()
 		{
+			model.Update ();
+			update_statusbar_with_syscall_count ();
+			return true;
+		}
+
+		void update_statusbar_with_syscall_count ()
+		{
 			int num;
 			string str;
 
@@ -330,9 +375,6 @@ namespace Mortadelo {
 
 			PopStatus ("info");
 			PushStatus ("info", str);
-
-			model.Update ();
-			return true;
 		}
 
 		public void PushStatus (string context, string str)

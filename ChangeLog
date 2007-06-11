@@ -15,6 +15,7 @@
 	(MainWindow.build_tree_view): Make the shadow EtchedIn for the scrolled window.
 	(MainWindow.save_as_cb): Implement.
 	(MainWindow.do_save_as): Implement.
+	(MainWindow.do_open): Implement.
 
 2007-06-11  Federico Mena Quintero  <federico@novell.com>
 
