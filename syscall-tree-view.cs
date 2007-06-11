@@ -113,7 +113,7 @@ namespace Mortadelo {
 		}
 
 		Log log;
-
+#if false
 		public static void Main () {
 			SystemtapRunner runner;
 			Log log;
@@ -153,5 +153,6 @@ namespace Mortadelo {
 
 			Application.Run ();
 		}
+#endif
 	}
 }

@@ -1,3 +1,9 @@
+2007-06-11  Federico Mena Quintero  <federico@novell.com>
+
+	* main-window.cs: Skeleton for the program's main window.
+
+	* Makefile (mortadelo_sources): Added main-window.cs.
+
 2007-06-08  Federico Mena Quintero  <federico@novell.com>
 
 	* log.cs: Use a string pool to reduce memory consuption; programs

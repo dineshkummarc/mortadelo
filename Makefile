@@ -19,6 +19,7 @@ shared_sources =		\
 
 mortadelo_sources = 		\
 	$(shared_sources)	\
+	main-window.cs		\
 	syscall-tree-view.cs	\
 
 memprof_sources =		\
