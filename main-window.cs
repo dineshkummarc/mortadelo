@@ -260,6 +260,7 @@ namespace Mortadelo {
 			full_log = new_log;
 			model = new SyscallListModel (full_log);
 			tree_view.SetModelAndLog (model, full_log);
+
 			update_statusbar_with_syscall_count ();
 		}
 
@@ -300,7 +301,18 @@ namespace Mortadelo {
 
 		void clear_cb (object o, EventArgs args)
 		{
-			/* FIXME */
+			RecordMode old_mode;
+
+			old_mode = record_mode;
+			set_record_mode (RecordMode.Stopped);
+
+			full_log = new Log ();
+			model = new SyscallListModel (full_log);
+			tree_view.SetModelAndLog (model, full_log);
+
+			update_statusbar_with_syscall_count ();
+
+			set_record_mode (old_mode);
 		}
 
 		void quit_cb (object o, EventArgs args)
