@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Gtk;
 using Mono.Unix;
 
@@ -9,6 +10,8 @@ namespace Mortadelo {
 			Title = Mono.Unix.Catalog.GetString ("Viewer for system calls");
 
 			build_window ();
+
+			start_recording ();
 		}
 
 		void build_window ()
@@ -52,7 +55,7 @@ namespace Mortadelo {
 			/* FIXME: action_group.TranslateFunc = translate_action_cb; */
 
 			action_group.Add (normal_entries);
-			action_group.Add (record_entries, (int) RecordMode.Stopped, record_mode_changed_cb);
+			action_group.Add (record_entries, (int) RecordMode.Recording, record_mode_changed_cb);
 			action_group.Add (view_entries, (int) ViewMode.Full, view_mode_changed_cb);
 
 			fix_action_short_names ();
@@ -103,6 +106,7 @@ namespace Mortadelo {
 		void build_tree_view ()
 		{
 			scrolled_window = new ScrolledWindow (null, null);
+			scrolled_window.ShadowType = ShadowType.EtchedIn;
 			scrolled_window.HscrollbarPolicy = PolicyType.Automatic;
 			scrolled_window.VscrollbarPolicy = PolicyType.Always;
 
@@ -138,13 +142,13 @@ namespace Mortadelo {
 				new ActionEntry ("open",
 						 Stock.Open,
 						 Mono.Unix.Catalog.GetString ("_Open..."),
-						 null,
+						 "<control>O",
 						 Mono.Unix.Catalog.GetString ("Load a log of system calls from a file"),
 						 open_cb),
 				new ActionEntry ("save-as",
 						 Stock.SaveAs,
 						 Mono.Unix.Catalog.GetString ("Save _As..."),
-						 null,
+						 "<control><shift>S",
 						 Mono.Unix.Catalog.GetString ("Save the displayed log to a file"),
 						 save_as_cb),
 				new ActionEntry ("clear",
@@ -156,7 +160,7 @@ namespace Mortadelo {
 				new ActionEntry ("quit",
 						 Stock.Quit,
 						 Mono.Unix.Catalog.GetString ("_Quit"),
-						 null,
+						 "<control>Q",
 						 Mono.Unix.Catalog.GetString ("Exit the program"),
 						 quit_cb),
 			};
@@ -232,7 +236,14 @@ namespace Mortadelo {
 
 		void quit_cb (object o, EventArgs args)
 		{
+			do_quit ();
+		}
+
+		void do_quit ()
+		{
 			/* FIXME: stop logging, then quit */
+
+			Application.Quit ();
 		}
 
 		void record_mode_changed_cb (object o, ChangedArgs args)
@@ -251,12 +262,68 @@ namespace Mortadelo {
 
 		void set_record_mode (RecordMode mode)
 		{
+			Console.WriteLine ("set record mode to {0}", mode);
 			/* FIXME */
 		}
 
 		void set_view_mode (ViewMode mode)
 		{
+			Console.WriteLine ("set view mode to {0}", mode);
 			/* FIXME */
+		}
+
+		void start_recording ()
+		{
+			Debug.Assert (record_mode == RecordMode.Stopped);
+
+			full_log = new Log ();
+			runner = new SystemtapRunner (full_log);
+
+			runner.Run (); /* FIXME: catch exceptions? */
+
+			model = new SyscallListModel (full_log);
+			tree_view.SetModelAndLog (model, full_log);
+
+			update_timeout_id = GLib.Timeout.Add (1000, update_timeout_cb);
+
+			record_mode = RecordMode.Recording;
+		}
+
+		bool update_timeout_cb ()
+		{
+			int num;
+			string str;
+
+			num = full_log.GetNumSyscalls ();
+			str = String.Format ("System calls: {0}", num);
+
+			PopStatus ("info");
+			PushStatus ("info", str);
+
+			model.Update ();
+			return true;
+		}
+
+		public void PushStatus (string context, string str)
+		{
+			uint id;
+
+			id = statusbar.GetContextId (context);
+			statusbar.Push (id, str);
+		}
+
+		public void PopStatus (string context)
+		{
+			uint id;
+
+			id = statusbar.GetContextId (context);
+			statusbar.Pop (id);
+		}
+
+		protected override bool OnDeleteEvent (Gdk.Event ev)
+		{
+			do_quit ();
+			return true;
 		}
 
 		ActionGroup action_group;
@@ -271,6 +338,12 @@ namespace Mortadelo {
 
 		ScrolledWindow scrolled_window;
 		SyscallTreeView tree_view;
+
+		Log full_log;
+		SystemtapRunner runner;
+		SyscallListModel model;
+
+		uint update_timeout_id;
 	}
 
 	public class Driver {

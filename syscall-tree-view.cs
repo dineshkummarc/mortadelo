@@ -10,7 +10,7 @@ namespace Mortadelo {
 			setup_columns ();
 		}
 
-		void SetModelAndLog (SyscallListModel model, Log log)
+		public void SetModelAndLog (SyscallListModel model, Log log)
 		{
 			this.Model = model;
 			this.log = log;

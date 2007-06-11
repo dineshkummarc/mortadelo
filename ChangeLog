@@ -1,5 +1,16 @@
 2007-06-11  Federico Mena Quintero  <federico@novell.com>
 
+	* syscall-tree-view.cs (SyscallTreeView.SetModelAndLog): Oops, make this public.
+
+	* main-window.cs (MainWindow.build_normal_action_entries): Include
+	the accelerator keys explicitly, since the UI manager doesn't
+	seem to pick them up automatically from the stock item.
+	(MainWindow.start_recording): New function to start a recording run.
+	(MainWindow.build_action_group): Start the record-mode widgets in Recording state.
+	(MainWindow.build_tree_view): Make the shadow EtchedIn for the scrolled window.
+
+2007-06-11  Federico Mena Quintero  <federico@novell.com>
+
 	* main-window.cs: Skeleton for the program's main window.
 
 	* Makefile (mortadelo_sources): Added main-window.cs.
