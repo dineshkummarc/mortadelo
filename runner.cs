@@ -27,10 +27,21 @@ namespace Mortadelo {
 
 				spawn = new Spawn ();
 
+				Spawn.ChildSetupFunc child_setup_fn = delegate () {
+					/* FIXME: when this value gets used later, it is zero!?  Mono bug? */
+					child_process_group = Mono.Unix.Native.Syscall.setsid ();
+					StreamWriter w;
+
+					w = new StreamWriter ("chingado");
+					w.Write ("setsid = {0}", child_process_group);
+					w.Close ();
+				};
+
 				spawn.SpawnAsyncWithPipes (null,
 							   argv,
 							   null,
 							   Spawn.G_SPAWN_DO_NOT_REAP_CHILD | Spawn.G_SPAWN_SEARCH_PATH,
+							   child_setup_fn,
 							   out child_pid,
 							   out child_stdin,
 							   out child_stdout,
@@ -68,12 +79,35 @@ namespace Mortadelo {
 
 		public void Stop ()
 		{
-			/* FIXME: kill the child */
+			int result;
+
+			if (state == State.PreRun) {
+				state = State.Stopped;
+				return;
+			}
+
+			if (state != State.Running)
+				throw new ApplicationException ("Tried to Stop() an AggregatorRunning which was not in Running state");
+			Console.WriteLine ("killing pid {0}", -child_process_group);
+			result = Mono.Unix.Native.Syscall.kill (-child_process_group, Mono.Unix.Native.Signum.SIGTERM);
+			if (result == 0)
+				state = State.Stopped;
+			else {
+				/* FIXME: do we need to reset our fields here?  Then again, child_watch_cb() may end
+				 * up doing that for us.
+				 */
+				state = State.Error;
+			}
 		}
 
 		void child_watch_cb (int pid, int status)
 		{
+			child_pid = 0;
+			child_stdin = -1;
+			child_stdout = -1;
+			child_stderr = -1;
 			child_watch_id = 0;
+
 			ChildExited (status);
 		}
 
@@ -154,6 +188,7 @@ namespace Mortadelo {
 
 		uint child_watch_id;
 		int child_pid;
+		int child_process_group;
 		int child_stdin;
 		int child_stdout;
 		int child_stderr;

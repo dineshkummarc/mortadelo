@@ -24,7 +24,7 @@
 + Basic functionality:
 	- log open() calls
 	- saving
-	+ loading
+	- loading
 	+ filtering
 	+ highlight errors
 

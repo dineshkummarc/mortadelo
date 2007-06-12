@@ -12,7 +12,7 @@ namespace Mortadelo {
 
 			build_window ();
 
-			start_recording ();
+			set_record_mode (RecordMode.Recording);
 		}
 
 		void build_window ()
@@ -331,6 +331,9 @@ namespace Mortadelo {
 		{
 			RadioAction current = args.Current;
 
+			if (setting_record_mode)
+				return;
+
 			set_record_mode ((RecordMode) current.Value);
 		}
 
@@ -343,22 +346,42 @@ namespace Mortadelo {
 
 		void set_record_mode (RecordMode mode)
 		{
-			Console.WriteLine ("set record mode to {0}", mode);
-			/* FIXME */
-		}
+			Action action;
 
-		void set_view_mode (ViewMode mode)
-		{
-			Console.WriteLine ("set view mode to {0}", mode);
-			/* FIXME */
+			if (mode == record_mode)
+				return;
+
+			switch (mode) {
+			case RecordMode.Stopped:
+				stop_recording ();
+				action = action_group.GetAction ("record-stop");
+				break;
+
+			case RecordMode.Recording:
+				start_recording ();
+				action = action_group.GetAction ("record-record");
+				break;
+
+			default:
+				Debug.Assert (false, "not reached");
+				action = null;
+				break;
+			}
+
+			setting_record_mode = true;
+			action.Activate ();
+			setting_record_mode = false;
 		}
 
 		void start_recording ()
 		{
-			Debug.Assert (record_mode == RecordMode.Stopped);
+			Debug.Assert (record_mode == RecordMode.Stopped, "must be stopped");
 
-			full_log = new Log ();
+			if (full_log == null)
+				full_log = new Log ();
+
 			runner = new SystemtapRunner (full_log);
+			runner.ChildExited += runner_child_exited_cb;
 
 			runner.Run (); /* FIXME: catch exceptions? */
 
@@ -368,6 +391,29 @@ namespace Mortadelo {
 			update_timeout_id = GLib.Timeout.Add (1000, update_timeout_cb);
 
 			record_mode = RecordMode.Recording;
+		}
+
+		void runner_child_exited_cb (int status)
+		{
+			/* FIXME: check WIFEXITED(), WEXITSTATUS, etc. */
+			/* FIXME: need to add a stderr capturer in AggregatorRunner / SystemtapRunner */
+		}
+
+		void stop_recording ()
+		{
+			Debug.Assert (record_mode == RecordMode.Recording, "must be recording");
+
+			runner.Stop ();
+			GLib.Source.Remove (update_timeout_id);
+			update_timeout_id = 0;
+
+			record_mode = RecordMode.Stopped;
+		}
+
+		void set_view_mode (ViewMode mode)
+		{
+			Console.WriteLine ("set view mode to {0}", mode);
+			/* FIXME */
 		}
 
 		bool update_timeout_cb ()
@@ -429,5 +475,7 @@ namespace Mortadelo {
 		SyscallListModel model;
 
 		uint update_timeout_id;
+
+		bool setting_record_mode;
 	}
 }

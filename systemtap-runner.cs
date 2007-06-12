@@ -12,11 +12,17 @@ namespace Mortadelo {
 			parser = new SystemtapParser ();
 			aggregator = new Aggregator (log, parser);
 			runner = new AggregatorRunner (build_systemtap_argv (), build_script (), aggregator);
+			runner.ChildExited += child_exited_cb;
 		}
 
 		public void Run ()
 		{
 			runner.Run ();
+		}
+
+		public void Stop ()
+		{
+			runner.Stop ();
 		}
 
 		string[] build_systemtap_argv ()
@@ -46,8 +52,16 @@ namespace Mortadelo {
 			return builder.ToString ();
 		}
 
+		void child_exited_cb (int status)
+		{
+			ChildExited (status);
+		}
+
 		Aggregator aggregator;
 		SystemtapParser parser;
 		AggregatorRunner runner;
+
+		public delegate void ChildExitedHandler (int status);
+		public event ChildExitedHandler ChildExited;
 	}
 }

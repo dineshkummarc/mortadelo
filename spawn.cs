@@ -20,12 +20,15 @@ namespace Mortadelo {
 		{
 		}
 
+		public delegate void ChildSetupFunc ();
+		delegate void GSpawnChildSetupFunc (IntPtr user_data);
+
 		[DllImport ("glib-2.0")]
 		static extern bool g_spawn_async_with_pipes (string working_directory,
 							     IntPtr argv,
 							     IntPtr envp,
 							     int    flags,
-							     IntPtr child_setup_fn,
+							     GSpawnChildSetupFunc child_setup_func,
 							     IntPtr user_data,
 							     out int child_pid,
 							     out int stdin,
@@ -68,6 +71,7 @@ namespace Mortadelo {
 						 string[] argv,
 						 string[] envp,
 						 int flags,
+						 ChildSetupFunc child_setup_func,
 						 out int child_pid,
 						 out int stdin,
 						 out int stdout,
@@ -81,11 +85,17 @@ namespace Mortadelo {
 			argv_native = make_native_string_array (argv);
 			envp_native = make_native_string_array (envp);
 
+			if (child_setup_func != null) {
+				child_setup_fn = new ChildSetupFunc (child_setup_func);
+				child_setup_fn_proxy = new GSpawnChildSetupFunc (child_setup_cb);
+			} else
+				child_setup_fn_proxy = null;
+
 			result = g_spawn_async_with_pipes (working_directory,
 							   argv_native,
 							   envp_native,
 							   flags,
-							   IntPtr.Zero,
+							   child_setup_fn_proxy,
 							   IntPtr.Zero,
 							   out child_pid,
 							   out stdin,
@@ -99,6 +109,14 @@ namespace Mortadelo {
 			if (!result)
 				throw new GException (error);
 		}
+
+		void child_setup_cb (IntPtr data)
+		{
+			child_setup_fn ();
+		}
+
+		ChildSetupFunc child_setup_fn;
+		GSpawnChildSetupFunc child_setup_fn_proxy;
 
 		public delegate void ChildWatchFunc (int pid, int status);
 
@@ -149,6 +167,7 @@ namespace Mortadelo {
 						   argv,
 						   null,
 						   Spawn.G_SPAWN_DO_NOT_REAP_CHILD,
+						   null,
 						   out pid,
 						   out stdin, out stdout, out stderr);
 

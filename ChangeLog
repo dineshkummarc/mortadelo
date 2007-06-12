@@ -1,5 +1,21 @@
 2007-06-11  Federico Mena Quintero  <federico@novell.com>
 
+	* systemtap-runner.cs (SystemtapRunner.SystemtapRunner): Add a
+	handler to the underlying AggregatorRunner.ChildExited event.
+	(ChildExited): Provide our own event.  This is lame - should we be
+	a derived class?
+
+	* spawn.cs (Spawn.ChildWatchAdd): Oops, really use the proxy so
+	that the GC doesn't collect our trampoline.
+	(Spawn.SpawnAsyncWithPipes): Add support for child_setup_func.
+
+	* runner.cs (AggregatorRunner.Stop): Implement.
+	(AggregatorRunner.child_watch_cb): Clear the fields that don't
+	make sense when the child no longer exists.
+	(AggregatorRunner.Run): Use a child_setup_fn in the call to
+	SpawnAsyncWithPipes to do setsid() --- this way we can kill the
+	entire process group of the child later.
+
 	* log-io.cs (LogIO): Don't take in an ISyscallParser in the
 	constructor; instead, have it passed to LogIO.Load().
 
@@ -17,6 +33,8 @@
 	(MainWindow.do_save_as): Implement.
 	(MainWindow.do_open): Implement.
 	(MainWindow.clear_cb): Implement.
+	(MainWindow.set_record_mode): Implement.
+	(MainWindow.stop_recording): Implement.
 
 2007-06-11  Federico Mena Quintero  <federico@novell.com>
 
