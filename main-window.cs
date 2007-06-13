@@ -322,7 +322,8 @@ namespace Mortadelo {
 
 		void do_quit ()
 		{
-			/* FIXME: stop logging, then quit */
+			if (record_mode == RecordMode.Recording)
+				stop_recording ();
 
 			Application.Quit ();
 		}

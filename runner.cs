@@ -24,17 +24,26 @@ namespace Mortadelo {
 
 			try {
 				int fl;
+				int[] pipe;
 
 				spawn = new Spawn ();
 
-				Spawn.ChildSetupFunc child_setup_fn = delegate () {
-					/* FIXME: when this value gets used later, it is zero!?  Mono bug? */
-					child_process_group = Mono.Unix.Native.Syscall.setsid ();
-					StreamWriter w;
+				pipe = new int[2];
+				if (Mono.Unix.Native.Syscall.pipe (pipe) != 0)
+					throw new UnixIOException (Mono.Unix.Native.Stdlib.GetLastError ());
 
-					w = new StreamWriter ("chingado");
-					w.Write ("setsid = {0}", child_process_group);
-					w.Close ();
+				Spawn.ChildSetupFunc child_setup_fn = delegate () {
+					int process_group;
+					UnixStream child_stream;
+					StreamWriter child_writer;
+
+					process_group = Mono.Unix.Native.Syscall.setsid ();
+					
+					child_stream = new UnixStream (pipe[1], false);
+					child_writer = new StreamWriter (child_stream);
+
+					child_writer.Write ("{0}\n", process_group);
+					child_writer.Close ();
 				};
 
 				spawn.SpawnAsyncWithPipes (null,
@@ -48,6 +57,20 @@ namespace Mortadelo {
 							   out child_stderr);
 
 				child_watch_id = spawn.ChildWatchAdd (child_pid, child_watch_cb);
+
+				UnixStream parent_stream;
+				StreamReader parent_reader;
+				string str;
+
+				parent_stream = new UnixStream (pipe[0], false);
+				parent_reader = new StreamReader (parent_stream);
+
+				str = parent_reader.ReadLine ();
+				parent_reader.Close ();
+
+				child_process_group = int.Parse (str);
+				if (child_process_group == -1)
+					throw new ApplicationException ("Could not get the child process group");
 
 				state = State.Running;
 
@@ -88,7 +111,6 @@ namespace Mortadelo {
 
 			if (state != State.Running)
 				throw new ApplicationException ("Tried to Stop() an AggregatorRunning which was not in Running state");
-			Console.WriteLine ("killing pid {0}", -child_process_group);
 			result = Mono.Unix.Native.Syscall.kill (-child_process_group, Mono.Unix.Native.Signum.SIGTERM);
 			if (result == 0)
 				state = State.Stopped;

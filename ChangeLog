@@ -1,3 +1,12 @@
+2007-06-13  Federico Mena Quintero  <federico@novell.com>
+
+	* runner.cs (AggregatorRunner.Run): Use a pipe in the
+	child_setup_func to feed the result from setsid() to the parent
+	process.  Now we can Stop() the child processes and all their mess
+	properly.
+
+	* main-window.cs (MainWindow.do_quit): Stop recording before exiting.
+
 2007-06-11  Federico Mena Quintero  <federico@novell.com>
 
 	* systemtap-runner.cs (SystemtapRunner.SystemtapRunner): Add a
