@@ -1,5 +1,22 @@
 2007-06-14  Federico Mena Quintero  <federico@novell.com>
 
+	* compact-log.cs (CompactLogTest.make_expected_syscalls): Change
+	the tests to ensure that we don't change the number of the
+	(CompactLog.MappedSyscall): Removed this struct.  We no longer
+	modify the original syscall.index, so there's no need to store the
+	"original" index value in a separate struct.
+	(CompactLog.add_syscall): Don't modify the index of the original
+	syscall, so that we can maintain it across filtering.
+	(CompactLog.add_end_syscall): Use a plain Syscall rather than a
+	MappedSyscall.
+
+	* main-window.cs (MainWindow.build_action_group): Oops, we start
+	in Compact view mode by default.
+	(MainWindow.update_statusbar_with_syscall_count): Display the
+	counts for the full log and the filtered log.
+
+2007-06-14  Federico Mena Quintero  <federico@novell.com>
+
 	* main-window.cs (MainWindow.compact_log): New field for the
 	CompactLog in case we are in that view mode.
 	(MainWindow.set_derived_model): Creates a SyscallListModel

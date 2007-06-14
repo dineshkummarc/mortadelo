@@ -6,10 +6,14 @@ using Mono.Unix;
 
 namespace Mortadelo {
 	public class MainWindow : Window {
+
+		const ViewMode DEFAULT_VIEW_MODE = ViewMode.Compact;
+
 		public MainWindow () : base (WindowType.Toplevel)
 		{
 			Title = Mono.Unix.Catalog.GetString ("Viewer for system calls");
 
+			view_mode = DEFAULT_VIEW_MODE;
 			full_log = null;
 			compact_log = null;
 
@@ -60,7 +64,7 @@ namespace Mortadelo {
 
 			action_group.Add (normal_entries);
 			action_group.Add (record_entries, (int) RecordMode.Recording, record_mode_changed_cb);
-			action_group.Add (view_entries, (int) ViewMode.Full, view_mode_changed_cb);
+			action_group.Add (view_entries, (int) DEFAULT_VIEW_MODE, view_mode_changed_cb);
 
 			fix_action_short_names ();
 		}
@@ -475,11 +479,16 @@ namespace Mortadelo {
 
 		void update_statusbar_with_syscall_count ()
 		{
-			int num;
+			int full_num, derived_num;
 			string str;
 
-			num = get_derived_log ().GetNumSyscalls ();
-			str = String.Format ("System calls: {0}", num);
+			full_num = full_log.GetNumSyscalls ();
+			derived_num = get_derived_log ().GetNumSyscalls ();
+
+			if (full_num == derived_num)
+				str = String.Format ("Total system calls: {0}", full_num);
+			else
+				str = String.Format ("Displayed system calls: {0}    Total system calls: {1}", derived_num, full_num);
 
 			PopStatus ("info");
 			PushStatus ("info", str);

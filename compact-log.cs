@@ -15,7 +15,7 @@ namespace Mortadelo {
 			this.log = log;
 
 			num_updated_syscalls = 0;
-			syscalls = new List<MappedSyscall> ();
+			syscalls = new List<Syscall> ();
 
 			orig_to_mapped_index = new Hashtable ();
 
@@ -46,7 +46,7 @@ namespace Mortadelo {
 
 		public Syscall GetSyscall (int num)
 		{
-			return syscalls[num].syscall;
+			return syscalls[num];
 		}
 
 		void process_full_syscall (int num)
@@ -65,26 +65,20 @@ namespace Mortadelo {
 
 		void add_syscall (Syscall syscall)
 		{
-			MappedSyscall mapped;
+			int new_index;
 
-			mapped = new MappedSyscall ();
+			new_index = syscalls.Count;
 
-			mapped.original_idx = syscall.index;
-			syscall.index = syscalls.Count;
-
-			Debug.Assert (!orig_to_mapped_index.ContainsKey (mapped.original_idx));
-			orig_to_mapped_index[mapped.original_idx] = syscall.index;
+			Debug.Assert (!orig_to_mapped_index.ContainsKey (syscall.index));
+			orig_to_mapped_index[syscall.index] = new_index;
 
 			if (syscall.is_syscall_start)
-				syscall.start_index = syscall.index;
+				syscall.start_index = new_index;
 
 			if (syscall.is_syscall_end)
-				syscall.end_index = syscall.index;
+				syscall.end_index = new_index;
 
-			mapped.syscall = syscall;
-
-			syscalls.Add (mapped);
-			orig_to_mapped_index[mapped.original_idx] = syscall.index;
+			syscalls.Add (syscall);
 		}
 
 		void add_end_syscall (Syscall syscall)
@@ -100,20 +94,20 @@ namespace Mortadelo {
 				 * modify it to know the end syscall's result.
 				 */
 				int mapped_start_idx = (int) orig_to_mapped_index[syscall.start_index];
-				MappedSyscall mapped_start = syscalls[mapped_start_idx];
+				Syscall mapped_start = syscalls[mapped_start_idx];
 
-				Debug.Assert (mapped_start.syscall.name == syscall.name
-					      && mapped_start.syscall.pid == syscall.pid
-					      && mapped_start.syscall.tid == syscall.tid
-					      && !mapped_start.syscall.have_result
-					      && mapped_start.syscall.is_syscall_start
-					      && !mapped_start.syscall.is_syscall_end
-					      && mapped_start.syscall.end_index == -1);
+				Debug.Assert (mapped_start.name == syscall.name
+					      && mapped_start.pid == syscall.pid
+					      && mapped_start.tid == syscall.tid
+					      && !mapped_start.have_result
+					      && mapped_start.is_syscall_start
+					      && !mapped_start.is_syscall_end
+					      && mapped_start.end_index == -1);
 
-				mapped_start.syscall.have_result = syscall.have_result;
-				mapped_start.syscall.result = syscall.result;
-				mapped_start.syscall.is_syscall_end = true;
-				mapped_start.syscall.end_index = mapped_start_idx;
+				mapped_start.have_result = syscall.have_result;
+				mapped_start.result = syscall.result;
+				mapped_start.is_syscall_end = true;
+				mapped_start.end_index = mapped_start_idx;
 
 				syscalls[mapped_start_idx] = mapped_start;
 
@@ -125,13 +119,7 @@ namespace Mortadelo {
 		ILogProvider log;
 		int num_updated_syscalls;
 
-		struct MappedSyscall {
-			public int original_idx;
-
-			public Syscall syscall;
-		}
-
-		List<MappedSyscall> syscalls;
+		List<Syscall> syscalls;
 		Hashtable orig_to_mapped_index;
 
 		public event SyscallModifiedHandler SyscallModified;
@@ -240,7 +228,7 @@ namespace Mortadelo {
 			expected_syscalls[0].is_syscall_end   = true;
 			expected_syscalls[0].start_index      = 0;
 
-			expected_syscalls[1].index            = 1;
+			expected_syscalls[1].index            = 2;
 			expected_syscalls[1].pid              = 2882;
 			expected_syscalls[1].tid              = 2883;
 			expected_syscalls[1].execname         = "hald-addon-stor";
@@ -255,7 +243,7 @@ namespace Mortadelo {
 			expected_syscalls[1].is_syscall_end   = false;
 			expected_syscalls[1].start_index      = 1;
 
-			expected_syscalls[2].index            = 2;
+			expected_syscalls[2].index            = 3;
 			expected_syscalls[2].pid              = 27920;
 			expected_syscalls[2].tid              = 27920;
 			expected_syscalls[2].execname         = "gimp-2.2";
@@ -270,7 +258,7 @@ namespace Mortadelo {
 			expected_syscalls[2].is_syscall_end   = true;
 			expected_syscalls[2].start_index      = 2;
 
-			expected_syscalls[3].index            = 3;
+			expected_syscalls[3].index            = 4;
 			expected_syscalls[3].pid              = 2539;
 			expected_syscalls[3].tid              = 26181;
 			expected_syscalls[3].execname         = "NetworkManager";

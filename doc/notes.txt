@@ -1,39 +1,22 @@
-- Log:
-
-	- Array of syscalls
-
-- Parser:
-
-	- Parse a line of text into a Syscall
-
-- Driver:
-
-	- Read a line
-
-	- MemoryStream to turn a byte[] into a Stream, then StreamReader to turn the Stream into a TextReader,
-	  then feed the TextReader into our LineReader.
-
-	- Parse the line
-
-	- Feed Syscall to the Log
-
-- GUI:
-
-	+ Every second, update from the log.
-
 + Basic functionality:
 	- log open() calls
 	- saving
 	- loading
-	+ filtering
+	- compact view
+	+ Check for root at startup
 	+ highlight errors
+	+ "jump to the next error" command
+	+ filtering
 
-- Reducing memory consumption:
++ GUI polish:
 
-	- Write a big log directly from systemtap
+	+ When a row is selected:
 
-	- "make memory-profile"
+		+ Unhighlight the old paired row
 
-	- Load the log
+		+ Highlight the new paired row
 
-	- Use a pool of shared strings in the Log.
++ Future:
+
+	+ Pluggable syscalls.  Have a SyscallCombo class which provides a parser, serializer, 
+	  aggregator for a single type of syscall.  Implement Open() in terms of this.
