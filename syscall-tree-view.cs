@@ -22,8 +22,8 @@ namespace Mortadelo {
 			append_text_column (Mono.Unix.Catalog.GetString ("Time"),	Columns.Timestamp, false);
 			append_text_column (Mono.Unix.Catalog.GetString ("Process"),	Columns.Process, true);
 			append_text_column (Mono.Unix.Catalog.GetString ("Syscall"),	Columns.SyscallName, false);
+			append_text_column (Mono.Unix.Catalog.GetString ("Result"),	Columns.Result, false);
 			append_text_column (Mono.Unix.Catalog.GetString ("Arguments"),	Columns.Arguments, true);
-			append_text_column (Mono.Unix.Catalog.GetString ("Result"),	Columns.Result, true);
 		}
 
 		void append_text_column (string title, Columns id, bool resizable)

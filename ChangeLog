@@ -1,5 +1,11 @@
 2007-06-14  Federico Mena Quintero  <federico@novell.com>
 
+	* syscall-tree-view.cs (SyscallTreeView.setup_colums): Move the
+	Result column to the right of the Syscall one, so that the
+	Arguments don't push Result too far to the right.
+
+	* main.cs: Check that the user is root.
+
 	* compact-log.cs (CompactLogTest.make_expected_syscalls): Change
 	the tests to ensure that we don't change the number of the
 	(CompactLog.MappedSyscall): Removed this struct.  We no longer

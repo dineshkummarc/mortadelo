@@ -1,5 +1,7 @@
 using System;
 using Gtk;
+using Mono.Unix.Native;
+using Mono.Unix;
 
 namespace Mortadelo {
 
@@ -10,11 +12,31 @@ namespace Mortadelo {
 
 			Application.Init ();
 
-			window = new MainWindow ();
-			window.ShowAll ();
+			if (user_is_l33t ()) {
+				window = new MainWindow ();
+				window.ShowAll ();
 
-			Application.Run ();
+				Application.Run ();
+			}
 		}
+
+		static bool user_is_l33t ()
+		{
+			if (Mono.Unix.Native.Syscall.getuid () == 0)
+				return true;
+
+			MessageDialog msg = new MessageDialog (
+				null,
+				DialogFlags.Modal,
+				MessageType.Error,
+				ButtonsType.Close,
+				Mono.Unix.Catalog.GetString ("This program can only be run by the system administrator."));
+
+			msg.Run ();
+
+			return false;
+		}
+
 	}
 
 }

@@ -3,18 +3,20 @@
 	- saving
 	- loading
 	- compact view
-	+ Check for root at startup
-	+ highlight errors
+	- Check for root at startup
+	- highlight errors
 	+ "jump to the next error" command
 	+ filtering
 
 + GUI polish:
 
-	+ When a row is selected:
+	+ When a row is selected in Full View mode:
 
 		+ Unhighlight the old paired row
 
 		+ Highlight the new paired row
+
+	+ Human-readable timestamps (right now we just display usecs after the epoch).
 
 + Future:
 
