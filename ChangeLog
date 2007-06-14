@@ -1,3 +1,26 @@
+2007-06-14  Federico Mena Quintero  <federico@novell.com>
+
+	* main-window.cs (MainWindow.compact_log): New field for the
+	CompactLog in case we are in that view mode.
+	(MainWindow.set_derived_model): Creates a SyscallListModel
+	suitable for the current view mode and sets in on the tree view.
+	(MainWindow.do_open): Use set_derived_model() instead of
+	directly creating/setting the model here.
+	(MainWindow.clear_cb): Likewise.
+	(MainWindow.start_recording): Likewise.
+	(MainWindow.set_view_mode): Implement.
+	(MainWindow.update_timeout_cb): Update the compact log if appropriate.
+	(MainWindow.update_statusbar_with_syscall_count): Use the
+	appropriate log.
+
+	* syscall-list-model.cs (SyscallListModel): Use an ILogProvider
+	rather than a Log.
+
+	* syscall-tree-view.cs (SyscallTreeView): Likewise.
+
+	* compact-log.cs (CompactLog.CompactLog): Update ourselves as at
+	creation time, so that we start up already populated.
+
 2007-06-13  Federico Mena Quintero  <federico@novell.com>
 
 	* compact-log.cs: Takes a full Log with start/end syscalls and

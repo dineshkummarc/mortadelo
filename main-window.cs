@@ -10,6 +10,9 @@ namespace Mortadelo {
 		{
 			Title = Mono.Unix.Catalog.GetString ("Viewer for system calls");
 
+			full_log = null;
+			compact_log = null;
+
 			build_window ();
 
 			set_record_mode (RecordMode.Recording);
@@ -258,10 +261,8 @@ namespace Mortadelo {
 			set_record_mode (RecordMode.Stopped);
 
 			full_log = new_log;
-			model = new SyscallListModel (full_log);
-			tree_view.SetModelAndLog (model, full_log);
 
-			update_statusbar_with_syscall_count ();
+			set_derived_model ();
 		}
 
 		void save_as_cb (object o, EventArgs args)
@@ -307,10 +308,7 @@ namespace Mortadelo {
 			set_record_mode (RecordMode.Stopped);
 
 			full_log = new Log ();
-			model = new SyscallListModel (full_log);
-			tree_view.SetModelAndLog (model, full_log);
-
-			update_statusbar_with_syscall_count ();
+			set_derived_model ();
 
 			set_record_mode (old_mode);
 		}
@@ -343,6 +341,49 @@ namespace Mortadelo {
 			RadioAction current = args.Current;
 
 			set_view_mode ((ViewMode) current.Value);
+		}
+
+		ILogProvider get_derived_log ()
+		{
+			switch (view_mode) {
+			case ViewMode.Compact:
+				Debug.Assert (compact_log != null);
+				return compact_log;
+
+			case ViewMode.Full:
+				return full_log;
+			}
+
+			Debug.Assert (false, "not reached");
+			return null;
+		}
+
+		ILogProvider create_derived_log ()
+		{
+			switch (view_mode) {
+			case ViewMode.Compact:
+				compact_log = new CompactLog (full_log);
+				return compact_log;
+
+			case ViewMode.Full:
+				compact_log = null;
+				return full_log;
+			}
+
+			Debug.Assert (false, "not reached");
+			return null;
+		}
+
+		void set_derived_model ()
+		{
+			ILogProvider derived;
+
+			derived = create_derived_log ();
+
+			model = new SyscallListModel (derived);
+			tree_view.SetModelAndLog (model, derived);
+
+			update_statusbar_with_syscall_count ();
 		}
 
 		void set_record_mode (RecordMode mode)
@@ -386,8 +427,7 @@ namespace Mortadelo {
 
 			runner.Run (); /* FIXME: catch exceptions? */
 
-			model = new SyscallListModel (full_log);
-			tree_view.SetModelAndLog (model, full_log);
+			set_derived_model ();
 
 			update_timeout_id = GLib.Timeout.Add (1000, update_timeout_cb);
 
@@ -413,12 +453,21 @@ namespace Mortadelo {
 
 		void set_view_mode (ViewMode mode)
 		{
-			Console.WriteLine ("set view mode to {0}", mode);
-			/* FIXME */
+			if (mode == view_mode)
+				return;
+
+			view_mode = mode;
+
+			set_derived_model ();
 		}
 
 		bool update_timeout_cb ()
 		{
+			if (view_mode == ViewMode.Compact)
+				compact_log.Update (); /* this is lame... should CompactLog update itself from
+							* signals from the base Log?
+							*/
+
 			model.Update ();
 			update_statusbar_with_syscall_count ();
 			return true;
@@ -429,7 +478,7 @@ namespace Mortadelo {
 			int num;
 			string str;
 
-			num = full_log.GetNumSyscalls ();
+			num = get_derived_log ().GetNumSyscalls ();
 			str = String.Format ("System calls: {0}", num);
 
 			PopStatus ("info");
@@ -472,6 +521,8 @@ namespace Mortadelo {
 		SyscallTreeView tree_view;
 
 		Log full_log;
+		CompactLog compact_log;
+
 		SystemtapRunner runner;
 		SyscallListModel model;
 

@@ -10,7 +10,7 @@ namespace Mortadelo {
 			setup_columns ();
 		}
 
-		public void SetModelAndLog (SyscallListModel model, Log log)
+		public void SetModelAndLog (SyscallListModel model, ILogProvider log)
 		{
 			this.Model = model;
 			this.log = log;
@@ -112,47 +112,6 @@ namespace Mortadelo {
 			Result
 		}
 
-		Log log;
-#if false
-		public static void Main () {
-			SystemtapRunner runner;
-			Log log;
-
-			Application.Init ();
-
-			log = new Log ();
-			runner = new SystemtapRunner (log);
-
-			runner.Run ();
-
-			Window w;
-			SyscallTreeView tree;
-			ScrolledWindow sw;
-			SyscallListModel model;
-
-			w = new Window ("hola");
-
-			sw = new ScrolledWindow (null, null);
-			w.Add (sw);
-
-			model = new SyscallListModel (log);
-			tree = new SyscallTreeView ();
-			tree.SetModelAndLog (model, log);
-			sw.Add (tree);
-
-			w.ShowAll ();
-
-			GLib.Timeout.Add (1000, delegate {
-				int num;
-
-				num = log.GetNumSyscalls ();
-				Console.WriteLine ("syscalls: {0}", num);
-				model.Update ();
-				return true;
-			});
-
-			Application.Run ();
-		}
-#endif
+		ILogProvider log;
 	}
 }

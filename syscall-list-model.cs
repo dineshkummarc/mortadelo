@@ -5,7 +5,7 @@ using Gtk;
 
 namespace Mortadelo {
 	public class SyscallListModel : ListStore {
-		public SyscallListModel (Log log) : base (typeof (int))
+		public SyscallListModel (ILogProvider log) : base (typeof (int))
 		{
 			if (log == null)
 				throw new ArgumentNullException ("log");
@@ -71,7 +71,7 @@ namespace Mortadelo {
 			SetValue (iter, 0, n);
 		}
 
-		Log log;
+		ILogProvider log;
 		int num_updated_rows;
 
 		LogModificationAccumulator modified_accum;

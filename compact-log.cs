@@ -18,6 +18,8 @@ namespace Mortadelo {
 			syscalls = new List<MappedSyscall> ();
 
 			orig_to_mapped_index = new Hashtable ();
+
+			Update ();
 		}
 
 		public void Update ()
