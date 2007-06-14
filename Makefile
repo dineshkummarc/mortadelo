@@ -1,5 +1,6 @@
 shared_sources =				\
 	aggregator.cs				\
+	compact-log.cs				\
 	errno.cs				\
 	GLib.IO.cs				\
 	line-reader.cs				\

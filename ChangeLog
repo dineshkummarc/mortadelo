@@ -1,5 +1,12 @@
 2007-06-13  Federico Mena Quintero  <federico@novell.com>
 
+	* compact-log.cs: Takes a full Log with start/end syscalls and
+	compacts it into one with combined start+end syscalls.
+
+	* Makefile (shared_sources): Added compact-log.cs.
+
+2007-06-13  Federico Mena Quintero  <federico@novell.com>
+
 	* log-provider.cs: New interface for a log
 	provider.  We'll use this to refactor Log and provide a new
 	CompactLog, for the compact view mode, and filtered logs.
