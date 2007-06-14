@@ -6,6 +6,12 @@ namespace Mortadelo {
 	public class Aggregator {
 		public Aggregator (Log log, ISyscallParser parser)
 		{
+			if (log == null)
+				throw new ArgumentNullException ("log");
+
+			if (parser == null)
+				throw new ArgumentNullException ("parser");
+
 			this.log = log;
 			this.parser = parser;
 
@@ -104,6 +110,7 @@ namespace Mortadelo {
 		{
 			parser = new SystemtapParser ();
 			log = new Log ();
+			modified_accum = new LogModificationAccumulator (log);
 			aggregator = new Aggregator (log, parser);
 		}
 
@@ -142,7 +149,7 @@ namespace Mortadelo {
 
 				/* Check that this line modified the appropriate syscalls previously processed */
 
-				modified = log.GetModifiedIndexes ();
+				modified = modified_accum.GetModifiedIndexes ();
 
 				str = String.Format ("Number of modified syscalls after syscall {0} was processed", i);
 				Assert.AreEqual (expected_modified[i].Length, modified.Length, str);
@@ -269,6 +276,7 @@ namespace Mortadelo {
 
 		SystemtapParser parser;
 		Log log;
+		LogModificationAccumulator modified_accum;
 		Aggregator aggregator;
 	}
 }

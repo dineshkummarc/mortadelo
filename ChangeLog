@@ -1,5 +1,23 @@
 2007-06-13  Federico Mena Quintero  <federico@novell.com>
 
+	* log-provider.cs: New interface for a log
+	provider.  We'll use this to refactor Log and provide a new
+	CompactLog, for the compact view mode, and filtered logs.
+
+	* log-modification-accumulator.cs: Stores the modifications
+	emitted by a log provider; code moved over from log.cs.
+
+	* Makefile (shared_sources): Added the new files.
+
+	* log.cs (Log): Don't maintain the modification list here.
+
+	* aggregator.cs (AggregatorTest): Use a LogModificationAccumulator
+	instead of fetching the modification list directly from the Log.
+
+	* syscall-list-model.cs (SyscallListModel): Likewise.
+
+2007-06-13  Federico Mena Quintero  <federico@novell.com>
+
 	* runner.cs (AggregatorRunner.Run): Use a pipe in the
 	child_setup_func to feed the result from setsid() to the parent
 	process.  Now we can Stop() the child processes and all their mess

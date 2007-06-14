@@ -13,6 +13,8 @@ namespace Mortadelo {
 			this.log = log;
 			num_updated_rows = 0;
 
+			modified_accum = new LogModificationAccumulator (log);
+
 			update_new_rows ();
 		}
 
@@ -45,7 +47,7 @@ namespace Mortadelo {
 			int[] modified;
 			int i;
 
-			modified = log.GetModifiedIndexes ();
+			modified = modified_accum.GetModifiedIndexes ();
 
 			for (i = 0; i < modified.Length; i++)
 				emit_row_changed (modified[i]);
@@ -71,5 +73,7 @@ namespace Mortadelo {
 
 		Log log;
 		int num_updated_rows;
+
+		LogModificationAccumulator modified_accum;
 	}
 }
