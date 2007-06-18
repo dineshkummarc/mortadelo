@@ -6,16 +6,21 @@ using Mono.Unix;
 using Mono.Unix.Native;
 using NUnit.Framework;
 
-namespace Mortadelo {
-	public class Spawn {
-		public const int G_SPAWN_LEAVE_DESCRIPTORS_OPEN = 1 << 0;
-		public const int G_SPAWN_DO_NOT_REAP_CHILD      = 1 << 1;
-		public const int G_SPAWN_SEARCH_PATH            = 1 << 2;
-		public const int G_SPAWN_STDOUT_TO_DEV_NULL     = 1 << 3;
-		public const int G_SPAWN_STDERR_TO_DEV_NULL     = 1 << 4;
-		public const int G_SPAWN_CHILD_INHERITS_STDIN   = 1 << 5;
-		public const int G_SPAWN_FILE_AND_ARGV_ZERO     = 1 << 6;
+using unix = Mono.Unix.Native.Syscall;
 
+namespace Mortadelo {
+	[Flags]
+	public enum GSpawnFlags {
+		G_SPAWN_LEAVE_DESCRIPTORS_OPEN = 1 << 0,
+		G_SPAWN_DO_NOT_REAP_CHILD      = 1 << 1,
+		G_SPAWN_SEARCH_PATH            = 1 << 2,
+		G_SPAWN_STDOUT_TO_DEV_NULL     = 1 << 3,
+		G_SPAWN_STDERR_TO_DEV_NULL     = 1 << 4,
+		G_SPAWN_CHILD_INHERITS_STDIN   = 1 << 5,
+		G_SPAWN_FILE_AND_ARGV_ZERO     = 1 << 6
+	}
+
+	public class Spawn {
 		public Spawn ()
 		{
 		}
@@ -27,7 +32,7 @@ namespace Mortadelo {
 		static extern bool g_spawn_async_with_pipes (string working_directory,
 							     IntPtr argv,
 							     IntPtr envp,
-							     int    flags,
+							     int flags,
 							     GSpawnChildSetupFunc child_setup_func,
 							     IntPtr user_data,
 							     out int child_pid,
@@ -70,7 +75,7 @@ namespace Mortadelo {
 		public void SpawnAsyncWithPipes (string working_directory,
 						 string[] argv,
 						 string[] envp,
-						 int flags,
+						 GSpawnFlags flags,
 						 ChildSetupFunc child_setup_func,
 						 out int child_pid,
 						 out int stdin,
@@ -94,7 +99,7 @@ namespace Mortadelo {
 			result = g_spawn_async_with_pipes (working_directory,
 							   argv_native,
 							   envp_native,
-							   flags,
+							   (int) flags,
 							   child_setup_fn_proxy,
 							   IntPtr.Zero,
 							   out child_pid,
@@ -166,7 +171,7 @@ namespace Mortadelo {
 			spawn.SpawnAsyncWithPipes (null,
 						   argv,
 						   null,
-						   Spawn.G_SPAWN_DO_NOT_REAP_CHILD,
+						   GSpawnFlags.G_SPAWN_DO_NOT_REAP_CHILD,
 						   null,
 						   out pid,
 						   out stdin, out stdout, out stderr);
@@ -218,8 +223,7 @@ namespace Mortadelo {
 			if (child_pid == pid)
 				pids_matched = true;
 
-			if (Mono.Unix.Native.Syscall.WIFEXITED (status)
-			    && Mono.Unix.Native.Syscall.WEXITSTATUS (status) == 0)
+			if (unix.WIFEXITED (status) && unix.WEXITSTATUS (status) == 0)
 				exit_status_is_good = true;
 
 			loop.Quit ();

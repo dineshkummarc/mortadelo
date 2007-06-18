@@ -1,3 +1,24 @@
+2007-06-18  Federico Mena Quintero  <federico@novell.com>
+
+	Thanks to Miguel de Icaza for the stylistic fixes:
+
+	* systemtap-parser.cs: Removed the "private" things; let the
+	compiler do this automatically.
+
+	* spawn.cs (GSpawnFlags): Make this an enum.
+
+	* main.cs: 
+	* runner.cs: 
+	* spawn.cs: "using unix = Mono.Unix.Native.Syscall" instead of
+	being verbose.
+
+	* log.cs (Log.uniquify_string): Use String.Intern() instead of our
+	own string pool.
+
+	* string-pool.cs: Removed.
+
+	* Makefile (shared_sources): Removed string-pool.cs.
+
 2007-06-14  Federico Mena Quintero  <federico@novell.com>
 
 	* syscall-tree-view.cs (SyscallTreeView.setup_colums): Move the

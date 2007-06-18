@@ -9,7 +9,6 @@ namespace Mortadelo {
 		public Log ()
 		{
 			syscalls = new List<Syscall> ();
-			pool = new StringPool ();
 		}
 
 		public int GetNumSyscalls ()
@@ -45,13 +44,16 @@ namespace Mortadelo {
 
 		void uniquify_strings (ref Syscall syscall)
 		{
-			syscall.execname = pool.AddString (syscall.execname);
-			syscall.name = pool.AddString (syscall.name);
-			syscall.arguments = pool.AddString (syscall.arguments);
-			syscall.extra_info = pool.AddString (syscall.extra_info);
+			syscall.execname = unique_string (syscall.execname);
+			syscall.name = unique_string (syscall.name);
+			syscall.arguments = unique_string (syscall.arguments);
+			syscall.extra_info = unique_string (syscall.extra_info);
 		}
 
-		StringPool pool;
+		string unique_string (string s)
+		{
+			return (s != null) ? String.Intern (s) : null;
+		}
 
 		public event SyscallModifiedHandler SyscallModified;
 	}

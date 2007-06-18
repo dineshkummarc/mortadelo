@@ -12,7 +12,6 @@ shared_sources =				\
 	runner.cs				\
 	serializer.cs				\
 	spawn.cs				\
-	string-pool.cs				\
 	systemtap-parser.cs			\
 	systemtap-runner.cs			\
 	systemtap-serializer.cs			\
@@ -44,4 +43,8 @@ check: mortadelo.exe
 	nunit-console2 mortadelo.exe
 
 upload:
-	git push --all --force ssh://www.gnome.org/~federico/public_html/git/mortadelo
+	git repack -d
+	rm -rf /tmp/mortadelo
+	git clone --bare -l . /tmp/mortadelo
+	git --bare --git-dir=/tmp/mortadelo update-server-info
+	rsync -vaz -e 'ssh' --delete /tmp/mortadelo www.gnome.org:~/git

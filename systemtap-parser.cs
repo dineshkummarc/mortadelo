@@ -24,7 +24,7 @@ namespace Mortadelo {
 				return false;
 		}
 
-		private bool try_parse_open (string str, out Syscall syscall)
+		bool try_parse_open (string str, out Syscall syscall)
 		{
 			Syscall s;
 			Match m;
@@ -65,7 +65,7 @@ namespace Mortadelo {
 			return retval;
 		}
 
-		private bool try_parse_open_return (string str, out Syscall syscall)
+		bool try_parse_open_return (string str, out Syscall syscall)
 		{
 			Syscall s;
 			Match m;
@@ -106,8 +106,8 @@ namespace Mortadelo {
 			return retval;
 		}
 
-		private Regex open_regex;
-		private Regex open_return_regex;
+		Regex open_regex;
+		Regex open_return_regex;
 	}
 
 	[TestFixture]
@@ -165,7 +165,7 @@ namespace Mortadelo {
 			expected.pid = 3630;
 			expected.tid = 3630;
 			expected.have_result = true;
-			expected.result = 27;
+ 			expected.result = 27;
 			expected.is_syscall_end = true;
 
 			Assert.AreEqual (expected, syscall, "Parse open.return - syscall contents");

@@ -3,6 +3,8 @@ using Gtk;
 using Mono.Unix.Native;
 using Mono.Unix;
 
+using unix = Mono.Unix.Native.Syscall;
+
 namespace Mortadelo {
 
 	public class MortadeloMain {
@@ -22,7 +24,7 @@ namespace Mortadelo {
 
 		static bool user_is_l33t ()
 		{
-			if (Mono.Unix.Native.Syscall.getuid () == 0)
+			if (unix.getuid () == 0)
 				return true;
 
 			MessageDialog msg = new MessageDialog (

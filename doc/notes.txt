@@ -8,6 +8,10 @@
 	+ "jump to the next error" command
 	+ filtering
 
++ String.Intern() instead of my own StringPool.
+
++ Native.Stdlib.strerror()
+
 + GUI polish:
 
 	+ When a row is selected in Full View mode:

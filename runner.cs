@@ -6,6 +6,8 @@ using Mono.Unix;
 using Mono.Unix.Native;
 using NUnit.Framework;
 
+using unix = Mono.Unix.Native.Syscall;
+
 namespace Mortadelo {
 	public class AggregatorRunner {
 		public AggregatorRunner (string[] argv, string stdin_str, Aggregator aggregator)
@@ -29,7 +31,7 @@ namespace Mortadelo {
 				spawn = new Spawn ();
 
 				pipe = new int[2];
-				if (Mono.Unix.Native.Syscall.pipe (pipe) != 0)
+				if (unix.pipe (pipe) != 0)
 					throw new UnixIOException (Mono.Unix.Native.Stdlib.GetLastError ());
 
 				Spawn.ChildSetupFunc child_setup_fn = delegate () {
@@ -37,8 +39,8 @@ namespace Mortadelo {
 					UnixStream child_stream;
 					StreamWriter child_writer;
 
-					process_group = Mono.Unix.Native.Syscall.setsid ();
-					
+					process_group = unix.setsid ();
+
 					child_stream = new UnixStream (pipe[1], false);
 					child_writer = new StreamWriter (child_stream);
 
@@ -49,7 +51,7 @@ namespace Mortadelo {
 				spawn.SpawnAsyncWithPipes (null,
 							   argv,
 							   null,
-							   Spawn.G_SPAWN_DO_NOT_REAP_CHILD | Spawn.G_SPAWN_SEARCH_PATH,
+							   GSpawnFlags.G_SPAWN_DO_NOT_REAP_CHILD | GSpawnFlags.G_SPAWN_SEARCH_PATH,
 							   child_setup_fn,
 							   out child_pid,
 							   out child_stdin,
@@ -74,12 +76,11 @@ namespace Mortadelo {
 
 				state = State.Running;
 
-				fl = Mono.Unix.Native.Syscall.fcntl (child_stdout,
-								     Mono.Unix.Native.FcntlCommand.F_GETFL);
-								     
-				Mono.Unix.Native.Syscall.fcntl (child_stdout,
-								Mono.Unix.Native.FcntlCommand.F_SETFL,
-								fl | (int) Mono.Unix.Native.OpenFlags.O_NONBLOCK);
+				fl = unix.fcntl (child_stdout, FcntlCommand.F_GETFL);
+
+				unix.fcntl (child_stdout,
+					    FcntlCommand.F_SETFL,
+					    fl | (int) OpenFlags.O_NONBLOCK);
 
 				stdout_reader = new UnixReader (child_stdout);
 				stdout_reader.DataAvailable += stdout_reader_data_available_cb;
@@ -111,7 +112,7 @@ namespace Mortadelo {
 
 			if (state != State.Running)
 				throw new ApplicationException ("Tried to Stop() an AggregatorRunning which was not in Running state");
-			result = Mono.Unix.Native.Syscall.kill (-child_process_group, Mono.Unix.Native.Signum.SIGTERM);
+			result = unix.kill (-child_process_group, Signum.SIGTERM);
 			if (result == 0)
 				state = State.Stopped;
 			else {
@@ -246,8 +247,7 @@ namespace Mortadelo {
 			loop = new MainLoop ();
 			loop.Run ();
 
-			Assert.IsTrue (Mono.Unix.Native.Syscall.WIFEXITED (child_status)
-				       && Mono.Unix.Native.Syscall.WEXITSTATUS (child_status) == 0,
+			Assert.IsTrue (unix.WIFEXITED (child_status) && unix.WEXITSTATUS (child_status) == 0,
 				       "Child exit status = 0");
 
 			Assert.IsTrue (check_log (), "Contents of aggregated log");
@@ -309,7 +309,7 @@ namespace Mortadelo {
 			expected[1].end_index        = -1;
 			expected[1].is_syscall_end   = true;
 			expected[1].start_index      = 0;
-			
+
 			expected[2].index            = 2;
 			expected[2].pid              = 2882;
 			expected[2].tid              = 2883;
