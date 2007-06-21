@@ -1,3 +1,21 @@
+2007-06-20  Federico Mena Quintero  <federico@novell.com>
+
+	* syscall.cs (SyscallVisibleField): Enum to refer to fields of a
+	syscall from other places.
+
+	* filter.cs: Simple interface for syscall filters.  Filters can
+	return which field of a syscall matches the search criteria.
+
+	* substring-filter.cs: Simple filter for substrings of the string
+	representation of various fields of a syscall.
+
+	* util.cs: Utilities for formatting syscall fields into strings.
+
+	* syscall-tree-view.cs (SyscallTreeView.data_func): Use Util
+	instead of formatting things directly.
+
+	* Makefile (shared_sources): Added filter.cs, substring-filter.cs, util.cs.
+
 2007-06-18  Federico Mena Quintero  <federico@novell.com>
 
 	Thanks to Miguel de Icaza for the stylistic fixes:

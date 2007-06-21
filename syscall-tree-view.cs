@@ -57,15 +57,11 @@ namespace Mortadelo {
 				break;
 
 			case Columns.Timestamp:
-				text = String.Format ("{0}", syscall.timestamp);
+				text = Util.FormatTimestamp (syscall.timestamp);
 				break;
 
 			case Columns.Process:
-				text = String.Format ("{0}:{1}{2}{3}",
-						      syscall.execname,
-						      syscall.pid,
-						      (syscall.pid == syscall.tid) ? "" : ":",
-						      (syscall.pid == syscall.tid) ? "" : syscall.tid.ToString ());
+				text = Util.FormatProcess (syscall.pid, syscall.tid, syscall.execname);
 				break;
 
 			case Columns.SyscallName:
@@ -77,20 +73,7 @@ namespace Mortadelo {
 				break;
 
 			case Columns.Result:
-				if (syscall.have_result) {
-					if (syscall.result < 0) {
-						string name, description;
-						if (Errno.GetErrno (-syscall.result, out name, out description))
-							text = name;
-						else {
-							/* unknown errno code */
-							text = Mono.Unix.Catalog.GetString ("UNKNOWN");
-						}
-					} else
-						text = String.Format ("{0}", syscall.result);
-				} else
-					text = "?";
-
+				text = Util.FormatResult (syscall.have_result, syscall.result);
 				break;
 
 			default:

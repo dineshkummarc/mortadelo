@@ -2,6 +2,7 @@ shared_sources =				\
 	aggregator.cs				\
 	compact-log.cs				\
 	errno.cs				\
+	filter.cs				\
 	GLib.IO.cs				\
 	line-reader.cs				\
 	log.cs					\
@@ -12,12 +13,14 @@ shared_sources =				\
 	runner.cs				\
 	serializer.cs				\
 	spawn.cs				\
+	substring-filter.cs			\
 	systemtap-parser.cs			\
 	systemtap-runner.cs			\
 	systemtap-serializer.cs			\
 	syscall.cs				\
 	syscall-list-model.cs			\
-	unix-reader.cs
+	unix-reader.cs				\
+	util.cs
 
 mortadelo_sources = 		\
 	$(shared_sources)	\

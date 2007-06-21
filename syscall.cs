@@ -1,6 +1,18 @@
 using System;
 
 namespace Mortadelo {
+	public enum SyscallVisibleField {
+		None,
+		Pid,
+		Tid,
+		Execname,
+		Timestamp,
+		Name,
+		Arguments,
+		ExtraInfo,
+		Result
+	}
+
 	public struct Syscall {
 		/* Syscall index within its parent log */
 		public int index;
