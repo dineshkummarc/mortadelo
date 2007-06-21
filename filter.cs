@@ -2,6 +2,16 @@ using System;
 using System.Collections.Generic;
 
 namespace Mortadelo {
+	public enum SyscallVisibleField {
+		None,
+		Process,
+		Timestamp,
+		Name,
+		Arguments,
+		ExtraInfo,
+		Result
+	}
+
 	public struct SyscallMatch {
 		public SyscallVisibleField field;
 		public int start_pos;

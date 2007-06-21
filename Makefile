@@ -10,10 +10,10 @@ shared_sources =				\
 	log-provider.cs				\
 	log-modification-accumulator.cs		\
 	parser.cs				\
+	regex-filter.cs				\
 	runner.cs				\
 	serializer.cs				\
 	spawn.cs				\
-	substring-filter.cs			\
 	systemtap-parser.cs			\
 	systemtap-runner.cs			\
 	systemtap-serializer.cs			\

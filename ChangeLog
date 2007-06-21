@@ -1,3 +1,20 @@
+2007-06-21  Federico Mena Quintero  <federico@novell.com>
+
+	* filter.cs (SyscallVisibleField): Moved from syscall.cs to here,
+	as this is a GUI issue, not a core syscall issue.
+	(SyscallVisibleField): Don't have separate "Pid" and "Tid" fields;
+	have a single "Process" instead which combines the
+	execname:pid:tid.
+
+	* regex-filter.cs: Based on substring-filter.cs - go all the way
+	and allow for filters based on regular expressions.  Make the
+	tests work.
+
+	* substring-filter.cs: Removed.
+
+	* Makefile (shared_sources): Added regex-filter.cs; removed
+	substring-filter.cs.
+
 2007-06-20  Federico Mena Quintero  <federico@novell.com>
 
 	* syscall.cs (SyscallVisibleField): Enum to refer to fields of a
