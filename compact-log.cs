@@ -13,30 +13,36 @@ namespace Mortadelo {
 				throw new ArgumentNullException ("log");
 
 			this.log = log;
+			log.SyscallAdded += full_log_syscall_added_cb;
 
 			num_updated_syscalls = 0;
 			syscalls = new List<Syscall> ();
 
 			orig_to_mapped_index = new Hashtable ();
 
-			Update ();
+			populate ();
 		}
 
-		public void Update ()
+		void populate ()
 		{
-			int old_num_updated_syscalls = num_updated_syscalls;
-			int new_num_syscalls = log.GetNumSyscalls ();
+			int num;
 			int i;
 
-			Debug.Assert (new_num_syscalls >= old_num_updated_syscalls);
+			num = log.GetNumSyscalls ();
+			for (i = 0; i < num; i++)
+				process_full_syscall (i);
 
-			if (old_num_updated_syscalls == new_num_syscalls)
-				return;
+			num_updated_syscalls = i;
+		}
+
+		void full_log_syscall_added_cb ()
+		{
+			int new_num_syscalls = log.GetNumSyscalls ();
+
+			Debug.Assert (new_num_syscalls == num_updated_syscalls + 1, "Number of updated syscalls");
 
 			num_updated_syscalls = new_num_syscalls;
-
-			for (i = old_num_updated_syscalls; i < new_num_syscalls; i++)
-				process_full_syscall (i);
+			process_full_syscall (num_updated_syscalls - 1);
 		}
 
 		public int GetNumSyscalls ()
@@ -79,6 +85,9 @@ namespace Mortadelo {
 				syscall.end_index = new_index;
 
 			syscalls.Add (syscall);
+
+			if (SyscallAdded != null)
+				SyscallAdded ();
 		}
 
 		void add_end_syscall (Syscall syscall)
@@ -122,6 +131,7 @@ namespace Mortadelo {
 		List<Syscall> syscalls;
 		Hashtable orig_to_mapped_index;
 
+		public event SyscallAddedHandler SyscallAdded;
 		public event SyscallModifiedHandler SyscallModified;
 	}
 
@@ -171,7 +181,12 @@ namespace Mortadelo {
 			int i;
 
 			int generated_syscalls = 0;
+			bool syscall_added;
 			int modified_idx;
+
+			compact_log.SyscallAdded += delegate () {
+				syscall_added = true;
+			};
 
 			compact_log.SyscallModified += delegate (int num) {
 				modified_idx = num;
@@ -179,18 +194,20 @@ namespace Mortadelo {
 
 			for (i = 0; i < lines.Length; i++) {
 				int new_generated_syscalls;
-				string str;
 
+				syscall_added = false;
 				modified_idx = -1;
+
 				aggregator.ProcessLine (lines[i]);
-				compact_log.Update ();
 				new_generated_syscalls = compact_log.GetNumSyscalls ();
 
-				str = String.Format ("Compact syscalls generated after processing full syscall {0}", i);
-				Assert.AreEqual (expected_generated[i], new_generated_syscalls - generated_syscalls, str);
+				Assert.AreEqual (expected_generated[i], new_generated_syscalls - generated_syscalls,
+						 String.Format ("Compact syscalls generated after processing full syscall {0}", i));
+				Assert.AreEqual ((expected_generated[i] == 1) ? true : false, syscall_added,
+						 String.Format ("Emission of SyscallAdded for full syscall {0}", i));
 
-				str = String.Format ("Compact syscall modified after processing full syscall {0}", i);
-				Assert.AreEqual (expected_modified[i], modified_idx, str);
+				Assert.AreEqual (expected_modified[i], modified_idx,
+						 String.Format ("Compact syscall modified after processing full syscall {0}", i));
 
 				generated_syscalls = new_generated_syscalls;
 			}

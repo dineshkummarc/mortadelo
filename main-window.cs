@@ -467,11 +467,6 @@ namespace Mortadelo {
 
 		bool update_timeout_cb ()
 		{
-			if (view_mode == ViewMode.Compact)
-				compact_log.Update (); /* this is lame... should CompactLog update itself from
-							* signals from the base Log?
-							*/
-
 			model.Update ();
 			update_statusbar_with_syscall_count ();
 			return true;

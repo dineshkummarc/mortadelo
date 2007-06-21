@@ -1,5 +1,24 @@
 2007-06-21  Federico Mena Quintero  <federico@novell.com>
 
+	* log-provider.cs (ILogProvider.SyscallAdded): New event.  We'll
+	move away from the model of updating logs by hand, to having them
+	do it automatically and notify callers about changes.
+
+	* log.cs (Log.AppendSyscall): Emit the SyscallAdded event.
+
+	* compact-log.cs (CompactLogTest.TestCompactLog): Test the
+	emission of SyscallAdded as well.
+	(CompactLog.full_log_syscall_added_cb): New callback from the
+	child log; process the new syscall here instead of doing it in
+	Update().
+	(CompactLog.Update): Removed.
+	(CompactLog.add_syscall): Emit SyscallAdded.
+
+	* main-window.cs (MainWindow.update_timeout_cb): Don't explicitly
+	Update() the compact log; it updates itself now.
+
+2007-06-21  Federico Mena Quintero  <federico@novell.com>
+
 	* filter.cs (SyscallVisibleField): Moved from syscall.cs to here,
 	as this is a GUI issue, not a core syscall issue.
 	(SyscallVisibleField): Don't have separate "Pid" and "Tid" fields;

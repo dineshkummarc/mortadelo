@@ -22,6 +22,8 @@ namespace Mortadelo {
 			uniquify_strings (ref syscall);
 
 			syscalls.Add (syscall);
+			if (SyscallAdded != null)
+				SyscallAdded ();
 
 			return syscall.index;
 		}
@@ -55,6 +57,7 @@ namespace Mortadelo {
 			return (s != null) ? String.Intern (s) : null;
 		}
 
+		public event SyscallAddedHandler SyscallAdded;
 		public event SyscallModifiedHandler SyscallModified;
 	}
 }
