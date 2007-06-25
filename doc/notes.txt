@@ -1,18 +1,20 @@
++ Add license.
+
 + SyscallInserted
 
-	+ In log.cs, make it use SyscallInserted instead of
+	- In log.cs, make it use SyscallInserted instead of
 	  SyscallAdded
 
-	+ Change the tests
+	- Change the tests
 
-	+ Add SyscallInserted to filtered-log.cs.
+	- Add SyscallInserted to filtered-log.cs.
 
-+ SyscallRemoved
+- SyscallRemoved
 
-	+ Make filtered-log.cs emit SyscallRemoved when a row gets
+	- Make filtered-log.cs emit SyscallRemoved when a row gets
 	un-filtered.
 
-	+ Add a test for this (change a result from "?" to "1" and
+	- Add a test for this (change a result from "?" to "1" and
 	have a filter for "?" - the row should disappear).
 
 + Basic functionality:

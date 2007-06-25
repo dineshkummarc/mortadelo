@@ -1,5 +1,12 @@
 2007-06-25  Federico Mena Quintero  <federico@novell.com>
 
+	* filtered-log.cs: New FilteredLog class; takes a log and filters
+	it based on an ISyscallFilter.
+
+	* Makefile (shared_sources): Added filtered-log.cs.
+
+2007-06-25  Federico Mena Quintero  <federico@novell.com>
+
 	* main.cs: Return 1 if the user is not root.
 
 2007-06-25  Federico Mena Quintero  <federico@novell.com>

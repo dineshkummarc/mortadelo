@@ -3,6 +3,7 @@ shared_sources =				\
 	compact-log.cs				\
 	errno.cs				\
 	filter.cs				\
+	filtered-log.cs				\
 	GLib.IO.cs				\
 	line-reader.cs				\
 	log.cs					\
