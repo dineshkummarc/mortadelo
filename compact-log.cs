@@ -13,7 +13,7 @@ namespace Mortadelo {
 				throw new ArgumentNullException ("log");
 
 			this.log = log;
-			log.SyscallAdded += full_log_syscall_added_cb;
+			log.SyscallInserted += full_log_syscall_inserted_cb;
 
 			num_updated_syscalls = 0;
 			syscalls = new List<Syscall> ();
@@ -35,11 +35,12 @@ namespace Mortadelo {
 			num_updated_syscalls = i;
 		}
 
-		void full_log_syscall_added_cb ()
+		void full_log_syscall_inserted_cb (int num)
 		{
 			int new_num_syscalls = log.GetNumSyscalls ();
 
 			Debug.Assert (new_num_syscalls == num_updated_syscalls + 1, "Number of updated syscalls");
+			Debug.Assert (num == new_num_syscalls - 1, "CompactLog only supports appending syscalls in the base log");
 
 			num_updated_syscalls = new_num_syscalls;
 			process_full_syscall (num_updated_syscalls - 1);
@@ -86,8 +87,8 @@ namespace Mortadelo {
 
 			syscalls.Add (syscall);
 
-			if (SyscallAdded != null)
-				SyscallAdded ();
+			if (SyscallInserted != null)
+				SyscallInserted (new_index);
 		}
 
 		void add_end_syscall (Syscall syscall)
@@ -131,8 +132,9 @@ namespace Mortadelo {
 		List<Syscall> syscalls;
 		Hashtable orig_to_mapped_index;
 
-		public event SyscallAddedHandler SyscallAdded;
 		public event SyscallModifiedHandler SyscallModified;
+		public event SyscallRemovedHandler SyscallRemoved;
+		public event SyscallInsertedHandler SyscallInserted;
 	}
 
 	[TestFixture]
@@ -183,9 +185,11 @@ namespace Mortadelo {
 			int generated_syscalls = 0;
 			bool syscall_added;
 			int modified_idx;
+			int added_idx;
 
-			compact_log.SyscallAdded += delegate () {
+			compact_log.SyscallInserted += delegate (int num) {
 				syscall_added = true;
+				added_idx = num;
 			};
 
 			compact_log.SyscallModified += delegate (int num) {
@@ -197,6 +201,7 @@ namespace Mortadelo {
 
 				syscall_added = false;
 				modified_idx = -1;
+				added_idx = -1;
 
 				aggregator.ProcessLine (lines[i]);
 				new_generated_syscalls = compact_log.GetNumSyscalls ();
@@ -204,10 +209,14 @@ namespace Mortadelo {
 				Assert.AreEqual (expected_generated[i], new_generated_syscalls - generated_syscalls,
 						 String.Format ("Compact syscalls generated after processing full syscall {0}", i));
 				Assert.AreEqual ((expected_generated[i] == 1) ? true : false, syscall_added,
-						 String.Format ("Emission of SyscallAdded for full syscall {0}", i));
+						 String.Format ("Emission of SyscallInserted for full syscall {0}", i));
 
 				Assert.AreEqual (expected_modified[i], modified_idx,
 						 String.Format ("Compact syscall modified after processing full syscall {0}", i));
+
+				if (syscall_added)
+					Assert.AreEqual (new_generated_syscalls - 1, added_idx,
+							 String.Format ("Index of added syscall {0}", i));
 
 				generated_syscalls = new_generated_syscalls;
 			}

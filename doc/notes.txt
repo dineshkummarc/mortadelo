@@ -1,3 +1,20 @@
++ SyscallInserted
+
+	+ In log.cs, make it use SyscallInserted instead of
+	  SyscallAdded
+
+	+ Change the tests
+
+	+ Add SyscallInserted to filtered-log.cs.
+
++ SyscallRemoved
+
+	+ Make filtered-log.cs emit SyscallRemoved when a row gets
+	un-filtered.
+
+	+ Add a test for this (change a result from "?" to "1" and
+	have a filter for "?" - the row should disappear).
+
 + Basic functionality:
 	- log open() calls
 	- saving
@@ -8,9 +25,9 @@
 	+ "jump to the next error" command
 	+ filtering
 
-+ String.Intern() instead of my own StringPool.
+- String.Intern() instead of my own StringPool.
 
-+ Native.Stdlib.strerror()
++ Native.Stdlib.strerror() instead of errno.cs
 
 + GUI polish:
 

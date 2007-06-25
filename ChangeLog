@@ -1,3 +1,20 @@
+2007-06-25  Federico Mena Quintero  <federico@novell.com>
+
+	* compact-log.cs (CompactLog.full_log_syscall_inserted_cb):
+	Renamed from full_log_syscall_added_cb().  Check that the row is
+	at the end of the base log; we only support that for now.
+	(CompactLog.add_syscall): Call SyscallInserted instead of
+	SyscallAdded.
+	(CompactLogTest.TestCompactLog): Test that the inserted row is the
+	last row in the model.
+
+	* log-provider.cs (ILogProvider): Added events for SyscallRemoved
+	and SyscallInserted.  Removed SyscallAdded; we'll implement it in
+	terms of SyscallInserted.
+
+	* log.cs (Log.AppendSyscall): Use SyscallInserted instead of
+	SyscallAdded.
+	
 2007-06-21  Federico Mena Quintero  <federico@novell.com>
 
 	* log-provider.cs (ILogProvider.SyscallAdded): New event.  We'll
