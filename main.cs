@@ -8,7 +8,7 @@ using unix = Mono.Unix.Native.Syscall;
 namespace Mortadelo {
 
 	public class MortadeloMain {
-		public static void Main (string[] args)
+		public static int Main (string[] args)
 		{
 			MainWindow window;
 
@@ -19,7 +19,9 @@ namespace Mortadelo {
 				window.ShowAll ();
 
 				Application.Run ();
-			}
+				return 0;
+			} else
+				return 1;
 		}
 
 		static bool user_is_l33t ()

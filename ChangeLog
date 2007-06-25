@@ -1,5 +1,9 @@
 2007-06-25  Federico Mena Quintero  <federico@novell.com>
 
+	* main.cs: Return 1 if the user is not root.
+
+2007-06-25  Federico Mena Quintero  <federico@novell.com>
+
 	* compact-log.cs (CompactLog.full_log_syscall_inserted_cb):
 	Renamed from full_log_syscall_added_cb().  Check that the row is
 	at the end of the base log; we only support that for now.
