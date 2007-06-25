@@ -1,5 +1,24 @@
 2007-06-25  Federico Mena Quintero  <federico@novell.com>
 
+	* syscall-tree-view.cs (SyscallTreeView.data_func): Get the
+	syscall's index from the model and iter.
+
+	* syscall-list-model.cs (SyscallListModel.SyscallListModel):
+	Connect to the model's events.  We'll do automatic updates rather
+	than explicit ones.
+	(SyscallListModel.Update): Removed.
+	(SyscallListModel.populate): Renamed from update_new_rows().
+	(SyscallListModel): Store plain zeroes in the list store; we'll
+	use TreePaths to figure out the indices in the view.
+
+	* main-window.cs (MainWindow.update_timeout_cb): Don't Update()
+	the model explicitly; it does this automatically now.
+
+	* filtered-log.cs (FilteredLog.GetMatches): New method to get the
+	matches for a row.
+
+2007-06-25  Federico Mena Quintero  <federico@novell.com>
+
 	* filtered-log.cs: New FilteredLog class; takes a log and filters
 	it based on an ISyscallFilter.
 

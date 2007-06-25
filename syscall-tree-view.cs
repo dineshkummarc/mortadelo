@@ -40,6 +40,16 @@ namespace Mortadelo {
 			tree_col.Resizable = resizable;
 		}
 
+		int get_syscall_index (TreeModel model, TreeIter iter)
+		{
+			TreePath path;
+
+			path = model.GetPath (iter);
+			Debug.Assert (path != null, "Get a path from an iter");
+
+			return path.Indices[0];
+		}
+
 		void data_func (TreeViewColumn column, CellRenderer renderer, TreeModel model, TreeIter iter, Columns id)
 		{
 			CellRendererText text_renderer = renderer as CellRendererText;
@@ -47,7 +57,7 @@ namespace Mortadelo {
 			Syscall syscall;
 			string text;
 
-			syscall_index = (int) model.GetValue (iter, 0);
+			syscall_index = get_syscall_index (model, iter);
 			syscall = log.GetSyscall (syscall_index);
 
 			switch (id) {

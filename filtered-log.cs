@@ -41,6 +41,11 @@ namespace Mortadelo {
 			return filtered_syscalls[num].syscall;
 		}
 
+		public List<SyscallMatch> GetMatches (int num)
+		{
+			return filtered_syscalls[num].matches;
+		}
+
 		void populate ()
 		{
 			int num;

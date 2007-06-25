@@ -467,7 +467,6 @@ namespace Mortadelo {
 
 		bool update_timeout_cb ()
 		{
-			model.Update ();
 			update_statusbar_with_syscall_count ();
 			return true;
 		}

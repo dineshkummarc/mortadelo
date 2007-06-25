@@ -11,69 +11,58 @@ namespace Mortadelo {
 				throw new ArgumentNullException ("log");
 
 			this.log = log;
-			num_updated_rows = 0;
 
-			modified_accum = new LogModificationAccumulator (log);
+			log.SyscallInserted += log_syscall_inserted_cb;
+			log.SyscallRemoved += log_syscall_removed_cb;
+			log.SyscallModified += log_syscall_modified_cb;
 
-			update_new_rows ();
+			populate ();
 		}
 
-		public void Update ()
+		void populate ()
 		{
-			update_new_rows ();
-			update_changed_rows ();
-		}
-
-		void update_new_rows ()
-		{
-			int old_num_updated_rows = num_updated_rows;
 			int new_num_rows = log.GetNumSyscalls ();
 			int i;
 
-			if (new_num_rows == num_updated_rows)
-				return;
-
-			old_num_updated_rows = num_updated_rows;
-			num_updated_rows = new_num_rows;
-
-			Debug.Assert (new_num_rows > old_num_updated_rows, "Number of rows in sync");
-
-			for (i = old_num_updated_rows; i < new_num_rows; i++)
-				append_row_and_emit (i);
+			for (i = 0; i < new_num_rows; i++)
+				log_syscall_inserted_cb (i);
 		}
 
-		void update_changed_rows ()
+		void log_syscall_inserted_cb (int num)
 		{
-			int[] modified;
-			int i;
+			TreeIter iter;
 
-			modified = modified_accum.GetModifiedIndexes ();
-
-			for (i = 0; i < modified.Length; i++)
-				emit_row_changed (modified[i]);
+			iter = Insert (num);
+			SetValue (iter, 0, 0);
 		}
 
-		void append_row_and_emit (int n)
-		{
-			AppendValues (n);
-		}
-
-		void emit_row_changed (int n)
+		void log_syscall_removed_cb (int num)
 		{
 			TreePath path;
 			TreeIter iter;
 
-			path = new TreePath (new int[] { n });
+			path = new TreePath (new int[] { num });
 
 			if (!GetIter (out iter, path))
-				Debug.Assert (false, "Get an iter in the list model to change its values");
+				Debug.Assert (false, "Get an iter in the list model to remove it");
 
-			SetValue (iter, 0, n);
+			if (!Remove (ref iter))
+				Debug.Assert (false, "Remove an iter");
+		}
+
+		void log_syscall_modified_cb (int num)
+		{
+			TreePath path;
+			TreeIter iter;
+
+			path = new TreePath (new int[] { num });
+
+			if (!GetIter (out iter, path))
+				Debug.Assert (false, "Get an iter in the list model to modify it");
+
+			SetValue (iter, 0, 0);
 		}
 
 		ILogProvider log;
-		int num_updated_rows;
-
-		LogModificationAccumulator modified_accum;
 	}
 }
