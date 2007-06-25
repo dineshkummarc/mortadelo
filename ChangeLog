@@ -1,5 +1,23 @@
 2007-06-25  Federico Mena Quintero  <federico@novell.com>
 
+	* main-window.cs (MainWindow.build_window): Add an entry for search-as-you-type.
+	(MainWindow.FilterMode): New enum.
+	(MainWindow.create_derived_log): Create the filtered_log if necessary.
+	(MainWindow.set_derived_model): Set the formatter on the tree view.
+
+	* syscall-formatter.cs: Trivial interface to format the various
+	fields of a syscall for display.
+
+	* plain-formatter.cs: Implementation of a syscall formatter just
+	like it was before.
+
+	* filter-formatter.cs: Implementation of a syscall formatter;
+	creates Pango markup for the highlighted matches in the syscall fields.
+
+	* Makefile (shared_sources): Added the new files.
+
+2007-06-25  Federico Mena Quintero  <federico@novell.com>
+
 	* syscall-tree-view.cs (SyscallTreeView.data_func): Get the
 	syscall's index from the model and iter.
 

@@ -16,6 +16,11 @@ namespace Mortadelo {
 			this.log = log;
 		}
 
+		public void SetFormatter (ISyscallFormatter formatter)
+		{
+			this.formatter = formatter;
+		}
+
 		void setup_columns ()
 		{
 			append_text_column (Mono.Unix.Catalog.GetString ("#"),		Columns.Index, false);
@@ -50,12 +55,20 @@ namespace Mortadelo {
 			return path.Indices[0];
 		}
 
+		void ensure_formatter ()
+		{
+			if (formatter == null)
+				formatter = new PlainFormatter ();
+		}
+
 		void data_func (TreeViewColumn column, CellRenderer renderer, TreeModel model, TreeIter iter, Columns id)
 		{
 			CellRendererText text_renderer = renderer as CellRendererText;
 			int syscall_index;
 			Syscall syscall;
 			string text;
+
+			ensure_formatter ();
 
 			syscall_index = get_syscall_index (model, iter);
 			syscall = log.GetSyscall (syscall_index);
@@ -67,23 +80,23 @@ namespace Mortadelo {
 				break;
 
 			case Columns.Timestamp:
-				text = Util.FormatTimestamp (syscall.timestamp);
+				text = formatter.Format (syscall_index, syscall, SyscallVisibleField.Timestamp);
 				break;
 
 			case Columns.Process:
-				text = Util.FormatProcess (syscall.pid, syscall.tid, syscall.execname);
+				text = formatter.Format (syscall_index, syscall, SyscallVisibleField.Process);
 				break;
 
 			case Columns.SyscallName:
-				text = syscall.name;
+				text = formatter.Format (syscall_index, syscall, SyscallVisibleField.Name);
 				break;
 
 			case Columns.Arguments:
-				text = syscall.arguments;
+				text = formatter.Format (syscall_index, syscall, SyscallVisibleField.Arguments);
 				break;
 
 			case Columns.Result:
-				text = Util.FormatResult (syscall.have_result, syscall.result);
+				text = formatter.Format (syscall_index, syscall, SyscallVisibleField.Result);
 				break;
 
 			default:
@@ -92,7 +105,11 @@ namespace Mortadelo {
 				break;
 			}
 
-			text_renderer.Text = text;
+			if (formatter.UseMarkup ())
+				text_renderer.Markup = text;
+			else
+				text_renderer.Text = text;
+
 			text_renderer.Foreground = (syscall.have_result && syscall.result < 0) ? "#ff0000" : "#000000";
 		}
 
@@ -105,6 +122,7 @@ namespace Mortadelo {
 			Result
 		}
 
+		ISyscallFormatter formatter;
 		ILogProvider log;
 	}
 }

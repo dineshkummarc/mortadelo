@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Text.RegularExpressions;
 using Gtk;
 using Mono.Unix;
 
@@ -37,6 +38,9 @@ namespace Mortadelo {
 
 			build_toolbar ();
 			vbox.PackStart (toolbar, false, false, 0);
+
+			build_filter_box ();
+			vbox.PackStart (filter_box, false, false, 0);
 
 			build_tree_view ();
 			vbox.PackStart (scrolled_window, true, true, 0);
@@ -111,6 +115,37 @@ namespace Mortadelo {
 			toolbar = ui_manager.GetWidget ("/toolbar") as Toolbar;
 		}
 
+		void build_filter_box ()
+		{
+			Label label;
+
+			filter_box = new HBox (false, 12);
+
+			label = new Label ("Filter:");
+			filter_box.PackStart (label, false, false, 0);
+
+			filter_entry = new Entry ();
+			filter_box.PackStart (filter_entry, true, true, 0);
+
+			label.MnemonicWidget = filter_entry;
+
+			filter_entry.Changed += filter_entry_changed_cb;
+		}
+
+		void filter_entry_changed_cb (object o, EventArgs args)
+		{
+			string text;
+
+			text = filter_entry.Text;
+
+			if (text == "")
+				filter_mode = FilterMode.Unfiltered;
+			else
+				filter_mode = FilterMode.Filtered;
+
+			set_derived_model ();
+		}
+
 		void build_tree_view ()
 		{
 			scrolled_window = new ScrolledWindow (null, null);
@@ -136,6 +171,11 @@ namespace Mortadelo {
 		enum ViewMode {
 			Compact,
 			Full
+		}
+
+		enum FilterMode {
+			Unfiltered,
+			Filtered
 		}
 
 		ActionEntry[] build_normal_action_entries ()
@@ -364,14 +404,34 @@ namespace Mortadelo {
 
 		ILogProvider create_derived_log ()
 		{
+			ILogProvider sublog;
+
 			switch (view_mode) {
 			case ViewMode.Compact:
 				compact_log = new CompactLog (full_log);
-				return compact_log;
+				sublog = compact_log;
+				break;
 
 			case ViewMode.Full:
 				compact_log = null;
-				return full_log;
+				sublog = full_log;
+				break;
+
+			default:
+				Debug.Assert (false, "not reached");
+				sublog = null;
+				break;
+			}
+
+			switch (filter_mode) {
+			case FilterMode.Unfiltered:
+				filtered_log = null;
+				return sublog;
+
+			case FilterMode.Filtered:
+				/* FIXME: what if compiling the regex fails? */
+				filtered_log = new FilteredLog (sublog, new RegexFilter (new Regex (filter_entry.Text)));
+				return filtered_log;
 			}
 
 			Debug.Assert (false, "not reached");
@@ -386,6 +446,11 @@ namespace Mortadelo {
 
 			model = new SyscallListModel (derived);
 			tree_view.SetModelAndLog (model, derived);
+
+			if (filter_mode == FilterMode.Filtered)
+				tree_view.SetFormatter (new FilterFormatter (filtered_log));
+			else
+				tree_view.SetFormatter (null);
 
 			update_statusbar_with_syscall_count ();
 		}
@@ -515,16 +580,20 @@ namespace Mortadelo {
 
 		RecordMode record_mode;
 		ViewMode view_mode;
+		FilterMode filter_mode;
 
 		MenuBar menubar;
 		Toolbar toolbar;
 		Statusbar statusbar;
+		Box filter_box;
+		Entry filter_entry;
 
 		ScrolledWindow scrolled_window;
 		SyscallTreeView tree_view;
 
 		Log full_log;
 		CompactLog compact_log;
+		FilteredLog filtered_log;
 
 		SystemtapRunner runner;
 		SyscallListModel model;

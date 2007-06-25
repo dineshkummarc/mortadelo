@@ -3,6 +3,7 @@ shared_sources =				\
 	compact-log.cs				\
 	errno.cs				\
 	filter.cs				\
+	filter-formatter.cs			\
 	filtered-log.cs				\
 	GLib.IO.cs				\
 	line-reader.cs				\
@@ -11,6 +12,7 @@ shared_sources =				\
 	log-provider.cs				\
 	log-modification-accumulator.cs		\
 	parser.cs				\
+	plain-formatter.cs			\
 	regex-filter.cs				\
 	runner.cs				\
 	serializer.cs				\
@@ -19,6 +21,7 @@ shared_sources =				\
 	systemtap-runner.cs			\
 	systemtap-serializer.cs			\
 	syscall.cs				\
+	syscall-formatter.cs			\
 	syscall-list-model.cs			\
 	unix-reader.cs				\
 	util.cs
