@@ -15,6 +15,7 @@
 	creates Pango markup for the highlighted matches in the syscall fields.
 
 	* Makefile (shared_sources): Added the new files.
+	(mortadelo.exe): Oops, we don't need -r:Mono.C5.
 
 2007-06-25  Federico Mena Quintero  <federico@novell.com>
 

@@ -39,10 +39,10 @@ memprof_sources =		\
 all: mortadelo.exe mortadelo-memory-profile.exe
 
 mortadelo.exe: $(mortadelo_sources)
-	gmcs -debug -warn:4 -out:$@ $(mortadelo_sources) -pkg:mono-nunit -r:Mono.C5 -pkg:glib-sharp-2.0 -r:Mono.Posix -pkg:gtk-sharp-2.0
+	gmcs -debug -warn:4 -out:$@ $(mortadelo_sources) -pkg:mono-nunit -pkg:glib-sharp-2.0 -r:Mono.Posix -pkg:gtk-sharp-2.0
 
 mortadelo-memory-profile.exe: $(memprof_sources)
-	gmcs -debug -warn:4 -out:$@ $(memprof_sources) -pkg:mono-nunit -r:Mono.C5 -pkg:glib-sharp-2.0 -r:Mono.Posix -pkg:gtk-sharp-2.0
+	gmcs -debug -warn:4 -out:$@ $(memprof_sources) -pkg:mono-nunit -pkg:glib-sharp-2.0 -r:Mono.Posix -pkg:gtk-sharp-2.0
 
 .PHONY: check upload all
 
