@@ -1,6 +1,14 @@
 + Add license.
 
-+ Catch regex compilation errors; print the exception text in the status bar.
+- Make "Displayed syscalls: N" be related to the filtered log.
+
++ Make filtering fast:
+
+	+ Memoize the regex matches.
+
+	+ Discard the memoization when the regex changes.
+
+- Catch regex compilation errors; print the exception text in the status bar.
 
 + Basic functionality:
 	- log open() calls
@@ -10,7 +18,7 @@
 	- Check for root at startup
 	- highlight errors
 	+ "jump to the next error" command
-	+ filtering
+	- filtering
 
 - String.Intern() instead of my own StringPool.
 

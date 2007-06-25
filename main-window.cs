@@ -49,7 +49,7 @@ namespace Mortadelo {
 			vbox.PackStart (statusbar, false, false, 0);
 
 			vbox.ShowAll ();
-
+			filter_error_label.Hide ();
 		}
 
 		void build_action_group ()
@@ -117,19 +117,27 @@ namespace Mortadelo {
 
 		void build_filter_box ()
 		{
+			HBox hbox;
 			Label label;
 
-			filter_box = new HBox (false, 12);
+			filter_box = new VBox (false, 12);
+
+			hbox = new HBox (false, 12);
+			filter_box.PackStart (hbox, false, false, 0);
 
 			label = new Label ("Filter:");
-			filter_box.PackStart (label, false, false, 0);
+			hbox.PackStart (label, false, false, 0);
 
 			filter_entry = new Entry ();
-			filter_box.PackStart (filter_entry, true, true, 0);
+			hbox.PackStart (filter_entry, true, true, 0);
 
 			label.MnemonicWidget = filter_entry;
 
 			filter_entry.Changed += filter_entry_changed_cb;
+
+			filter_error_label = new Label ();
+			filter_error_label.Xalign = 0.0f;
+			filter_box.PackStart (filter_error_label, false, false, 0);
 		}
 
 		void filter_entry_changed_cb (object o, EventArgs args)
@@ -138,9 +146,10 @@ namespace Mortadelo {
 
 			text = filter_entry.Text;
 
-			if (text == "")
+			if (text == "") {
 				filter_mode = FilterMode.Unfiltered;
-			else
+				filter_error_label.Hide ();
+			} else
 				filter_mode = FilterMode.Filtered;
 
 			set_derived_model ();
@@ -389,13 +398,30 @@ namespace Mortadelo {
 
 		ILogProvider get_derived_log ()
 		{
+			ILogProvider sublog;
+
 			switch (view_mode) {
 			case ViewMode.Compact:
 				Debug.Assert (compact_log != null);
-				return compact_log;
+				sublog = compact_log;
+				break;
 
 			case ViewMode.Full:
-				return full_log;
+				sublog = full_log;
+				break;
+
+			default:
+				Debug.Assert (false, "not reached");
+				sublog = null;
+				break;
+			}
+
+			switch (filter_mode) {
+			case FilterMode.Unfiltered:
+				return sublog;
+
+			case FilterMode.Filtered:
+				return filtered_log;
 			}
 
 			Debug.Assert (false, "not reached");
@@ -430,7 +456,13 @@ namespace Mortadelo {
 
 			case FilterMode.Filtered:
 				/* FIXME: what if compiling the regex fails? */
-				filtered_log = new FilteredLog (sublog, new RegexFilter (new Regex (filter_entry.Text)));
+				Regex regex = make_regex (filter_entry.Text);
+
+				if (regex != null)
+					filtered_log = new FilteredLog (sublog, new RegexFilter (regex));
+				else
+					filtered_log = null;
+
 				return filtered_log;
 			}
 
@@ -438,19 +470,40 @@ namespace Mortadelo {
 			return null;
 		}
 
+		Regex make_regex (string text)
+		{
+			Regex regex;
+
+			regex = null;
+
+			try {
+				regex = new Regex (text);
+				filter_error_label.Hide ();
+			} catch (Exception e) {
+				filter_error_label.Text = e.Message;
+				filter_error_label.Show ();
+			}
+
+			return regex;
+		}
+
 		void set_derived_model ()
 		{
 			ILogProvider derived;
 
 			derived = create_derived_log ();
+			if (derived != null) {
+				model = new SyscallListModel (derived);
 
-			model = new SyscallListModel (derived);
+				if (filter_mode == FilterMode.Filtered)
+					tree_view.SetFormatter (new FilterFormatter (filtered_log));
+				else
+					tree_view.SetFormatter (null);
+
+			} else
+				model = null;
+
 			tree_view.SetModelAndLog (model, derived);
-
-			if (filter_mode == FilterMode.Filtered)
-				tree_view.SetFormatter (new FilterFormatter (filtered_log));
-			else
-				tree_view.SetFormatter (null);
 
 			update_statusbar_with_syscall_count ();
 		}
@@ -538,11 +591,17 @@ namespace Mortadelo {
 
 		void update_statusbar_with_syscall_count ()
 		{
+			ILogProvider derived;
 			int full_num, derived_num;
 			string str;
 
 			full_num = full_log.GetNumSyscalls ();
-			derived_num = get_derived_log ().GetNumSyscalls ();
+
+			derived = get_derived_log ();
+			if (derived == null)
+				derived_num = 0;
+			else
+				derived_num = derived.GetNumSyscalls ();
 
 			if (full_num == derived_num)
 				str = String.Format ("Total system calls: {0}", full_num);
@@ -587,6 +646,7 @@ namespace Mortadelo {
 		Statusbar statusbar;
 		Box filter_box;
 		Entry filter_entry;
+		Label filter_error_label;
 
 		ScrolledWindow scrolled_window;
 		SyscallTreeView tree_view;
