@@ -1,3 +1,12 @@
+2007-06-26  Federico Mena Quintero  <federico@novell.com>
+
+	* util.cs (Util.MakeRegex): Create a regex from a string, using
+	the same case-sensitivity rules as Emacs.  (Lowercase regex means
+	case-insensitive match; regex with uppercase chars means
+	case-sensitive search).
+
+	* main-window.cs (MainWindow.make_regex): Use Util.MakeRegex().
+
 2007-06-25  Federico Mena Quintero  <federico@novell.com>
 
 	Make filtering faster.  We memoize the strings to be matched,

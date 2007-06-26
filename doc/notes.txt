@@ -1,3 +1,5 @@
++ Kill the child process when we get SIGTERM.
+
 + Add license.
 
 - Make "Displayed syscalls: N" be related to the filtered log.
@@ -8,10 +10,14 @@
 
 	- Discard the memoization when the regex changes.
 
+	+ Start a timer when the entry changes, and reset it every
+	  time the entry changes again.  If the entry doesn't change and
+	  the timeout expires, actually perform the re-filtering.
+
 - Catch regex compilation errors; print the exception text in the
   status bar.
 
-+ Do automatic regex casefolding like Emacs.  If the typed string is lowercase,
+- Do automatic regex casefolding like Emacs.  If the typed string is lowercase,
   do a case-insensitive match.  If the typed string has uppercase
   chars, do a case-sensitive match.
 

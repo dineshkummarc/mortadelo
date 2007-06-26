@@ -479,7 +479,7 @@ namespace Mortadelo {
 			regex = null;
 
 			try {
-				regex = new Regex (text);
+				regex = Util.MakeRegex (text);
 				filter_error_label.Hide ();
 			} catch (Exception e) {
 				filter_error_label.Text = e.Message;
