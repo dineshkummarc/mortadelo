@@ -10,7 +10,7 @@
 
 	- Discard the memoization when the regex changes.
 
-	+ Start a timer when the entry changes, and reset it every
+	- Start a timer when the entry changes, and reset it every
 	  time the entry changes again.  If the entry doesn't change and
 	  the timeout expires, actually perform the re-filtering.
 

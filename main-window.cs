@@ -135,14 +135,19 @@ namespace Mortadelo {
 
 			label.MnemonicWidget = filter_entry;
 
-			filter_entry.Changed += filter_entry_changed_cb;
+			filter_throttle = new TimerThrottle (FILTER_THROTTLE_MSEC);
+			filter_throttle.Trigger += filter_throttle_trigger_cb;
+
+			filter_entry.Changed += delegate (object o, EventArgs args) {
+				filter_throttle.Start ();
+			};
 
 			filter_error_label = new Label ();
 			filter_error_label.Xalign = 0.0f;
 			filter_box.PackStart (filter_error_label, false, false, 0);
 		}
 
-		void filter_entry_changed_cb (object o, EventArgs args)
+		void filter_throttle_trigger_cb ()
 		{
 			string text;
 
@@ -375,6 +380,8 @@ namespace Mortadelo {
 
 		void do_quit ()
 		{
+			filter_throttle.Stop ();
+
 			if (record_mode == RecordMode.Recording)
 				stop_recording ();
 
@@ -652,6 +659,9 @@ namespace Mortadelo {
 
 		ScrolledWindow scrolled_window;
 		SyscallTreeView tree_view;
+
+		const int FILTER_THROTTLE_MSEC = 300;
+		TimerThrottle filter_throttle;
 
 		Log full_log;
 		CompactLog compact_log;

@@ -24,6 +24,7 @@ shared_sources =				\
 	syscall.cs				\
 	syscall-formatter.cs			\
 	syscall-list-model.cs			\
+	timer-throttle.cs			\
 	unix-reader.cs				\
 	util.cs
 

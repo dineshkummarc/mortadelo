@@ -1,5 +1,17 @@
 2007-06-26  Federico Mena Quintero  <federico@novell.com>
 
+	* timer-throttle.cs: Trivial class to throttle events based on
+	a timeout.
+
+	* main-window.cs (MainWindow.build_filter_box): Use a timer
+	throttle so that we don't refilter on every keypress, but only
+	after a key hasn't been pressed for a fraction of a second.
+	(MainWindow.filter_throttle_trigger_cb): Renamed from
+	filter_entry_changed_cb().
+	(MainWindow.do_quit): Stop the filter throttle.
+
+2007-06-26  Federico Mena Quintero  <federico@novell.com>
+
 	* util.cs: (Util.FormatTimestamp): Format in HH:MM:SS.usec format.
 
 	* regex-filter.cs: Change the timestamp test to use the new format.
