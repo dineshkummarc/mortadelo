@@ -13,6 +13,7 @@ shared_sources =				\
 	log-modification-accumulator.cs		\
 	parser.cs				\
 	plain-formatter.cs			\
+	regex-cache.cs				\
 	regex-filter.cs				\
 	runner.cs				\
 	serializer.cs				\

@@ -48,6 +48,8 @@ namespace Mortadelo {
 			build_statusbar ();
 			vbox.PackStart (statusbar, false, false, 0);
 
+			filter_entry.GrabFocus ();
+
 			vbox.ShowAll ();
 			filter_error_label.Hide ();
 		}
@@ -459,7 +461,7 @@ namespace Mortadelo {
 				Regex regex = make_regex (filter_entry.Text);
 
 				if (regex != null)
-					filtered_log = new FilteredLog (sublog, new RegexFilter (regex));
+					filtered_log = new FilteredLog (sublog, new RegexFilter (new RegexCache (regex)));
 				else
 					filtered_log = null;
 

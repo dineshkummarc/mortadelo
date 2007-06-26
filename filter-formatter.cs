@@ -1,6 +1,7 @@
 using System;
 using System.Diagnostics;
 using System.Text;
+using GLib;
 
 namespace Mortadelo {
 
@@ -65,18 +66,19 @@ namespace Mortadelo {
 					return highlight_in_string (plain_text, match);
 			}
 
-			return plain_text;
+			return GLib.Markup.EscapeText (plain_text);
 		}
 
 		string highlight_in_string (string plain, SyscallMatch match)
 		{
 			StringBuilder builder;
 
-			builder = new StringBuilder (plain, 0, match.start_pos, 0);
+			builder = new StringBuilder (GLib.Markup.EscapeText (plain.Substring (0, match.start_pos)));
 			builder.Append ("<b>");
-			builder.Append (plain, match.start_pos, match.length);
+			builder.Append (GLib.Markup.EscapeText (plain.Substring (match.start_pos, match.length)));
 			builder.Append ("</b>");
-			builder.Append (plain, match.start_pos + match.length, plain.Length - (match.start_pos + match.length));
+			builder.Append (GLib.Markup.EscapeText (plain.Substring (match.start_pos + match.length,
+										 plain.Length - (match.start_pos + match.length))));
 
 			return builder.ToString ();
 		}

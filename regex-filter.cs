@@ -5,12 +5,12 @@ using NUnit.Framework;
 
 namespace Mortadelo {
 	public class RegexFilter : ISyscallFilter {
-		public RegexFilter (Regex regex)
+		public RegexFilter (RegexCache regex_cache)
 		{
-			if (regex == null)
-				throw new ArgumentNullException ("regex");
+			if (regex_cache == null)
+				throw new ArgumentNullException ("regex_cache");
 
-			this.regex = regex;
+			this.regex_cache = regex_cache;
 			has_match = false;
 			matches = null;
 		}
@@ -53,7 +53,7 @@ namespace Mortadelo {
 			if (str == null)
 				return match;
 
-			m = regex.Match (str);
+			m = regex_cache.GetMatch (str);
 			if (m.Success) {
 				match.field = field;
 				match.start_pos = m.Index;
@@ -85,7 +85,7 @@ namespace Mortadelo {
 			return matches;
 		}
 
-		Regex regex;
+		RegexCache regex_cache;
 		bool has_match;
 		List<SyscallMatch> matches;
 	}
@@ -145,7 +145,7 @@ namespace Mortadelo {
 		public void test_nonexistent ()
 		{
 			string str = "this string does not occur";
-			RegexFilter filter = new RegexFilter (new Regex (str));
+			RegexFilter filter = new RegexFilter (new RegexCache (new Regex (str)));
 
 			match (filter, str, null);
 		}
@@ -166,7 +166,7 @@ namespace Mortadelo {
 		{
 			RegexFilter filter;
 
-			filter = new RegexFilter (new Regex (str_regex));
+			filter = new RegexFilter (new RegexCache (new Regex (str_regex)));
 			match (filter, str_regex, expected);
 		}
 

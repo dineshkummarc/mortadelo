@@ -1,5 +1,23 @@
 2007-06-25  Federico Mena Quintero  <federico@novell.com>
 
+	Make filtering faster.  We memoize the strings to be matched,
+	since otherwise we'll be matching against the same strings
+	(e.g. "gnome-panel") all the time.
+
+	* regex-cache.cs: Trivial memoizer for regex match results.
+
+	* filter-formatter.cs (FilterFormatter.highlight_in_string):
+	Escape the original string before marking it up.
+	(FilterFormatter.highlight_matches): Likewise.
+
+	* main-window.cs (MainWindow.build_window): Give the focus to the
+	filter entry.
+
+	* regex-filter.cs (RegexFilter.RegexFilter): Use a RegexCache
+	instead of a plain Regex.
+
+2007-06-25  Federico Mena Quintero  <federico@novell.com>
+
 	* main-window.cs (MainWindow.build_window): Add an entry for search-as-you-type.
 	(MainWindow.FilterMode): New enum.
 	(MainWindow.create_derived_log): Create the filtered_log if necessary.

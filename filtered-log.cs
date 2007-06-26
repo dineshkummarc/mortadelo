@@ -250,7 +250,7 @@ namespace Mortadelo {
 			log = new Log ();
 			compact_log = new CompactLog (log);
 
-			filtered_log = new FilteredLog (compact_log, new RegexFilter (new Regex ("\\?")));
+			filtered_log = new FilteredLog (compact_log, new RegexFilter (new RegexCache (new Regex ("\\?"))));
 			aggregator = new Aggregator (log, parser);
 
 			make_expected_syscalls ();

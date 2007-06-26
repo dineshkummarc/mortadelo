@@ -2,13 +2,18 @@
 
 - Make "Displayed syscalls: N" be related to the filtered log.
 
-+ Make filtering fast:
+- Make filtering faster:
 
-	+ Memoize the regex matches.
+	- Memoize the regex matches.
 
-	+ Discard the memoization when the regex changes.
+	- Discard the memoization when the regex changes.
 
-- Catch regex compilation errors; print the exception text in the status bar.
+- Catch regex compilation errors; print the exception text in the
+  status bar.
+
++ Do automatic regex casefolding like Emacs.  If the typed string is lowercase,
+  do a case-insensitive match.  If the typed string has uppercase
+  chars, do a case-sensitive match.
 
 + Basic functionality:
 	- log open() calls
