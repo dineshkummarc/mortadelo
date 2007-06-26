@@ -75,5 +75,7 @@ namespace Mortadelo {
 
 			return true;
 		}
+
+		public const string Version = "0.0";
 	}
 }

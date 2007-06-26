@@ -1,5 +1,11 @@
 2007-06-26  Federico Mena Quintero  <federico@novell.com>
 
+	* main-window.cs (MainWindow.build_normal_action_entries): Add a
+	Help/About action.
+	(MainWindow.help_about_cb): Implement.
+
+2007-06-26  Federico Mena Quintero  <federico@novell.com>
+
 	* timer-throttle.cs: Trivial class to throttle events based on
 	a timeout.
 

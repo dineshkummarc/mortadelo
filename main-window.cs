@@ -85,6 +85,9 @@ namespace Mortadelo {
 				      "       <separator/>\n" +
 				      "       <menuitem action='quit'/>\n" +
 				      "     </menu>\n" +
+				      "     <menu action='help-menu'>\n" +
+				      "       <menuitem action='about'/>\n" +
+				      "     </menu>\n" +
 				      "   </menubar>\n" +
 				      "   <toolbar name='toolbar'>\n" +
 				      "     <toolitem action='clear'/>\n" +
@@ -203,6 +206,12 @@ namespace Mortadelo {
 						 null,
 						 null,
 						 null),
+				new ActionEntry ("help-menu",
+						 null,
+						 Mono.Unix.Catalog.GetString ("_Help"),
+						 null,
+						 null,
+						 null),
 				new ActionEntry ("open",
 						 Stock.Open,
 						 Mono.Unix.Catalog.GetString ("_Open..."),
@@ -227,6 +236,12 @@ namespace Mortadelo {
 						 "<control>Q",
 						 Mono.Unix.Catalog.GetString ("Exit the program"),
 						 quit_cb),
+				new ActionEntry ("about",
+						 Stock.About,
+						 Mono.Unix.Catalog.GetString ("_About Mortadelo"),
+						 null,
+						 Mono.Unix.Catalog.GetString ("Show version information about this program"),
+						 help_about_cb)
 			};
 
 			return entries;
@@ -621,6 +636,31 @@ namespace Mortadelo {
 			PushStatus ("info", str);
 		}
 
+		void help_about_cb (object o, EventArgs a)
+		{
+			if (about_dialog == null) {
+				about_dialog = new AboutDialog ();
+
+				about_dialog.Authors = new string[] { "Federico Mena-Quintero <federico@novell.com>" };
+				about_dialog.Comments = Mono.Unix.Catalog.GetString (
+					"This program lets you view the system calls from all processes in the system.");
+				about_dialog.Copyright = Mono.Unix.Catalog.GetString (
+					"Copyright (C) 2007 Federico Mena-Quintero");
+				about_dialog.License = "GPL"; /* FIXME: include the text of the GPL */
+				about_dialog.Name = "Mortadelo";
+				about_dialog.Version = Util.Version;
+
+				about_dialog.TransientFor = this;
+
+				about_dialog.DeleteEvent += delegate (object obj, DeleteEventArgs args) {
+					about_dialog.Hide ();
+					args.RetVal = true;
+				};
+			}
+
+			about_dialog.PresentWithTime (Gtk.Global.CurrentEventTime);
+		}
+
 		public void PushStatus (string context, string str)
 		{
 			uint id;
@@ -659,6 +699,8 @@ namespace Mortadelo {
 
 		ScrolledWindow scrolled_window;
 		SyscallTreeView tree_view;
+
+		AboutDialog about_dialog;
 
 		const int FILTER_THROTTLE_MSEC = 300;
 		TimerThrottle filter_throttle;
