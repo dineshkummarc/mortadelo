@@ -1,5 +1,11 @@
 2007-06-26  Federico Mena Quintero  <federico@novell.com>
 
+	* util.cs: (Util.FormatTimestamp): Format in HH:MM:SS.usec format.
+
+	* regex-filter.cs: Change the timestamp test to use the new format.
+
+2007-06-26  Federico Mena Quintero  <federico@novell.com>
+
 	* util.cs (Util.MakeRegex): Create a regex from a string, using
 	the same case-sensitivity rules as Emacs.  (Lowercase regex means
 	case-insensitive match; regex with uppercase chars means

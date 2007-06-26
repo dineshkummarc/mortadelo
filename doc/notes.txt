@@ -43,8 +43,8 @@
 
 		+ Highlight the new paired row
 
-	+ Human-readable timestamps (right now we just display usecs
-	after the epoch).
+	- Human-readable timestamps (right now we just display usecs
+	  after the epoch).
 
 	+ "Show errors only"
 

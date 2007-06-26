@@ -100,7 +100,7 @@ namespace Mortadelo {
 			syscall.pid              = 1234;
 			syscall.tid              = 2345;
 			syscall.execname         = "gnome-panel";
-			syscall.timestamp        = 1180976736974992;
+			syscall.timestamp        = 1180976736974992; /* 12:05:36.974992 */
 			syscall.name             = "open";
 			syscall.arguments        = "\"/proc/partitions\", O_RDONLY";
 			syscall.extra_info       = "yadda yadda";
@@ -111,9 +111,9 @@ namespace Mortadelo {
 			process_expected_matches = new List<SyscallMatch> ();
 			process_expected_matches.Add (new SyscallMatch (SyscallVisibleField.Process, 13, 3));
 
-			timestamp_regex = "9.*6";
+			timestamp_regex = "9.*99";
 			timestamp_expected_matches = new List<SyscallMatch> ();
-			timestamp_expected_matches.Add (new SyscallMatch (SyscallVisibleField.Timestamp, 4, 6));
+			timestamp_expected_matches.Add (new SyscallMatch (SyscallVisibleField.Timestamp, 9, 5));
 
 			name_regex = "pen";
 			name_expected_matches = new List<SyscallMatch> ();

@@ -1,5 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
+using Mono.Unix;
+using Mono.Unix.Native;
 
 namespace Mortadelo {
 	public static class Util {
@@ -14,8 +16,19 @@ namespace Mortadelo {
 
 		public static string FormatTimestamp (long timestamp)
 		{
-			/* FIXME */
-			return timestamp.ToString ();
+			DateTime dt;
+			long sec, usec;
+
+			sec = timestamp / 1000000;
+			usec = timestamp % 1000000;
+
+			dt = NativeConvert.FromTimeT (sec);
+
+			return String.Format (Mono.Unix.Catalog.GetString ("{0:d2}:{1:d2}:{2:d2}.{3:d6}"),
+					      dt.Hour,
+					      dt.Minute,
+					      dt.Second,
+					      usec);
 		}
 
 		public static string FormatResult (bool have_result, int result)
