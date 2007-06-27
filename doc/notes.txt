@@ -21,14 +21,14 @@
   do a case-insensitive match.  If the typed string has uppercase
   chars, do a case-sensitive match.
 
-+ Basic functionality:
+- Basic functionality:
 	- log open() calls
 	- saving
 	- loading
 	- compact view
 	- Check for root at startup
 	- highlight errors
-	+ "jump to the next error" command
+	- "jump to the next error" command
 	- filtering
 
 - String.Intern() instead of my own StringPool.

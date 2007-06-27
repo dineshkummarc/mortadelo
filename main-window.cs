@@ -18,6 +18,9 @@ namespace Mortadelo {
 			full_log = null;
 			compact_log = null;
 
+			statusbar_has_transient_message = false;
+			statusbar_transient_timeout_id = 0;
+
 			build_window ();
 
 			set_record_mode (RecordMode.Recording);
@@ -90,6 +93,7 @@ namespace Mortadelo {
 				      "     </menu>\n" +
 				      "   </menubar>\n" +
 				      "   <toolbar name='toolbar'>\n" +
+				      "     <toolitem action='next-error'/>\n" +
 				      "     <toolitem action='clear'/>\n" +
 				      "     <separator/>\n" +
 				      "     <toolitem action='record-stop'/>\n" +
@@ -230,6 +234,12 @@ namespace Mortadelo {
 						 "<control>L",
 						 Mono.Unix.Catalog.GetString ("Clear the current log"),
 						 clear_cb),
+				new ActionEntry ("next-error",
+						 Stock.JumpTo,
+						 Mono.Unix.Catalog.GetString ("_Next Error"),
+						 "<control>N",
+						 Mono.Unix.Catalog.GetString ("Jumps to the next system call that returned an error"),
+						 next_error_cb),
 				new ActionEntry ("quit",
 						 Stock.Quit,
 						 Mono.Unix.Catalog.GetString ("_Quit"),
@@ -399,6 +409,12 @@ namespace Mortadelo {
 
 			if (record_mode == RecordMode.Recording)
 				stop_recording ();
+
+			if (statusbar_has_transient_message) {
+				Debug.Assert (statusbar_transient_timeout_id != 0);
+				GLib.Source.Remove (statusbar_transient_timeout_id);
+				statusbar_transient_timeout_id = 0;
+			}
 
 			Application.Quit ();
 		}
@@ -661,9 +677,129 @@ namespace Mortadelo {
 			about_dialog.PresentWithTime (Gtk.Global.CurrentEventTime);
 		}
 
+		void next_error_cb (object o, EventArgs args)
+		{
+			int error_idx;
+
+			error_idx = find_next_error_idx ();
+
+			if (error_idx == -1)
+				warn_about_no_next_error ();
+			else
+				select_index (error_idx);
+		}
+
+		
+		int find_next_error_idx ()
+		{
+			int selected;
+
+			selected = get_selected_index ();
+			return look_for_error_starting_at (selected + 1);
+		}
+
+		int get_selected_index ()
+		{
+			TreeModel model;
+			TreeIter iter;
+			int selected_idx;
+
+			if (tree_view.Selection.GetSelected (out model, out iter)) {
+				TreePath path;
+
+				path = model.GetPath (iter);
+				Debug.Assert (path != null);
+
+				selected_idx = path.Indices[0];
+			} else
+				selected_idx = -1;
+
+			return selected_idx;
+		}
+
+		int look_for_error_starting_at (int idx)
+		{
+			ILogProvider derived;
+			int num;
+
+			derived = get_derived_log ();
+			num = derived.GetNumSyscalls ();
+
+			for (; idx < num; idx++) {
+				Syscall syscall;
+
+				syscall = derived.GetSyscall (idx);
+				if (syscall.have_result && syscall.result < 0)
+					return idx;
+			}
+
+			return -1;
+		}
+
+		void warn_about_no_next_error ()
+		{
+			this.Display.Beep (); /* wheeee! */
+
+			PushTransientStatus (Mono.Unix.Catalog.GetString ("No further errors"));
+		}
+
+		void select_index (int idx)
+		{
+			TreePath path = new TreePath (new int[] { idx });
+			TreePath first, last;
+			bool use_align;
+			float row_align, col_align;
+
+			tree_view.Selection.SelectPath (path);
+
+			if (tree_view.GetVisibleRange (out first, out last)
+			    && (path.Compare (first) == -1 || path.Compare (last) == 1)) {
+				use_align = true;
+				row_align = 0.5f;
+				col_align = 0.0f;
+			} else {
+				use_align = false;
+				row_align = 0.0f;
+				col_align = 0.0f;
+			}
+
+			tree_view.ScrollToCell (path, null, use_align, row_align, col_align);
+		}
+
+		public void PushTransientStatus (string str)
+		{
+			if (statusbar_has_transient_message) {
+				Debug.Assert (statusbar_transient_timeout_id != 0);
+				PopStatus ("transient");
+				GLib.Source.Remove (statusbar_transient_timeout_id);
+				statusbar_transient_timeout_id = 0;
+				statusbar_has_transient_message = false;
+			} else
+				Debug.Assert (statusbar_transient_timeout_id == 0);
+
+			PushStatus ("transient", str);
+
+			statusbar_has_transient_message = true;
+			statusbar_transient_timeout_id = GLib.Timeout.Add (STATUSBAR_TRANSIENT_DURATION_MSEC,
+									   statusbar_transient_timeout_cb);
+		}
+
+		bool statusbar_transient_timeout_cb ()
+		{
+			PopStatus ("transient");
+			statusbar_transient_timeout_id = 0;
+			statusbar_has_transient_message = false;
+
+			update_statusbar_with_syscall_count ();
+			return false;
+		}
+
 		public void PushStatus (string context, string str)
 		{
 			uint id;
+
+			if (statusbar_has_transient_message)
+				return;
 
 			id = statusbar.GetContextId (context);
 			statusbar.Push (id, str);
@@ -704,6 +840,10 @@ namespace Mortadelo {
 
 		const int FILTER_THROTTLE_MSEC = 300;
 		TimerThrottle filter_throttle;
+
+		bool statusbar_has_transient_message;
+		uint statusbar_transient_timeout_id;
+		const int STATUSBAR_TRANSIENT_DURATION_MSEC = 2000;
 
 		Log full_log;
 		CompactLog compact_log;

@@ -1,5 +1,18 @@
 2007-06-26  Federico Mena Quintero  <federico@novell.com>
 
+	* main-window.cs (MainWindow.PushTransientStatus): New method.
+	Pushes a message to the statusbar, and will only display it for a
+	short period of time.
+	(MainWindow.PushStatus): Don't push the string if there's a
+	transient message being displayed.
+	(MainWindow.next_error_cb): Implement.
+	(MainWindow.build_normal_action_entries): Add an action for "Next Error".
+
+	* util.cs (Util.Version): Now that we have all the basic
+	functionality (see doc/notes.txt), set this to "0.1"!
+
+2007-06-26  Federico Mena Quintero  <federico@novell.com>
+
 	* main-window.cs (MainWindow.build_normal_action_entries): Add a
 	Help/About action.
 	(MainWindow.help_about_cb): Implement.
