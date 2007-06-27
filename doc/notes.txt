@@ -48,7 +48,14 @@
 
 	+ "Show errors only"
 
-+ Future:
+	+ Display a clock cursor between starting recording and
+	  systemtap sending the first output.
 
-	+ Pluggable syscalls.  Have a SyscallCombo class which provides a parser, serializer, 
-	  aggregator for a single type of syscall.  Implement Open() in terms of this.
+- Syscalls:
+
+	- open, close, stat, lstat.
+
+	- which are the "strace -e trace=file" syscalls?
+	  or the "strace -e trace=desc" ones? (related to file
+	  descriptors)
+

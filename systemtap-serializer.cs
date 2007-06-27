@@ -11,7 +11,7 @@ namespace Mortadelo {
 		public void Serialize (TextWriter writer, Syscall syscall)
 		{
 			if (syscall.name == "open" && syscall.is_syscall_start) {
-				writer.Write ("open: {0}: {1} ({2}:{3}): {4}\n",
+				writer.Write ("start.open: {0}: {1} ({2}:{3}): {4}\n",
 					      syscall.timestamp,
 					      syscall.execname,
 					      syscall.pid,
@@ -20,7 +20,7 @@ namespace Mortadelo {
 			}
 
 			if (syscall.name == "open" && syscall.is_syscall_end) {
-				writer.Write ("open.return: {0}: {1} ({2}:{3}): {4}\n",
+				writer.Write ("return.open: {0}: {1} ({2}:{3}): {4}\n",
 					      syscall.timestamp,
 					      syscall.execname,
 					      syscall.pid,

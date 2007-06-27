@@ -1,3 +1,22 @@
+2007-06-27  Federico Mena Quintero  <federico@novell.com>
+
+	* systemtap-runner.cs (SystemtapRunner.build_script): Add a full
+	list of filename-related syscalls to the systemtap script, instead
+	of just monitoring open().
+
+	* systemtap-parser.cs: Change the format a bit; now we use
+	"start.syscallname:" or "return.syscallname:" at the beginning of
+	each line.
+
+	* *.cs: Change the tests to deal with the new format for syscalls.
+
+	* systemtap-serializer.cs (SystemtapSerializer.Serialize): Use the
+	new format.
+
+	* aggregator.cs (Aggregator.add_start_syscall): For now, don't
+	throw an exception if we get a syscall start before getting the
+	end of the previous syscall.  Why the hell does this happen, though?
+
 2007-06-26  Federico Mena Quintero  <federico@novell.com>
 
 	* main-window.cs (MainWindow.PushTransientStatus): New method.
