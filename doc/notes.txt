@@ -1,37 +1,12 @@
+* This file is an outlined to-do list.  Pending tasks are marked with "+".  
+  Completed things are marked with "-".  Informational things are
+  marked with "*", like this paragraph.
+
+
+
 + Kill the child process when we get SIGTERM.
 
 + Add license.
-
-- Make "Displayed syscalls: N" be related to the filtered log.
-
-- Make filtering faster:
-
-	- Memoize the regex matches.
-
-	- Discard the memoization when the regex changes.
-
-	- Start a timer when the entry changes, and reset it every
-	  time the entry changes again.  If the entry doesn't change and
-	  the timeout expires, actually perform the re-filtering.
-
-- Catch regex compilation errors; print the exception text in the
-  status bar.
-
-- Do automatic regex casefolding like Emacs.  If the typed string is lowercase,
-  do a case-insensitive match.  If the typed string has uppercase
-  chars, do a case-sensitive match.
-
-- Basic functionality:
-	- log open() calls
-	- saving
-	- loading
-	- compact view
-	- Check for root at startup
-	- highlight errors
-	- "jump to the next error" command
-	- filtering
-
-- String.Intern() instead of my own StringPool.
 
 + Native.Stdlib.strerror() instead of errno.cs
 
@@ -43,19 +18,9 @@
 
 		+ Highlight the new paired row
 
-	- Human-readable timestamps (right now we just display usecs
-	  after the epoch).
+	- Human-readable timestamps.
 
 	+ "Show errors only"
 
 	+ Display a clock cursor between starting recording and
 	  systemtap sending the first output.
-
-- Syscalls:
-
-	- open, close, stat, lstat.
-
-	- which are the "strace -e trace=file" syscalls?
-	  or the "strace -e trace=desc" ones? (related to file
-	  descriptors)
-
