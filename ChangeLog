@@ -1,3 +1,13 @@
+2007-06-28  Federico Mena Quintero  <federico@novell.com>
+
+	* doc/architecture.txt: Start documenting the architecture of the program.
+
+	* README: New README file.
+
+	* HACKING: Hacking notes.
+
+	* AUTHORS: Me me me.
+
 2007-06-27  Federico Mena Quintero  <federico@novell.com>
 
 	* systemtap-runner.cs (SystemtapRunner.build_script): Add a full

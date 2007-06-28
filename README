@@ -1,0 +1,40 @@
+Mortadelo - a viewer for system calls
+=====================================
+
+This is Mortadelo, a viewer for system calls that are related to the
+file system.  You can think of it as a "systemwide strace":  Mortadelo
+uses Systemtap to monitor all running processes.  Mortadelo does not
+monitor all the system calls that strace supports; just the ones to
+which you pass a filename.  This is generally enough to diagnose
+simple problems (an program crashes because it can't find a file), or
+to get hints as to where performance problems may lie (who's hammering
+my hard drive?).
+
+* Please read the HACKING file if you intend to hack on Mortadelo, and
+  read doc/architecture.txt for an overview of the code.
+
+
+What's in a name?
+-----------------
+
+Mortadelo started life as a clone of Filemon, a proprietary Windows
+utility to monitor system calls related to the file system
+(http://www.microsoft.com/technet/sysinternals/FileAndDisk/Filemon.mspx).
+
+You may want to read
+http://en.wikipedia.org/wiki/Mortadelo_y_Filem%C3%B3n for background.
+
+
+Requirements
+------------
+
+A Linux kernel, version 2.6.16 or later.  Mortadelo may also work on
+slightly older versions.
+
+Systemtap (http://sources.redhat.com/systemtap/) corresponding to your
+kernel.  Note that Systemtap requires a kernel with debug information,
+so you may need to install "debuginfo" packages or however your
+distribution decides to call them.
+
+Mono (http://mono-project.com) and gtk-sharp.  Mortadelo was developed
+with Mono 1.2.2 and gtk-sharp 2.8.3.

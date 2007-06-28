@@ -1,0 +1,162 @@
+Architecture of Mortadelo
+=========================
+
+Mortadelo is a viewer for many system calls that pertain to the file
+system.  It runs Systemtap to capture system call data from the
+kernel, and it can then run a few filters upon that data.
+
+
+Syscall structure (syscall.cs)
+------------------------------
+
+The basic structure is a Syscall, defined in syscall.cs.  A Syscall
+has several fields, which are just what you would expect:
+
+	- syscall name
+	- timestamp
+	- process name
+	- PID / TID
+	- arguments
+
+A Syscall also has the following fields, which Mortadelo uses for
+special purposes:
+
+	int index;
+
+	bool is_syscall_start;
+	int end_index;
+
+	bool is_syscall_end;
+	int start_index;
+
+What do these do?  Systemtap can monitor the *start* or the *end* of
+syscalls; monitoring the start will give you the syscall's arguments,
+and monitoring the end will give you its result value.  Also, since
+each of those events has a timestamp, you can take the difference
+between both timestamps to know how long the syscall took to execute
+(and thus how long your program was blocked in the kernel).
+
+Mortadelo needs to know whether each event is the start or end of
+a syscall.  This is what the is_syscall_start and is_syscall_end
+fields tell you.
+
+Also, each event has an index, which is simply a serially increasing
+number.  You could imagine this sequence of captured calls:
+
+index	process		name	arguments	result		is_syscall_start  end_index  is_syscall_end  start_index
+------------------------------------------------------------------------------------------------------------------------
+0	cat		open	/etc/passwd	not yet known	true              3	     false           0 <--------+
+1	nautilus	stat	/home/username	not yet known	true              2          false           1   <--+   |
+2	nautilus	stat(returns)           0		false             2          true            1   <--+   |
+3	cat		open(returns)		42		false             3          true            0 <--------+
+
+Here, cat did an open ("/etc/passwd", ...) and was context-switched away.  Then,
+Nautilus did a stat ("/home/username", ...) and got the result
+immediately.  Later, the open() from cat returned and gave back its
+result.  You can see that the end_index in syscall starts points to
+the corresponding end syscall, and vice-versa:  the start_index in end
+syscalls points to the corresponding start syscall.  Mortadelo uses
+this to let you switch back and forth easily between the start and end
+of a syscall.
+
+Consider the case where Mortadelo starts running Systemtap, and the
+first thing we receive is an "end" syscall --- that is, we never
+received its starting part.  In that case, that syscall will have
+(is_syscall_end=true, start_index=-1).  The code uses -1 as an
+"unknown value" everywhere.
+
+Finally, syscalls have "result" and "have_result" fields.  Start
+syscalls give have_result=false, since the result is not known until
+we get the end syscall.  End syscalls almost all have
+have_result=true, except for those syscalls which don't return (for
+example, execve(2)).
+
+
+Full log (log.cs) and Aggregator (aggregator.cs)
+------------------------------------------------
+
+A "full log" is the raw log we parse from Systemtap's output, and it
+gets stored in a Log class.
+
+How does the Log know how to interlink the start/end syscalls
+together?  An Aggregator takes care of this.  The Aggregator takes
+each incoming Syscall, sees if there was a previous Syscall which
+corresponds to the start of the syscall, and adjusts the
+is_syscall_{start,end} and {end,start} fields as appropriate.  Then,
+the Aggregator puts the new Syscall into the Log.
+
+Imagine that the Log already contains a syscall start, for example,
+index 0 in the table above.  At that point, the Log contains
+
+index	process		name	arguments	result		is_syscall_start  end_index  is_syscall_end  start_index
+------------------------------------------------------------------------------------------------------------------------
+0	cat		open	/etc/passwd	not yet known	true              -1         false           0
+
+That is, we know that this is a syscall start, but we don't know when
+the syscall will end --- so end_index=-1.  Later, the end of the
+syscall comes in and we get this:
+
+index	process		name	arguments	result		is_syscall_start  end_index  is_syscall_end  start_index
+------------------------------------------------------------------------------------------------------------------------
+0	cat		open	/etc/passwd	not yet known	true              -1         false           0
+...
+3	cat		open			42		end                3         true            -1
+
+The Aggregator keeps information about which syscall was pending for
+each TID.  It uses this information to fill in the blanks:  the
+start_index for the incoming end syscall, and the end_index of the old
+start syscall (modifications have *** next to them):
+
+index	process		name	arguments	result		is_syscall_start  end_index  is_syscall_end  start_index
+------------------------------------------------------------------------------------------------------------------------
+0	cat		open	/etc/passwd	not yet known	true               3***      false           0
+...
+3	cat		open			42		end                3         true            0***
+
+The upper layers of the program will want to know that the syscall at
+index 0 got modified, so the Log emits a SyscallModified event.
+
+
+Compact log (compact-log.cs)
+----------------------------
+
+Seeing a full log is a bit cumbersome, however, as it displays too
+much redundant information.  So, we have a CompactLog class which
+takes a full Log, and "compresses" pairs of syscalls together.  Each
+resulting Syscall will have is_syscall_start=true,
+is_syscall_end=true, and it will also have the result of the syscall.
+
+
+Filtered log (filtered-log.cs) and ISyscallFilter (filter.cs)
+-------------------------------------------------------------
+
+Logs can be filtered on arbitrary criteria by creating a FilteredLog
+and a corresponding ISyscallFilter.  A FilteredLog is similar to a
+CompactLog in its operation, in that it monitors what happens in the
+underlying Log and only exposes certain syscalls, based on the
+filter's decision.
+
+We want to be able to highlight textual matches in the display of
+syscalls, so an ISyscallFilter has a GetMatches() method that returns
+a list of (field, start_pos, length) tuples.  For example, if a
+syscall's name is "open" and we were searching for "pen", then one of
+the matches may have (field=name, start_pos=1, length=3).
+
+
+Formatting syscalls for display
+-------------------------------
+
+The basic formatting functions are in util.cs.  These turn
+machine-readable fields like a Syscall.timestamp into human-readable
+values (HH:MM:SS:usecs for timestamps, for example).
+
+Once we have suitable human-readable values, they can be further
+modified to highlight textual matches from filters.  This happens in a
+FilterFormatter (filter-formatter.cs).  It generates Pango markup
+based on a string and a list of filter matches.
+
+
+Glue
+----
+
+FIXME: AggregatorRunner, SystemtapRunner.

@@ -1,0 +1,63 @@
+Hacking notes for Mortadelo
+===========================
+
+Thanks for checking out Mortadelo, the slicing, dicing analysis tool
+for calls to the file system!  This document has a few guidelines
+which you should follow if you intend to hack on Mortadelo's code.
+
+
+Overview of the code
+--------------------
+
+The file doc/architecture.txt contains a short overview of the code.
+You should read it if this is your first time hacking on Mortadelo.
+
+Also, if you change the code in a substantial way, please keep
+doc/architecture.txt updated!
+
+
+Indentation / spacing
+---------------------
+
+Please follow the indentation and spacing conventions from the rest
+of the program.  To summarize:
+
+	* Tabs are 8 spaces.
+
+	* Indentation is 8 spaces.
+
+	* K&R brace placement.
+
+	if (foo (5)) {
+          ^----^----^----- space
+            ^------^------ no space
+
+StudlyCaps
+----------
+
+Use StudlyCaps (not camelCase) for interface, class, and struct
+names.
+
+Use StudlyCaps for public members.  There are some things which don't
+follow this rule; for example, struct Syscall in syscall.cs has public
+members which are lowercase_identifiers, but that is for readability.
+
+Use lowercase_identifiers for private members.
+
+
+
+ChangeLog entries
+-----------------
+
+Every patch must come with a ChangeLog entry in the usual GNU format.
+Try to say *why* you made a change, not to painstakingly describe
+*what* the change is (it's easy to know what the change is by looking
+at a diff).
+
+
+Unit tests
+----------
+
+If you write a new piece of "engine" code, please write unit tests for
+it using NUnit.  You can find examples throughout the code; grep for
+[TestFixture] and you'll find the existing tests.
