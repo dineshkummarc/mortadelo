@@ -177,7 +177,65 @@ namespace Mortadelo {
 			scrolled_window.VscrollbarPolicy = PolicyType.Always;
 
 			tree_view = new SyscallTreeView ();
+			tree_view.RowActivated += new RowActivatedHandler (tree_view_row_activated_cb);
+			tree_view.Selection.Changed += new EventHandler (tree_view_selection_changed_cb);
 			scrolled_window.Add (tree_view);
+		}
+
+		void tree_view_row_activated_cb (object o, RowActivatedArgs args)
+		{
+			if (!(view_mode == ViewMode.Full && filter_mode == FilterMode.Unfiltered)) {
+				/* FIXME: we should probably switch to Full mode, and select the appropriate row there. */
+				return;
+			}
+
+			TreePath path = args.Path;
+			int pos = path.Indices [0];
+			Syscall syscall = full_log.GetSyscall (pos);
+
+			if (syscall.is_syscall_start && syscall.end_index != -1) {
+				TreePath new_path = new TreePath (new int [] { syscall.end_index });
+				tree_view.Selection.SelectPath (new_path);
+				tree_view.ScrollToCell (new_path, args.Column, false, 0.0f, 0.0f);
+			} else if (syscall.is_syscall_end && syscall.start_index != -1) {
+				TreePath new_path = new TreePath (new int [] { syscall.start_index });
+				tree_view.Selection.SelectPath (new_path);
+				tree_view.ScrollToCell (new_path, args.Column, false, 0.0f, 0.0f);
+			} else {
+				PushTransientStatus (String.Format (
+							     Mono.Unix.Catalog.GetString ("Could not find a paired system call for index {0}"),
+							     pos));
+				this.Display.Beep ();
+			}
+		}
+
+		void tree_view_selection_changed_cb (object o, EventArgs args)
+		{
+			if (!(view_mode == ViewMode.Full && filter_mode == FilterMode.Unfiltered))
+				return;
+
+			TreeModel model;
+			TreeIter iter;
+			int paired;
+
+			paired = -1;
+
+			if (tree_view.Selection.GetSelected (out model, out iter)) {
+				TreePath path;
+				int idx;
+				Syscall syscall;
+
+				path = model.GetPath (iter);
+				idx = path.Indices[0];
+				syscall = get_derived_log ().GetSyscall (idx);
+
+				if (syscall.is_syscall_start)
+					paired = syscall.end_index;
+				else if (syscall.is_syscall_end)
+					paired = syscall.start_index;
+			}
+
+			tree_view.SetPairedRow (paired);
 		}
 
 		void build_statusbar ()
@@ -657,11 +715,14 @@ namespace Mortadelo {
 			if (about_dialog == null) {
 				about_dialog = new AboutDialog ();
 
-				about_dialog.Authors = new string[] { "Federico Mena-Quintero <federico@novell.com>" };
+				about_dialog.Authors = new string[] {
+					"Federico Mena-Quintero <federico@novell.com>",
+					"Carlos Alberto Cortez <calberto.cortez@gmail.com>"
+				};
 				about_dialog.Comments = Mono.Unix.Catalog.GetString (
 					"This program lets you view the system calls from all processes in the system.");
 				about_dialog.Copyright = Mono.Unix.Catalog.GetString (
-					"Copyright (C) 2007 Federico Mena-Quintero");
+					"Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez");
 				about_dialog.License = "GPL"; /* FIXME: include the text of the GPL */
 				about_dialog.Name = "Mortadelo";
 				about_dialog.Version = Util.Version;

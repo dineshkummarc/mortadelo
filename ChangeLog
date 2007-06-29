@@ -1,5 +1,25 @@
 2007-06-28  Federico Mena Quintero  <federico@novell.com>
 
+	* main-window.cs (MainWindow.help_about_cb): Add Carlos Alberto to
+	the authors.
+
+	* AUTHORS: Likewise.
+
+2007-06-28  Carlos Alberto Cortez <calberto.cortez@gmail.com>
+
+	* main-window.cs (MainWindow.tree_view_row_activated_cb): When a
+	row gets activated and we are in Full view mode, move to the other
+	part of the syscall (to the end syscall if we are in the start,
+	and visceversa).
+
+	* syscall-tree-view.cs (SyscallTreeView.SetPairedRow): New method;
+	sets the "paired row" which we'll draw in another color.  This is
+	the complementary syscall if we are in full view mode.
+	(SyscallTreeView.data_func): If we are on a paired row, compute a
+	suitable color for it.
+
+2007-06-28  Federico Mena Quintero  <federico@novell.com>
+
 	* doc/architecture.txt: Start documenting the architecture of the program.
 
 	* README: New README file.

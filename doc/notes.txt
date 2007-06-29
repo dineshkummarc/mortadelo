@@ -12,11 +12,11 @@
 
 + GUI polish:
 
-	+ When a row is selected in Full View mode:
+	- When a row is selected in Full View mode:
 
-		+ Unhighlight the old paired row
+		- Unhighlight the old paired row
 
-		+ Highlight the new paired row
+		- Highlight the new paired row
 
 	- Human-readable timestamps.
 
