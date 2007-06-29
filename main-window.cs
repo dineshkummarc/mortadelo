@@ -184,35 +184,39 @@ namespace Mortadelo {
 
 		void tree_view_row_activated_cb (object o, RowActivatedArgs args)
 		{
-			if (!(view_mode == ViewMode.Full && filter_mode == FilterMode.Unfiltered)) {
+			if (view_mode != ViewMode.Full) {
 				/* FIXME: we should probably switch to Full mode, and select the appropriate row there. */
 				return;
 			}
 
 			TreePath path = args.Path;
 			int pos = path.Indices [0];
-			Syscall syscall = full_log.GetSyscall (pos);
+			Syscall syscall = get_derived_log ().GetSyscall (pos);
+			int paired;
 
-			if (syscall.is_syscall_start && syscall.end_index != -1) {
-				TreePath new_path = new TreePath (new int [] { syscall.end_index });
-				tree_view.Selection.SelectPath (new_path);
-				tree_view.ScrollToCell (new_path, args.Column, false, 0.0f, 0.0f);
-			} else if (syscall.is_syscall_end && syscall.start_index != -1) {
-				TreePath new_path = new TreePath (new int [] { syscall.start_index });
+			paired = get_derived_paired_idx ();
+
+			if (paired != -1) {
+				TreePath new_path = new TreePath (new int [] { paired });
 				tree_view.Selection.SelectPath (new_path);
 				tree_view.ScrollToCell (new_path, args.Column, false, 0.0f, 0.0f);
 			} else {
 				PushTransientStatus (String.Format (
 							     Mono.Unix.Catalog.GetString ("Could not find a paired system call for index {0}"),
-							     pos));
+							     syscall.index));
 				this.Display.Beep ();
 			}
 		}
 
 		void tree_view_selection_changed_cb (object o, EventArgs args)
 		{
-			if (!(view_mode == ViewMode.Full && filter_mode == FilterMode.Unfiltered))
-				return;
+			tree_view.SetPairedRow (get_derived_paired_idx ());
+		}
+
+		int get_derived_paired_idx ()
+		{
+			if (view_mode != ViewMode.Full)
+				return -1;
 
 			TreeModel model;
 			TreeIter iter;
@@ -224,18 +228,25 @@ namespace Mortadelo {
 				TreePath path;
 				int idx;
 				Syscall syscall;
+				ILogProvider derived;
+				int base_paired;
 
 				path = model.GetPath (iter);
 				idx = path.Indices[0];
-				syscall = get_derived_log ().GetSyscall (idx);
+				derived = get_derived_log ();
+				syscall = derived.GetSyscall (idx);
 
 				if (syscall.is_syscall_start)
-					paired = syscall.end_index;
+					base_paired = syscall.end_index;
 				else if (syscall.is_syscall_end)
-					paired = syscall.start_index;
+					base_paired = syscall.start_index;
+				else
+					base_paired = -1;
+
+				paired = derived.GetSyscallByBaseIndex (base_paired);
 			}
 
-			tree_view.SetPairedRow (paired);
+			return paired;
 		}
 
 		void build_statusbar ()

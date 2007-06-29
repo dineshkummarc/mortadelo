@@ -3,6 +3,9 @@
   marked with "*", like this paragraph.
 
 
++ Add a way to fetch stderr from the runner, and display it in case systemtap fails.
+
++ Display an error dialog if systemtap cannot be run.
 
 + Kill the child process when we get SIGTERM.
 

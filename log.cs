@@ -1,6 +1,7 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Collections;
+using System.Diagnostics;
 
 namespace Mortadelo {
 	public class Log : ILogProvider {
@@ -31,6 +32,15 @@ namespace Mortadelo {
 		public Syscall GetSyscall (int num)
 		{
 			return syscalls[num];
+		}
+
+		public int GetSyscallByBaseIndex (int base_index)
+		{
+			if (base_index < 0 || base_index >= syscalls.Count)
+				return -1;
+
+			Debug.Assert (syscalls[base_index].index == base_index);
+			return base_index; /* we are the full log, so our indices *are* the base indices */
 		}
 
 		public void ModifySyscall (int num, Syscall syscall)

@@ -1,3 +1,24 @@
+2007-06-29  Federico Mena Quintero  <federico@novell.com>
+
+	* log-provider.cs (ILogProvider.GetSyscallByBaseIndex): Method to
+	ask a log provider for the index of a syscall within that log,
+	based on the syscall's base index (i.e. the one from a full Log).
+
+	* log.cs (Log.GetSyscallByBaseIndex): Implement trivially; our
+	indices *are* the base indices.
+
+	* aggregator.cs (AggregatorTest.OpenTest): Test the base indices.
+
+	* compact-log.cs (CompactLog.GetSyscallByBaseIndex): Implement.
+	(CompactLogTest.TestCompactLog): Test the base indices.
+
+	* filtered-log.cs (FilteredLog.GetSyscallByBaseIndex): Implement.
+	(FilteredLogTest.TestFilteredLog): Test the base indices.
+
+	* main-window.cs (MainWindow.tree_view_selection_changed_cb): Also
+	highlight the paired row if we are in filtered mode.
+	(MainWindow.tree_view_row_activated_cb): Likewise.
+
 2007-06-28  Federico Mena Quintero  <federico@novell.com>
 
 	* main-window.cs (MainWindow.help_about_cb): Add Carlos Alberto to

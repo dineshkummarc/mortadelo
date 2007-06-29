@@ -149,6 +149,7 @@ namespace Mortadelo {
 				int[] modified;
 				int j;
 				string str;
+				int idx_by_base_idx;
 
 				aggregator.ProcessLine (lines[i]);
 
@@ -164,6 +165,9 @@ namespace Mortadelo {
 					Assert.AreEqual (expected_modified[i][j], modified[j], str);
 				}
 
+				idx_by_base_idx = log.GetSyscallByBaseIndex (i);
+				Assert.AreEqual (i, idx_by_base_idx,
+						 String.Format ("Index of full syscall {0}", i));
 			}
 
 			expected = new Syscall[lines.Length];

@@ -41,6 +41,20 @@ namespace Mortadelo {
 			return filtered_syscalls[num].syscall;
 		}
 
+		public int GetSyscallByBaseIndex (int base_index)
+		{
+			int child_idx;
+
+			child_idx = log.GetSyscallByBaseIndex (base_index);
+			if (child_idx == -1)
+				return -1;
+
+			if (orig_to_mapped_index.ContainsKey (child_idx))
+				return (int) orig_to_mapped_index[child_idx];
+			else
+				return -1;
+		}
+
 		public List<SyscallMatch> GetMatches (int num)
 		{
 			return filtered_syscalls[num].matches;
@@ -294,6 +308,15 @@ namespace Mortadelo {
 				-1
 			};
 
+			int[] expected_base_indices = {
+				-1,
+				-1,
+				0,
+				1,
+				-1,
+				-1
+			};
+
 			int i;
 
 			int modified_idx;
@@ -332,6 +355,13 @@ namespace Mortadelo {
 			for (i = 0; i < expected_syscalls.Length; i++) {
 				Assert.AreEqual (expected_syscalls[i], filtered_log.GetSyscall (i),
 						 String.Format ("Contents of filtered syscall {0}", i));
+			}
+
+			for (i = 0; i < lines.Length; i++) {
+				int idx_by_base_idx = filtered_log.GetSyscallByBaseIndex (i);
+
+				Assert.AreEqual (expected_base_indices[i], idx_by_base_idx,
+						 String.Format ("Index of filtered syscall for full syscall {0}", i));
 			}
 
 			Assert.AreEqual (expected_syscalls.Length, filtered_log.GetNumSyscalls (), "Number of filtered syscalls");

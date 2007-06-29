@@ -56,6 +56,20 @@ namespace Mortadelo {
 			return syscalls[num];
 		}
 
+		public int GetSyscallByBaseIndex (int base_index)
+		{
+			int child_idx;
+
+			child_idx = log.GetSyscallByBaseIndex (base_index);
+			if (child_idx == -1)
+				return -1;
+
+			if (orig_to_mapped_index.ContainsKey (child_idx))
+				return (int) orig_to_mapped_index[child_idx];
+			else
+				return -1;
+		}
+
 		void process_full_syscall (int num)
 		{
 			Syscall syscall;
@@ -180,6 +194,15 @@ namespace Mortadelo {
 				2
 			};
 
+			int[] expected_base_indices = {
+				0,
+				-1,
+				1,
+				2,
+				3,
+				-1
+			};
+
 			int i;
 
 			int generated_syscalls = 0;
@@ -198,6 +221,7 @@ namespace Mortadelo {
 
 			for (i = 0; i < lines.Length; i++) {
 				int new_generated_syscalls;
+				int idx_by_base_idx;
 
 				syscall_added = false;
 				modified_idx = -1;
@@ -219,6 +243,10 @@ namespace Mortadelo {
 							 String.Format ("Index of added syscall {0}", i));
 
 				generated_syscalls = new_generated_syscalls;
+
+				idx_by_base_idx = compact_log.GetSyscallByBaseIndex (i);
+				Assert.AreEqual (expected_base_indices[i], idx_by_base_idx,
+						 String.Format ("Index of compact syscall for full syscall {0}", i));
 			}
 
 			for (i = 0; i < expected_syscalls.Length; i++) {
