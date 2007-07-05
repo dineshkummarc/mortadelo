@@ -38,3 +38,20 @@ distribution decides to call them.
 
 Mono (http://mono-project.com) and gtk-sharp.  Mortadelo was developed
 with Mono 1.2.2 and gtk-sharp 2.8.3.
+
+
+Known issues
+------------
+
+Be careful if you leave Mortadelo running for a long time, as it can
+consume all of your machine's memory when the log of system calls
+grows too big.  You may prefer to hit the Stop button and then analyze
+the log leisurely after you have captured what you need, instead of
+simply leaving it running.
+
+If you kill Mortadelo, it's not smart enough to kill the underlying
+Systemtap process along with it.  Systemtap will keep running, and the
+next time you run Mortadelo you will get an error along the lines of
+"insmod: could not load module".  In that case, kill the running
+Systemtap process and start Mortadelo again.
+
