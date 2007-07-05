@@ -6,23 +6,17 @@ using Mono.Unix;
 using Gtk;
 
 namespace Mortadelo {
-	public class SystemtapRunner {
-		public SystemtapRunner (Log log)
+	public class SystemtapRunner : AggregatorRunner {
+		public SystemtapRunner (Log log):
+			base ()
 		{
 			parser = new SystemtapParser ();
 			aggregator = new Aggregator (log, parser);
-			runner = new AggregatorRunner (build_systemtap_argv (), build_script (), aggregator);
-			runner.ChildExited += child_exited_cb;
 		}
 
 		public void Run ()
 		{
-			runner.Run ();
-		}
-
-		public void Stop ()
-		{
-			runner.Stop ();
+			base.Run (aggregator, build_systemtap_argv (), build_script ());
 		}
 
 		string[] build_systemtap_argv ()
@@ -180,16 +174,7 @@ probe syscallgroup.filename_end {
 			return builder.ToString ();
 		}
 
-		void child_exited_cb (int status)
-		{
-			ChildExited (status);
-		}
-
 		Aggregator aggregator;
 		SystemtapParser parser;
-		AggregatorRunner runner;
-
-		public delegate void ChildExitedHandler (int status);
-		public event ChildExitedHandler ChildExited;
 	}
 }

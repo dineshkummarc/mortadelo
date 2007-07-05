@@ -1,5 +1,25 @@
 2007-07-05  Federico Mena Quintero  <federico@novell.com>
 
+	* runner.cs (AggregatorRunner.AggregatorRunner): Don't take in the
+	argv, stdin_str, and aggregator.  We'll pass these later in
+	derived classes.
+	(AggregatorRunner.Run): Take in those arguments here.
+	(AggregatorRunnerTest.Aggregate): Pass the arguments to Run(), not
+	to the constructor.
+
+	* systemtap-runner.cs (SystemtapRunner): Make this a derived class
+	of AggregatorRunner.
+	(SystemtapRunner.SystemtapRunner): Don't construct an explicit
+	AggregatorRunner.
+	(SystemtapRunner.Run): Build our argv and stdin_str here and pass
+	them on to the superclass.
+	(SystemtapRunner.Stop): Removed.
+	(SystemtapRunner.child_exited_cb): Removed along with the
+	ChildExited event; the caller will simply use the event from the
+	superclass.
+
+2007-07-05  Federico Mena Quintero  <federico@novell.com>
+
 	* runner.cs (AggregatorRunner.StderrDataAvailable): New event.
 	We'll use this to send the child's stderr output to our caller.
 	(AggregatorRunner.stderr_reader_data_available_cb): Notify

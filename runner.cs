@@ -10,19 +10,23 @@ using unix = Mono.Unix.Native.Syscall;
 
 namespace Mortadelo {
 	public class AggregatorRunner {
-		public AggregatorRunner (string[] argv, string stdin_str, Aggregator aggregator)
+		public AggregatorRunner ()
 		{
-			this.argv = argv;
-			this.stdin_str = stdin_str;
-			this.aggregator = aggregator;
-
 			state = State.PreRun;
 		}
 
-		public void Run ()
+		public void Run (Aggregator aggregator, string[] argv, string stdin_str)
 		{
 			if (state != State.PreRun)
 				throw new ApplicationException ("Tried to Run() an AggregatorRunner which was not in PreRun state");
+
+			if (aggregator == null)
+				throw new ArgumentNullException ("aggregator");
+
+			if (argv == null)
+				throw new ArgumentNullException ("argv");
+
+			this.aggregator = aggregator;
 
 			try {
 				int fl;
@@ -93,7 +97,8 @@ namespace Mortadelo {
 				line_reader = new LineReader ();
 				line_reader.LineAvailable += line_reader_line_available_cb;
 
-				write_stdin_to_child ();
+				if (stdin_str != null)
+					write_stdin_to_child (stdin_str);
 			} catch (GException e) {
 				Console.WriteLine ("error when spawning: {0}", e);
 				/* FIXME: report something better --- re-throw the exception here? */
@@ -111,7 +116,8 @@ namespace Mortadelo {
 			}
 
 			if (state != State.Running)
-				throw new ApplicationException ("Tried to Stop() an AggregatorRunning which was not in Running state");
+				throw new ApplicationException ("Tried to Stop() an AggregatorRunner which was not in Running state");
+
 			result = unix.kill (-child_process_group, Signum.SIGTERM);
 			if (result == 0)
 				state = State.Stopped;
@@ -134,7 +140,7 @@ namespace Mortadelo {
 			ChildExited (status);
 		}
 
-		void write_stdin_to_child ()
+		void write_stdin_to_child (string stdin_str)
 		{
 			UnixStream stream;
 			StreamWriter writer;
@@ -172,7 +178,7 @@ namespace Mortadelo {
 
 		void stderr_reader_data_available_cb (byte[] buffer, int len)
 		{
-			if (StderrDataAvailable)
+			if (StderrDataAvailable != null)
 				StderrDataAvailable (buffer, len);
 		}
 
@@ -196,8 +202,6 @@ namespace Mortadelo {
 
 		State state;
 
-		string[] argv;
-		string stdin_str;
 		Aggregator aggregator;
 		Spawn spawn;
 
@@ -226,7 +230,6 @@ namespace Mortadelo {
 			log = new Log ();
 			parser = new SystemtapParser ();
 			aggregator = new Aggregator (log, parser);
-
 		}
 
 		[Test]
@@ -234,10 +237,10 @@ namespace Mortadelo {
 			string[] argv = { "/bin/cat" };
 			string stdin_str = get_stdin_str ();
 
-			AggregatorRunner runner = new AggregatorRunner (argv, stdin_str, aggregator);
+			AggregatorRunner runner = new AggregatorRunner ();
 			runner.ChildExited += child_exited_cb;
 
-			runner.Run ();
+			runner.Run (aggregator, argv, stdin_str);
 
 			loop = new MainLoop ();
 			loop.Run ();
