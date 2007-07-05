@@ -4,6 +4,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Gtk;
 using Mono.Unix;
+using unix = Mono.Unix.Native.Syscall;
 
 namespace Mortadelo {
 	public class MainWindow : Window {
@@ -20,6 +21,8 @@ namespace Mortadelo {
 
 			statusbar_has_transient_message = false;
 			statusbar_transient_timeout_id = 0;
+			child_kill_expected = false;
+			error_window = null;
 
 			build_window ();
 
@@ -656,7 +659,11 @@ namespace Mortadelo {
 			set_waiting_for_systemtap_to_start (true);
 
 			runner = new SystemtapRunner (full_log);
+			runner.StderrDataAvailable += runner_stderr_data_available_cb;
 			runner.ChildExited += runner_child_exited_cb;
+
+			ensure_error_window ();
+			error_buffer.Clear ();
 
 			runner.Run (); /* FIXME: catch exceptions? */
 
@@ -708,24 +715,114 @@ namespace Mortadelo {
 				set_wait_cursor (true);
 		}
 
+		void runner_stderr_data_available_cb (byte[] buffer, int len)
+		{
+			MemoryStream stream = new MemoryStream (buffer, 0, len);
+			StreamReader stream_reader = new StreamReader (stream);
+			string str = stream_reader.ReadToEnd ();
+
+			stream_reader.Close ();
+
+			ensure_error_window_is_shown ();
+
+			TextIter iter;
+
+			iter = error_buffer.EndIter;
+
+			error_buffer.Insert (ref iter, str);
+		}
+
+		void ensure_error_window ()
+		{
+			if (error_window != null)
+				return;
+
+			TextView text_view;
+			ScrolledWindow sw;
+
+			error_window = new Window (Mono.Unix.Catalog.GetString ("Errors from the capture process"));
+			error_window.SetDefaultSize (400, 300); /* this sucks */
+			error_window.TransientFor = this;
+			error_window.SetPosition (WindowPosition.CenterOnParent);
+
+			sw = new ScrolledWindow (null, null);
+			sw.HscrollbarPolicy = PolicyType.Automatic;
+			sw.VscrollbarPolicy = PolicyType.Automatic;
+			error_window.Add (sw);
+
+			text_view = new TextView ();
+			text_view.Editable = false;
+			text_view.WrapMode = WrapMode.WordChar;
+			sw.Add (text_view);
+			sw.ShowAll ();
+
+			error_buffer = text_view.Buffer;
+		}
+
+		void ensure_error_window_is_shown ()
+		{
+			ensure_error_window ();
+			error_window.PresentWithTime (0); /* GDK_CURRENT_TIME */
+		}
+
+		void ensure_recording_stopped ()
+		{
+			if (update_timeout_id != 0) {
+				GLib.Source.Remove (update_timeout_id);
+				update_timeout_id = 0;
+			}
+
+			set_waiting_for_systemtap_to_start (false);
+
+			record_mode = RecordMode.Stopped;
+		}
+
 		void runner_child_exited_cb (int status)
 		{
-			/* FIXME: check WIFEXITED(), WEXITSTATUS, etc. */
-			/* FIXME: need to add a stderr capturer in AggregatorRunner / SystemtapRunner */
-			set_waiting_for_systemtap_to_start (false);
+			string message;
+
+			message = null;
+
+			if (unix.WIFEXITED (status)) {
+				int exit_code;
+
+				exit_code = unix.WEXITSTATUS (status);
+				if (exit_code != 0) {
+					message = String.Format ("The capture process exited unexpectedly with code {0}.", exit_code);
+				}
+			} else if (unix.WIFSIGNALED (status)) {
+				Mono.Unix.Native.Signum signum;
+
+				signum = unix.WTERMSIG (status);
+				if (!(signum == Mono.Unix.Native.Signum.SIGTERM && child_kill_expected)) {
+					message = String.Format ("The capture process exited unexpectedly with signal {0}.", signum);
+					child_kill_expected = false;
+				}
+			} else {
+				message = String.Format ("The capture process exited unexpectedly for an unknown reason.");
+			}
+
+			set_record_mode (RecordMode.Stopped);
+
+			if (message != null) {
+				MessageDialog dialog = new MessageDialog (this,
+									  0,
+									  MessageType.Error,
+									  ButtonsType.Close,
+									  "{0}",
+									  message);
+				dialog.Run ();
+				dialog.Destroy ();
+			}
 		}
 
 		void stop_recording ()
 		{
 			Debug.Assert (record_mode == RecordMode.Recording, "must be recording");
 
+			child_kill_expected = true;
 			runner.Stop ();
-			GLib.Source.Remove (update_timeout_id);
-			update_timeout_id = 0;
-
-			set_waiting_for_systemtap_to_start (false);
-
-			record_mode = RecordMode.Stopped;
+			ensure_recording_stopped ();
 		}
 
 		void set_view_mode (ViewMode mode)
@@ -957,6 +1054,9 @@ namespace Mortadelo {
 		ScrolledWindow scrolled_window;
 		SyscallTreeView tree_view;
 
+		Window error_window;
+		TextBuffer error_buffer;
+
 		AboutDialog about_dialog;
 
 		const int FILTER_THROTTLE_MSEC = 300;
@@ -977,5 +1077,6 @@ namespace Mortadelo {
 
 		bool setting_record_mode;
 		bool waiting_for_systemtap_to_start;
+		bool child_kill_expected;
 	}
 }

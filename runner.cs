@@ -115,6 +115,9 @@ namespace Mortadelo {
 				return;
 			}
 
+			if (state == State.Stopped)
+				return;
+
 			if (state != State.Running)
 				throw new ApplicationException ("Tried to Stop() an AggregatorRunner which was not in Running state");
 

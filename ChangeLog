@@ -1,5 +1,21 @@
 2007-07-05  Federico Mena Quintero  <federico@novell.com>
 
+	* main-window.cs (MainWindow.start_recording): Connect to the
+	StderrDataAvailable event on the runner.  Create an error window
+	which we may need later.
+	(MainWindow.runner_stderr_data_available_cb): Show the error
+	window and use it to show the child's stderr output.
+	(MainWindow.ensure_recording_stopped): Switch to the
+	RecordMode.Stopped state and clear the timeouts and wait cursor;
+	moved this code from stop_recording().
+	(MainWindow.stop_recording): Use ensure_recording_stopped().
+	(MainWindow.runner_child_exited_cb): Stop the recording state, and
+	check the status of the child.
+
+	* runner.cs (AggregatorRunner.Stop): Make stopping idempotent.
+
+2007-07-05  Federico Mena Quintero  <federico@novell.com>
+
 	* runner.cs (AggregatorRunner.AggregatorRunner): Don't take in the
 	argv, stdin_str, and aggregator.  We'll pass these later in
 	derived classes.
