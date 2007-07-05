@@ -172,16 +172,8 @@ namespace Mortadelo {
 
 		void stderr_reader_data_available_cb (byte[] buffer, int len)
 		{
-			// Console.WriteLine ("child stderr data available, len {0}", len);
-
-			MemoryStream stream = new MemoryStream (buffer, 0, len);
-			StreamReader stream_reader = new StreamReader (stream);
-
-			string str = stream_reader.ReadToEnd ();
-			Console.WriteLine ("child stderr --------------\n{0}\n-------------------------", str);
-			/* FIXME: what to do with this stderr output? */
-
-			stream_reader.Close ();
+			if (StderrDataAvailable)
+				StderrDataAvailable (buffer, len);
 		}
 
 		void stderr_reader_closed_cb ()
@@ -222,6 +214,9 @@ namespace Mortadelo {
 
 		public delegate void ChildExitedHandler (int status);
 		public event ChildExitedHandler ChildExited;
+
+		public delegate void StderrDataAvailableHandler (byte[] buffer, int len);
+		public event StderrDataAvailableHandler StderrDataAvailable;
 	}
 
 	[TestFixture]

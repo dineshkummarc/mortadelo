@@ -1,3 +1,10 @@
+2007-07-05  Federico Mena Quintero  <federico@novell.com>
+
+	* runner.cs (AggregatorRunner.StderrDataAvailable): New event.
+	We'll use this to send the child's stderr output to our caller.
+	(AggregatorRunner.stderr_reader_data_available_cb): Notify
+	upstream through the StderrDataAvailable event.
+
 2007-07-04  Federico Mena Quintero  <federico@novell.com>
 
 	Display a watch cursor and a status bar message while Systemtap
