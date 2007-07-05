@@ -653,6 +653,8 @@ namespace Mortadelo {
 			if (full_log == null)
 				full_log = new Log ();
 
+			set_waiting_for_systemtap_to_start (true);
+
 			runner = new SystemtapRunner (full_log);
 			runner.ChildExited += runner_child_exited_cb;
 
@@ -665,10 +667,52 @@ namespace Mortadelo {
 			record_mode = RecordMode.Recording;
 		}
 
+		void set_waiting_for_systemtap_to_start (bool wait)
+		{
+			waiting_for_systemtap_to_start = wait;
+
+			if (IsMapped)
+				set_wait_cursor (wait);
+
+			if (wait) {
+				full_log.SyscallInserted += full_log_syscall_inserted_cb;
+				PushStatus ("info", Mono.Unix.Catalog.GetString ("Starting the capture process..."));
+			} else {
+				full_log.SyscallInserted -= full_log_syscall_inserted_cb;
+				PopStatus ("info");
+			}
+		}
+
+		void full_log_syscall_inserted_cb (int num)
+		{
+			/* On the first syscall, reset the hourglass cursor */
+			set_waiting_for_systemtap_to_start (false);
+		}
+
+		void set_wait_cursor (bool wait)
+		{
+			if (!IsMapped)
+				return;
+
+			if (wait)
+				GdkWindow.Cursor = new Gdk.Cursor (Gdk.CursorType.Watch);
+			else
+				GdkWindow.Cursor = null;
+		}
+
+		protected override void OnMapped ()
+		{
+			base.OnMapped ();
+
+			if (waiting_for_systemtap_to_start)
+				set_wait_cursor (true);
+		}
+
 		void runner_child_exited_cb (int status)
 		{
 			/* FIXME: check WIFEXITED(), WEXITSTATUS, etc. */
 			/* FIXME: need to add a stderr capturer in AggregatorRunner / SystemtapRunner */
+			set_waiting_for_systemtap_to_start (false);
 		}
 
 		void stop_recording ()
@@ -678,6 +722,8 @@ namespace Mortadelo {
 			runner.Stop ();
 			GLib.Source.Remove (update_timeout_id);
 			update_timeout_id = 0;
+
+			set_waiting_for_systemtap_to_start (false);
 
 			record_mode = RecordMode.Stopped;
 		}
@@ -703,6 +749,9 @@ namespace Mortadelo {
 			ILogProvider derived;
 			int full_num, derived_num;
 			string str;
+
+			if (waiting_for_systemtap_to_start)
+				return;
 
 			full_num = full_log.GetNumSyscalls ();
 
@@ -927,5 +976,6 @@ namespace Mortadelo {
 		uint update_timeout_id;
 
 		bool setting_record_mode;
+		bool waiting_for_systemtap_to_start;
 	}
 }

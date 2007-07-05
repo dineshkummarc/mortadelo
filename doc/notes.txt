@@ -25,5 +25,5 @@
 
 	+ "Show errors only"
 
-	+ Display a clock cursor between starting recording and
+	- Display a clock cursor between starting recording and
 	  systemtap sending the first output.

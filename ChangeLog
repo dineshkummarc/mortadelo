@@ -1,3 +1,20 @@
+2007-07-04  Federico Mena Quintero  <federico@novell.com>
+
+	Display a watch cursor and a status bar message while Systemtap
+	starts up (it takes a long time!).  Based on a patch by Carlos
+	Alberto Cortez <calberto.cortez@gmail.com>.
+
+	* main-window.cs (MainWindow.waiting_for_systemtap_to_start): New
+	flag.
+	(MainWindow.start_recording): Set our wait status to true.
+	(MainWindow.set_waiting_for_systemtap_to_start): Sets the wait
+	cursor as appropriate and displays a message in the status bar
+	saying that Systemtap is starting.
+	(MainWindow.full_log_syscall_inserted_cb): New callback; turns off
+	the waiting state.
+	(MainWindow.stop_recording): Turn off the waiting state.
+	(MainWindow.runner_child_exited_cb): Likewise.
+
 2007-06-29  Federico Mena Quintero  <federico@novell.com>
 
 	* log-provider.cs (ILogProvider.GetSyscallByBaseIndex): Method to
