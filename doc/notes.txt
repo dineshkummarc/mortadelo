@@ -3,9 +3,7 @@
   marked with "*", like this paragraph.
 
 
-+ Add a way to fetch stderr from the runner, and display it in case systemtap fails.
-
-+ Display an error dialog if systemtap cannot be run.
++ Display an error dialog if systemtap cannot be run (we'll get an exception from SpawnAsyncWithPipes).
 
 + Kill the child process when we get SIGTERM.
 
@@ -15,6 +13,8 @@
 
 + GUI polish:
 
+	+ "Show errors only"
+
 	- When a row is selected in Full View mode:
 
 		- Unhighlight the old paired row
@@ -23,7 +23,8 @@
 
 	- Human-readable timestamps.
 
-	+ "Show errors only"
-
 	- Display a clock cursor between starting recording and
 	  systemtap sending the first output.
+
+- Add a way to fetch stderr from the runner, and display it in case systemtap fails.
+
