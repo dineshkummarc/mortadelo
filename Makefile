@@ -56,4 +56,4 @@ upload:
 	rm -rf /tmp/mortadelo
 	git clone --bare -l . /tmp/mortadelo
 	git --bare --git-dir=/tmp/mortadelo update-server-info
-	rsync -vaz -e 'ssh' --delete /tmp/mortadelo www.gnome.org:~/git
+	rsync -vaz -e 'ssh' /tmp/mortadelo www.gnome.org:~/git
