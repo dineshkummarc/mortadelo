@@ -1,3 +1,8 @@
+2007-07-09  Federico Mena Quintero  <federico@novell.com>
+
+	* Makefile (upload): Use "git push" again instead of rsync.  Let's
+	see if cloning the remote repository works this time...
+
 2007-07-05  Federico Mena Quintero  <federico@novell.com>
 
 	* main-window.cs (MainWindow.start_recording): Connect to the

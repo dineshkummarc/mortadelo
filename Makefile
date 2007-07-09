@@ -53,7 +53,9 @@ check: mortadelo.exe
 
 upload:
 	git repack -d
-	rm -rf /tmp/mortadelo
-	git clone --bare -l . /tmp/mortadelo
-	git --bare --git-dir=/tmp/mortadelo update-server-info
-	rsync -vaz -e 'ssh' /tmp/mortadelo www.gnome.org:~/git
+	git push --force --all ssh://www.gnome.org/~federico/public_html/git/mortadelo
+#	rm -rf /tmp/mortadelo
+#	git clone --bare -l . /tmp/mortadelo
+#	git --bare --git-dir=/tmp/mortadelo update-server-info
+#	chmod +x /tmp/mortadelo/hooks/post-update
+#	rsync -vaz --delete -e 'ssh' /tmp/mortadelo www.gnome.org:~/git
