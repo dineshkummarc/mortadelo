@@ -1,3 +1,8 @@
+2007-07-17  Federico Mena Quintero  <federico@novell.com>
+
+	* main-window.cs (MainWindow.set_default_size): Set the default
+	size to 75% of the screen's dimensions.
+
 2007-07-09  Federico Mena Quintero  <federico@novell.com>
 
 	* Makefile (upload): Use "git push" again instead of rsync.  Let's

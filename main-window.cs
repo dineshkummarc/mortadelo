@@ -58,6 +58,8 @@ namespace Mortadelo {
 
 			vbox.ShowAll ();
 			filter_error_label.Hide ();
+
+			set_default_size ();
 		}
 
 		void build_action_group ()
@@ -209,6 +211,14 @@ namespace Mortadelo {
 							     syscall.index));
 				this.Display.Beep ();
 			}
+		}
+
+		void set_default_size ()
+		{
+			Gdk.Screen screen;
+
+			screen = Gdk.Screen.Default;
+			DefaultSize = new Gdk.Size ((int) (screen.Width * 0.75), (int) (screen.Height * 0.75));
 		}
 
 		void tree_view_selection_changed_cb (object o, EventArgs args)
