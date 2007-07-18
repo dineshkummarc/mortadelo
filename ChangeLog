@@ -1,3 +1,8 @@
+2007-07-18  Federico Mena Quintero  <federico@novell.com>
+
+	* README: Note from Paulo Henrique Silva on how to run Mortadelo
+	under Fedora Core 6.
+
 2007-07-17  Federico Mena Quintero  <federico@novell.com>
 
 	* main-window.cs (MainWindow.set_default_size): Set the default

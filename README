@@ -56,8 +56,7 @@ next time you run Mortadelo you will get an error along the lines of
 Systemtap process and start Mortadelo again.
 
 Systemtap currently uses sudo to allow normal users to install probe
-modules on the kernel. FC6 comes with 'requiretty' option setted so
-systemtap will not run correctly under Mortadelo (which doesn't use a
-tty to run Systemtap). You must remove the 'requiretty' option to use
-Mortadelo.
-
+modules on the kernel.  Fedora Core 6 comes with 'requiretty' option
+set in /etc/sudoers so Systemtap will not run correctly under
+Mortadelo (which doesn't use a tty to run Systemtap). You must remove
+the 'requiretty' option from /etc/sudoers to use Mortadelo.
