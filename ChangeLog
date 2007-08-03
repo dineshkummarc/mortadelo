@@ -1,3 +1,9 @@
+2007-08-03  Federico Mena Quintero  <federico@novell.com>
+
+	* README: Mention that Mortadelo is released under the GPL.
+
+	* COPYING: GPLv2.
+
 2007-07-18  Federico Mena Quintero  <federico@novell.com>
 
 	* README: Note from Paulo Henrique Silva on how to run Mortadelo

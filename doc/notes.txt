@@ -26,5 +26,6 @@
 	- Display a clock cursor between starting recording and
 	  systemtap sending the first output.
 
-- Add a way to fetch stderr from the runner, and display it in case systemtap fails.
++ Add a test for filter-formatter.cs
 
++ Add a test for systemtap-serializer.cs

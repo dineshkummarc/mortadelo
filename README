@@ -13,6 +13,9 @@ my hard drive?).
 * Please read the HACKING file if you intend to hack on Mortadelo, and
   read doc/architecture.txt for an overview of the code.
 
+Mortadelo is released under the GNU General Public License.  Please
+see the file COPYING for details.
+
 
 What's in a name?
 -----------------
@@ -60,3 +63,10 @@ modules on the kernel.  Fedora Core 6 comes with 'requiretty' option
 set in /etc/sudoers so Systemtap will not run correctly under
 Mortadelo (which doesn't use a tty to run Systemtap). You must remove
 the 'requiretty' option from /etc/sudoers to use Mortadelo.
+
+
+Contact information
+-------------------
+
+You can send feedback about Mortadelo to Federico Mena-Quintero
+<federico@novell.com>.
