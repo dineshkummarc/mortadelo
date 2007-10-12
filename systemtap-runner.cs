@@ -191,7 +191,7 @@ probe syscallgroup.filename_begin {
 }
 
 probe syscallgroup.filename_end {
-	printf (""return.%s: %d: %s (%d:%d): %d\n"", name, gettimeofday_us (), execname (), pid (), tid (), $return);
+	printf (""return.%s: %d: %s (%d:%d): %s\n"", name, gettimeofday_us (), execname (), pid (), tid (), retstr);
 }
 ");
 

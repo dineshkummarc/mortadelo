@@ -33,7 +33,8 @@ namespace Mortadelo {
 			// start.open: 1180976736974992: gnome-panel (3630:3630): "/proc/partitions", O_RDONLY
 			syscall_regex = new Regex (@"start\.(?<name>.+): (?<timestamp>\d+): (?<execname>.+) \((?<pid>\d+):(?<tid>\d+)\): (?<arguments>.*)");
 			// return.open: 1180976736975010: gnome-panel (3630:3630): 27
-			syscall_return_regex = new Regex (@"return\.(?<name>.+): (?<timestamp>\d+): (?<execname>.+) \((?<pid>\d+):(?<tid>\d+)\): (?<result>.*)");
+			// return.open: 1180976736975010: gnome-panel (3630:3630): -2 (ENOENT)
+			syscall_return_regex = new Regex (@"return\.(?<name>.+): (?<timestamp>\d+): (?<execname>.+) \((?<pid>\d+):(?<tid>\d+)\): (?<result>-?[0-9]+)( \(.*\))?");
 		}
 
 		public bool Parse (string str, out Syscall syscall)
@@ -195,6 +196,32 @@ namespace Mortadelo {
 			expected.is_syscall_end = true;
 
 			Assert.AreEqual (expected, syscall, "Parse open.return - syscall contents");
+		}
+
+		[Test]
+		public void OpenReturnError ()
+		{
+			bool result;
+			Syscall syscall;
+			Syscall expected;
+
+			result = parser.Parse ("return.open: 1180976736975010: gnome-panel (3630:3630): -2 (ENOENT)",
+					       out syscall);
+
+			Assert.IsTrue (result, "Parse open.return - presence of a match");
+
+			expected = new Syscall ();
+			expected.Clear ();
+			expected.name = "open";
+			expected.timestamp = 1180976736975010;
+			expected.execname = "gnome-panel";
+			expected.pid = 3630;
+			expected.tid = 3630;
+			expected.have_result = true;
+ 			expected.result = -2;
+			expected.is_syscall_end = true;
+
+			Assert.AreEqual (expected, syscall, "Parse open.return with error - syscall contents");
 		}
 	}
 }

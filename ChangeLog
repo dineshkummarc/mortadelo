@@ -1,3 +1,19 @@
+2007-10-12  Federico Mena Quintero  <federico@novell.com>
+
+	Change the way we fetch the return value of syscalls from
+	systemtap.  We used "$return" which was supposed to give us an
+	int, but apparently not all versions of systemtap support that.
+	Instead, use "retstr", which gives us a stringified version.
+
+	* systemtap-parser.cs (SystemtapParserTest.OpenReturnError): Add a
+	test to parse syscalls that return an error.
+	(SystemtapParser.SystemtapParser): Make the regex used for return
+	values support a format like "-2 (ENOENT)" for syscalls that
+	return an error.
+
+	* systemtap-runner.cs (SystemtapRunner.build_script): Use retstr,
+	not $return for the return value of syscalls.
+
 2007-08-03  Federico Mena Quintero  <federico@novell.com>
 
 	* README: Mention that Mortadelo is released under the GPL.
