@@ -1,5 +1,11 @@
 2007-10-12  Federico Mena Quintero  <federico@novell.com>
 
+	* syscall-tree-view.cs: (SyscallTreeView.ColumnId): Renamed from
+	Colums, to avoid collisions with the TreeView.Columns in the
+	parent class.
+
+2007-10-12  Federico Mena Quintero  <federico@novell.com>
+
 	Change the way we fetch the return value of syscalls from
 	systemtap.  We used "$return" which was supposed to give us an
 	int, but apparently not all versions of systemtap support that.

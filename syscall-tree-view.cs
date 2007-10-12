@@ -94,15 +94,15 @@ namespace Mortadelo {
 
 		void setup_columns ()
 		{
-			append_text_column (Mono.Unix.Catalog.GetString ("#"),		Columns.Index, false);
-			append_text_column (Mono.Unix.Catalog.GetString ("Time"),	Columns.Timestamp, false);
-			append_text_column (Mono.Unix.Catalog.GetString ("Process"),	Columns.Process, true);
-			append_text_column (Mono.Unix.Catalog.GetString ("Syscall"),	Columns.SyscallName, false);
-			append_text_column (Mono.Unix.Catalog.GetString ("Result"),	Columns.Result, false);
-			append_text_column (Mono.Unix.Catalog.GetString ("Arguments"),	Columns.Arguments, true);
+			append_text_column (Mono.Unix.Catalog.GetString ("#"),		ColumnId.Index, false);
+			append_text_column (Mono.Unix.Catalog.GetString ("Time"),	ColumnId.Timestamp, false);
+			append_text_column (Mono.Unix.Catalog.GetString ("Process"),	ColumnId.Process, true);
+			append_text_column (Mono.Unix.Catalog.GetString ("Syscall"),	ColumnId.SyscallName, false);
+			append_text_column (Mono.Unix.Catalog.GetString ("Result"),	ColumnId.Result, false);
+			append_text_column (Mono.Unix.Catalog.GetString ("Arguments"),	ColumnId.Arguments, true);
 		}
 
-		void append_text_column (string title, Columns id, bool resizable)
+		void append_text_column (string title, ColumnId id, bool resizable)
 		{
 			TreeViewColumn tree_col;
 
@@ -122,7 +122,7 @@ namespace Mortadelo {
 				formatter = new PlainFormatter ();
 		}
 
-		void data_func (TreeViewColumn column, CellRenderer renderer, TreeModel model, TreeIter iter, Columns id)
+		void data_func (TreeViewColumn column, CellRenderer renderer, TreeModel model, TreeIter iter, ColumnId id)
 		{
 			TextRenderer text_renderer = renderer as TextRenderer;
 			int syscall_index;
@@ -139,28 +139,28 @@ namespace Mortadelo {
 			syscall = log.GetSyscall (syscall_index);
 
 			switch (id) {
-			case Columns.Index:
+			case ColumnId.Index:
 				text = String.Format ("{0}", syscall.index);
 				Debug.Assert (syscall_index == syscall.index, "Index of syscalls matches");
 				break;
 
-			case Columns.Timestamp:
+			case ColumnId.Timestamp:
 				text = formatter.Format (syscall_index, syscall, SyscallVisibleField.Timestamp);
 				break;
 
-			case Columns.Process:
+			case ColumnId.Process:
 				text = formatter.Format (syscall_index, syscall, SyscallVisibleField.Process);
 				break;
 
-			case Columns.SyscallName:
+			case ColumnId.SyscallName:
 				text = formatter.Format (syscall_index, syscall, SyscallVisibleField.Name);
 				break;
 
-			case Columns.Arguments:
+			case ColumnId.Arguments:
 				text = formatter.Format (syscall_index, syscall, SyscallVisibleField.Arguments);
 				break;
 
-			case Columns.Result:
+			case ColumnId.Result:
 				text = formatter.Format (syscall_index, syscall, SyscallVisibleField.Result);
 				break;
 
@@ -199,7 +199,7 @@ namespace Mortadelo {
 			return new Gdk.Color ((byte) (r >> 8), (byte) (g >> 8), (byte) (b >> 8));
 		}
 
-		enum Columns {
+		enum ColumnId {
 			Index,
 			Timestamp,
 			Process,
