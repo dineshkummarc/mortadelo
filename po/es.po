@@ -1,0 +1,189 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mortadelo 0.2\n"
+"Report-Msgid-Bugs-To: federico@novell.com\n"
+"POT-Creation-Date: 2007-10-31 15:31-0600\n"
+"PO-Revision-Date: 2007-10-31 16:44-0600\n"
+"Last-Translator: Federico Mena Quintero <federico@novell.com>\n"
+"Language-Team: Spanish <gnome-i18n@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../main.cs:61
+msgid "This program can only be run by the system administrator."
+msgstr "Sólo el administrador de sistemas puede usar este programa."
+
+#: ../main-window.cs:42
+msgid "Viewer for system calls"
+msgstr "Visor para llamadas al sistema"
+
+#: ../main-window.cs:236
+#, csharp-format
+msgid "Could not find a paired system call for index {0}"
+msgstr "No se pudo encontrar la pareja para la llamada al sistema con índice {0}"
+
+#: ../main-window.cs:317
+msgid "_File"
+msgstr "_Archivo"
+
+#: ../main-window.cs:323
+msgid "_Help"
+msgstr "Ay_uda"
+
+#: ../main-window.cs:329
+msgid "_Open..."
+msgstr "_Abrir..."
+
+#: ../main-window.cs:331
+msgid "Load a log of system calls from a file"
+msgstr "Cargar un archivo de bitácora de llamadas al sistema"
+
+#: ../main-window.cs:335
+msgid "Save _As..."
+msgstr "Guardar _Como..."
+
+#: ../main-window.cs:337
+msgid "Save the displayed log to a file"
+msgstr "Guardar la bitácora actual a un archivo"
+
+#: ../main-window.cs:341
+msgid "C_lear"
+msgstr "_Limpiar"
+
+#: ../main-window.cs:343
+msgid "Clear the current log"
+msgstr "Limpiar la bitácora actual"
+
+#: ../main-window.cs:347
+msgid "_Next Error"
+msgstr "_Siguiente Error"
+
+#: ../main-window.cs:349
+msgid "Jumps to the next system call that returned an error"
+msgstr "Encuentra la llamada al sistema con el siguiente error"
+
+#: ../main-window.cs:353
+msgid "_Quit"
+msgstr "_Salir"
+
+#: ../main-window.cs:355
+msgid "Exit the program"
+msgstr "Salir del programa"
+
+#: ../main-window.cs:359
+msgid "_About Mortadelo"
+msgstr "Acerca _de Mortadelo"
+
+#: ../main-window.cs:361
+msgid "Show version information about this program"
+msgstr "Mostrar información sobre la versión de este programa"
+
+#: ../main-window.cs:373
+msgid "S_top Recording"
+msgstr "_Detener la Grabación"
+
+#: ../main-window.cs:375
+msgid "Stop recording system calls"
+msgstr "Detener la grabación de llamadas al sistema"
+
+#: ../main-window.cs:379
+msgid "Start _Recording"
+msgstr "Comenzar a _Grabar"
+
+#: ../main-window.cs:381
+msgid "Start recording system calls"
+msgstr "Comenzar la grabación de llamadas al sistema"
+
+#: ../main-window.cs:393
+msgid "_Compact"
+msgstr "_Compacta"
+
+#: ../main-window.cs:395
+msgid "Compact view (start/end of system call in the same line)"
+msgstr "Vista compacta (principio/fin de una llamada al sistema en la misma línea)"
+
+#: ../main-window.cs:399
+msgid "_Full"
+msgstr "_Completa"
+
+#: ../main-window.cs:401
+msgid "Full view (start/end of system call in separate lines"
+msgstr "Vista completa (principio/fin de una llamada al sistema en líneas separadas)"
+
+#: ../main-window.cs:413
+msgid "Stop"
+msgstr "Alto"
+
+#: ../main-window.cs:416
+msgid "Record"
+msgstr "Grabar"
+
+#: ../main-window.cs:423
+msgid "Open a log of system calls"
+msgstr "Abrir una bitácora de llamadas al sistema"
+
+#: ../main-window.cs:465
+msgid "Save log of system calls"
+msgstr "Guardar la bitácora de llamadas al sistema"
+
+#: ../main-window.cs:722
+msgid "Starting the capture process..."
+msgstr "Iniciando el proceso de grabación..."
+
+#: ../main-window.cs:779
+msgid "Errors from the capture process"
+msgstr "Errores del proceso de grabación"
+
+#: ../main-window.cs:916
+msgid ""
+"This program lets you view the system calls from all processes in the system."
+msgstr "Este programa permite ver las llamadas al sistema que utilizan los procesos que se están ejecutando."
+
+#: ../main-window.cs:918
+msgid "Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+msgstr "Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+
+#. wheeee!
+#: ../main-window.cs:997
+msgid "No further errors"
+msgstr "No hay más errores"
+
+#: ../syscall-tree-view.cs:97
+msgid "#"
+msgstr "#"
+
+#: ../syscall-tree-view.cs:98
+msgid "Time"
+msgstr "Hora"
+
+#: ../syscall-tree-view.cs:99
+msgid "Process"
+msgstr "Proceso"
+
+#: ../syscall-tree-view.cs:100
+msgid "Syscall"
+msgstr "Llamada"
+
+#: ../syscall-tree-view.cs:101
+msgid "Result"
+msgstr "Resultado"
+
+#: ../syscall-tree-view.cs:102
+msgid "Arguments"
+msgstr "Parámetros"
+
+#: ../util.cs:51
+#, csharp-format
+msgid "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+msgstr ""
+
+#. unknown errno code
+#: ../util.cs:67
+msgid "UNKNOWN"
+msgstr "DESCONOCIDO"

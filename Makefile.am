@@ -1,4 +1,4 @@
-SUBDIRS = doc
+SUBDIRS = doc po
 
 EXTRA_LIBS =			\
 	-pkg:mono-nunit		\
@@ -7,46 +7,46 @@ EXTRA_LIBS =			\
 	-pkg:gtk-sharp-2.0
 
 shared_sources =				\
-	aggregator.cs				\
-	compact-log.cs				\
-	errno.cs				\
-	filter.cs				\
-	filter-formatter.cs			\
-	filtered-log.cs				\
-	GLib.IO.cs				\
-	line-reader.cs				\
-	log.cs					\
-	log-io.cs				\
-	log-provider.cs				\
-	log-modification-accumulator.cs		\
-	parser.cs				\
-	plain-formatter.cs			\
-	regex-cache.cs				\
-	regex-filter.cs				\
-	runner.cs				\
-	serializer.cs				\
-	spawn.cs				\
-	systemtap-parser.cs			\
-	systemtap-runner.cs			\
-	systemtap-serializer.cs			\
-	syscall.cs				\
-	syscall-formatter.cs			\
-	syscall-list-model.cs			\
-	timer-throttle.cs			\
-	unix-reader.cs				\
-	util.cs
+	$(srcdir)/aggregator.cs				\
+	$(srcdir)/compact-log.cs				\
+	$(srcdir)/errno.cs				\
+	$(srcdir)/filter.cs				\
+	$(srcdir)/filter-formatter.cs			\
+	$(srcdir)/filtered-log.cs				\
+	$(srcdir)/GLib.IO.cs				\
+	$(srcdir)/line-reader.cs				\
+	$(srcdir)/log.cs					\
+	$(srcdir)/log-io.cs				\
+	$(srcdir)/log-provider.cs				\
+	$(srcdir)/log-modification-accumulator.cs		\
+	$(srcdir)/parser.cs				\
+	$(srcdir)/plain-formatter.cs			\
+	$(srcdir)/regex-cache.cs				\
+	$(srcdir)/regex-filter.cs				\
+	$(srcdir)/runner.cs				\
+	$(srcdir)/serializer.cs				\
+	$(srcdir)/spawn.cs				\
+	$(srcdir)/systemtap-parser.cs			\
+	$(srcdir)/systemtap-runner.cs			\
+	$(srcdir)/systemtap-serializer.cs			\
+	$(srcdir)/syscall.cs				\
+	$(srcdir)/syscall-formatter.cs			\
+	$(srcdir)/syscall-list-model.cs			\
+	$(srcdir)/timer-throttle.cs			\
+	$(srcdir)/unix-reader.cs				\
+	$(srcdir)/util.cs
 
 mortadelo_specific_sources =	\
-	main.cs			\
-	main-window.cs		\
-	syscall-tree-view.cs
+	$(srcdir)/main.cs			\
+	$(srcdir)/main-window.cs		\
+	$(srcdir)/syscall-tree-view.cs
 
 mortadelo_sources = 			\
 	$(shared_sources)		\
 	$(mortadelo_specific_sources)
 
 memprof_specific_sources =	\
-	memory-profile.cs
+	$(srcdir)/memory-profile.cs
 
 memprof_sources =			\
 	$(shared_sources)		\
@@ -57,15 +57,27 @@ mortadelo_SCRIPTS = mortadelo.exe
 
 bin_SCRIPTS = mortadelo
 
+intltool_bullshit =		\
+	intltool-extract.in	\
+	intltool-merge.in	\
+	intltool-update.in
+
 EXTRA_DIST =				\
 	$(shared_sources)		\
 	$(mortadelo_specific_sources)	\
-	$(memprof_specific_sources)
+	$(memprof_specific_sources)	\
+	$(intltool_bullshit)
 
 CLEANFILES =			\
 	mortadelo.exe		\
 	mortadelo.exe.mdb	\
 	mortadelo
+
+DISTCLEANFILES =		\
+	intltool-extract	\
+	intltool-merge		\
+	intltool-update		\
+	TestResult.xml
 
 mortadelo.exe: $(mortadelo_sources)
 	$(CSC) -warn:4 $(MORTADELO_LIBS) -out:$@ $(mortadelo_sources) $(EXTRA_LIBS)

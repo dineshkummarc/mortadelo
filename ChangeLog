@@ -1,5 +1,16 @@
 2007-10-31  Federico Mena Quintero  <federico@novell.com>
 
+	More autotools / intltool voodoo.
+
+	* configure.ac: Use IT_PROG_INTLTOOL() instead of
+	AC_PROG_INTLTOOL().
+
+	* Makefile.am: Add the intltool bits.
+
+	* autogen.sh: Use gnome-autogen.sh instead of reinventing the wheel.
+
+2007-10-31  Federico Mena Quintero  <federico@novell.com>
+
 	* Add the start of an autotools framework.  Grrrrr.
 
 2007-10-12  Federico Mena Quintero  <federico@novell.com>
