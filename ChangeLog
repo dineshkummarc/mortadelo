@@ -1,5 +1,9 @@
 2007-10-31  Federico Mena Quintero  <federico@novell.com>
 
+	* Makefile.am (upload): Add the "make upload" target again.
+
+2007-10-31  Federico Mena Quintero  <federico@novell.com>
+
 	More autotools / intltool voodoo.
 
 	* configure.ac: Use IT_PROG_INTLTOOL() instead of

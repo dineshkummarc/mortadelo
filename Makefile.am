@@ -87,4 +87,7 @@ all: mortadelo.exe
 check: mortadelo.exe
 	nunit-console2 mortadelo.exe
 
-.PHONY: check
+upload:
+	git push --force --all ssh://www.gnome.org/~federico/public_html/git/mortadelo
+
+.PHONY: check upload
