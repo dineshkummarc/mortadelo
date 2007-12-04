@@ -45,10 +45,11 @@ namespace Mortadelo {
 
 		string[] build_systemtap_argv ()
 		{
-			string[] argv = new string[2];
+			string[] argv = new string[3];
 
 			argv[0] = "stap";
-			argv[1] = "-";
+			argv[1] = "-vvv";
+			argv[2] = "-";
 
 			return argv;
 		}

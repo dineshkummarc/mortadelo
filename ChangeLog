@@ -1,3 +1,8 @@
+2007-12-04  Federico Mena Quintero  <federico@novell.com>
+
+	* systemtap-runner.cs (SystemtapRunner.build_systemtap_argv): Ask
+	stap to be extra-verbose with "-vvv".
+
 2007-10-31  Federico Mena Quintero  <federico@novell.com>
 
 	* Makefile.am (upload): Add the "make upload" target again.
