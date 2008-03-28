@@ -158,6 +158,7 @@ namespace Mortadelo {
 
 		void child_watch_cb (int pid, int status)
 		{
+			/* FIXME: we need to close the FDs! */
 			child_pid = 0;
 			child_stdin = -1;
 			child_stdout = -1;
