@@ -515,8 +515,11 @@ namespace Mortadelo {
 		{
 			filter_throttle.Stop ();
 
-			if (record_mode == RecordMode.Recording)
-				stop_recording ();
+			if (record_mode == RecordMode.Recording) {
+                                child_kill_expected = true;
+			        runner.Stop ();
+			        ensure_recording_stopped ();
+			}
 
 			if (statusbar_has_transient_message) {
 				Debug.Assert (statusbar_transient_timeout_id != 0);
@@ -665,7 +668,7 @@ namespace Mortadelo {
 
 			switch (mode) {
 			case RecordMode.Stopped:
-				stop_recording ();
+				suspend_recording ();
 				action = action_group.GetAction ("record-stop");
 				break;
 
@@ -689,25 +692,30 @@ namespace Mortadelo {
 		{
 			Debug.Assert (record_mode == RecordMode.Stopped, "must be stopped");
 
-			if (full_log == null)
-				full_log = new Log ();
+                        if (runner != null) {
+                                runner.Resume ();
+                                record_mode = RecordMode.Recording;
+                        } else {
+                          if (full_log == null)
+                            full_log = new Log ();
 
-			set_waiting_for_systemtap_to_start (true);
+                          set_waiting_for_systemtap_to_start (true);
 
-			runner = new SystemtapRunner (full_log);
-			runner.StderrDataAvailable += runner_stderr_data_available_cb;
-			runner.ChildExited += runner_child_exited_cb;
+                          runner = new SystemtapRunner (full_log);
+                          runner.StderrDataAvailable += runner_stderr_data_available_cb;
+                          runner.ChildExited += runner_child_exited_cb;
 
-			ensure_error_window ();
-			error_buffer.Clear ();
+                          ensure_error_window ();
+                          error_buffer.Clear ();
 
-			runner.Run (); /* FIXME: catch exceptions? */
+                          runner.Run (); /* FIXME: catch exceptions? */
 
-			set_derived_model ();
+                          set_derived_model ();
 
-			update_timeout_id = GLib.Timeout.Add (1000, update_timeout_cb);
+                          update_timeout_id = GLib.Timeout.Add (1000, update_timeout_cb);
 
-			record_mode = RecordMode.Recording;
+                          record_mode = RecordMode.Recording;
+                        }
 		}
 
 		void set_waiting_for_systemtap_to_start (bool wait)
@@ -852,14 +860,12 @@ namespace Mortadelo {
 			}
 		}
 
-		void stop_recording ()
-		{
+		void suspend_recording ()
+                {
 			Debug.Assert (record_mode == RecordMode.Recording, "must be recording");
-
-			child_kill_expected = true;
-			runner.Stop ();
-			ensure_recording_stopped ();
-		}
+                        runner.Suspend ();
+                        record_mode = RecordMode.Stopped;
+                }
 
 		void set_view_mode (ViewMode mode)
 		{

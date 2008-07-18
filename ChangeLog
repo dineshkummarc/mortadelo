@@ -1,3 +1,16 @@
+2008-07-18  Frank Ch. Eigler  <fche@elastic.org>
+
+	Support quick suspend/resume.
+	* main-window.cx (do_quit): Stop runner here ...
+	(stop_recording): Instead of here; deleted.
+	(set_record_mode): Stopped=>suspend.
+	(start_recording): Just resume if runner exists.
+	* systemtap-runner.cx (modulename): Compute new member.
+	(Suspend, Resume): Use it to control /procfs file.
+	(build_systemtap_argv): Set module name.  Too bad it defeats
+	caching for now, but oh well.
+	(build_script): Include procfs controls and conditional probes.
+
 2007-12-04  Federico Mena Quintero  <federico@novell.com>
 
 	* systemtap-runner.cs (SystemtapRunner.build_systemtap_argv): Ask

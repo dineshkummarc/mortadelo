@@ -36,20 +36,33 @@ namespace Mortadelo {
 		{
 			parser = new SystemtapParser ();
 			aggregator = new Aggregator (log, parser);
-		}
+                        modulename = String.Format("mortadelo{0}", UnixProcess.GetCurrentProcessId());		}
 
 		public void Run ()
 		{
 			base.Run (aggregator, build_systemtap_argv (), build_script ());
 		}
 
+		public void Suspend ()
+		{
+                        File.WriteAllBytes ("/proc/systemtap/" + modulename + "/trace_p",
+                                            new byte[] { (byte)'0' });
+		}
+
+		public void Resume ()
+		{
+                        File.WriteAllBytes ("/proc/systemtap/" + modulename + "/trace_p",
+                                            new byte[] { (byte)'1' });
+		}
+
 		string[] build_systemtap_argv ()
 		{
-			string[] argv = new string[3];
+			string[] argv = new string[4];
 
 			argv[0] = "stap";
-			argv[1] = "-vvv";
-			argv[2] = "-";
+			argv[1] = "-m";
+			argv[2] = modulename;
+			argv[3] = "-";
 
 			return argv;
 		}
@@ -187,12 +200,21 @@ probe syscallgroup.filename_end =
 {
 }
 
-probe syscallgroup.filename_begin {
+probe syscallgroup.filename_begin if (trace_p) {
 	printf (""start.%s: %d: %s (%d:%d): %s\n"", name, gettimeofday_us (), execname (), pid (), tid (), argstr);
 }
 
-probe syscallgroup.filename_end {
+probe syscallgroup.filename_end if (trace_p) {
 	printf (""return.%s: %d: %s (%d:%d): %s\n"", name, gettimeofday_us (), execname (), pid (), tid (), retstr);
+}
+
+global trace_p = 1 # initially on
+
+probe procfs(""trace_p"").write {
+        trace_p = strtol($value, 10)
+}
+probe procfs(""trace_p"").read {
+        $value = sprintf(""%d\n"", trace_p)
 }
 ");
 
@@ -201,5 +223,6 @@ probe syscallgroup.filename_end {
 
 		Aggregator aggregator;
 		SystemtapParser parser;
+                String modulename;
 	}
 }
