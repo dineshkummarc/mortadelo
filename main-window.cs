@@ -407,7 +407,7 @@ namespace Mortadelo {
 
 		void fix_action_short_names ()
 		{
-			Action a;
+			Gtk.Action a;
 
 			a = action_group.GetAction ("record-stop");
 			a.ShortLabel = Mono.Unix.Catalog.GetString ("Stop");
@@ -661,7 +661,7 @@ namespace Mortadelo {
 
 		void set_record_mode (RecordMode mode)
 		{
-			Action action;
+			Gtk.Action action;
 
 			if (mode == record_mode)
 				return;
@@ -923,7 +923,7 @@ namespace Mortadelo {
 				about_dialog.Copyright = Mono.Unix.Catalog.GetString (
 					"Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez");
 				about_dialog.License = "GPL"; /* FIXME: include the text of the GPL */
-				about_dialog.Name = "Mortadelo";
+				about_dialog.ProgramName = "Mortadelo";
 				about_dialog.Version = Util.Version;
 
 				about_dialog.TransientFor = this;
