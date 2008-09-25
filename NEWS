@@ -1,3 +1,27 @@
 Mortadelo 0.2
 =============
 
+This is the first public release of Mortadelo, a viewer for system
+calls that are related to the file system.  You can think of it as a
+"systemwide strace".
+
+* Features:
+
+	- Monitoring of system calls related to the file system.
+
+	- Support for loading/saving of the system call logs.
+
+	- Compact view (like a normal strace), or full view, with both
+          start and stop times for each system call.
+
+	- Highlighting of the start/stop times for the selected sytem
+          call, for easy identification.
+
+	- Highlighting of system calls with error results.
+
+* Contributors:
+
+	- Federico Mena-Quintero
+	- Carlos Alberto Cortez
+	- Frank Ch. Eigler
+	- Paulo Henrique Silva
