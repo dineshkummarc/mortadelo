@@ -1,4 +1,4 @@
-AC_INIT(mortadelo, 0.2)
+AC_INIT(mortadelo, 0.3)
 AC_CONFIG_SRCDIR(main-window.cs)
 
 AM_INIT_AUTOMAKE([tar-ustar])
