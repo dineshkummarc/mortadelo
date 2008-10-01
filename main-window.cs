@@ -911,30 +911,27 @@ namespace Mortadelo {
 
 		void help_about_cb (object o, EventArgs a)
 		{
-			if (about_dialog == null) {
-				about_dialog = new AboutDialog ();
+			AboutDialog about_dialog;
 
-				about_dialog.Authors = new string[] {
-					"Federico Mena-Quintero <federico@novell.com>",
-					"Carlos Alberto Cortez <calberto.cortez@gmail.com>"
-				};
-				about_dialog.Comments = Mono.Unix.Catalog.GetString (
-					"This program lets you view the system calls from all processes in the system.");
-				about_dialog.Copyright = Mono.Unix.Catalog.GetString (
-					"Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez");
-				about_dialog.License = "GPL"; /* FIXME: include the text of the GPL */
-				about_dialog.ProgramName = "Mortadelo";
-				about_dialog.Version = Util.Version;
+			about_dialog = new AboutDialog ();
 
-				about_dialog.TransientFor = this;
+			about_dialog.Authors = new string[] {
+				"Federico Mena-Quintero <federico@novell.com>",
+				"Carlos Alberto Cortez <calberto.cortez@gmail.com>"
+			};
+			about_dialog.Comments = Mono.Unix.Catalog.GetString (
+				"This program lets you view the system calls from all processes in the system.");
+			about_dialog.Copyright = Mono.Unix.Catalog.GetString (
+				"Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez");
+			about_dialog.License = "GPL"; /* FIXME: include the text of the GPL */
+			about_dialog.ProgramName = "Mortadelo";
+			about_dialog.Version = Version.VersionString;
 
-				about_dialog.DeleteEvent += delegate (object obj, DeleteEventArgs args) {
-					about_dialog.Hide ();
-					args.RetVal = true;
-				};
-			}
+			about_dialog.TransientFor = this;
+			about_dialog.Modal = true;
 
-			about_dialog.PresentWithTime (Gtk.Global.CurrentEventTime);
+			about_dialog.Run ();
+			about_dialog.Destroy ();
 		}
 
 		void next_error_cb (object o, EventArgs args)
@@ -1098,8 +1095,6 @@ namespace Mortadelo {
 
 		Window error_window;
 		TextBuffer error_buffer;
-
-		AboutDialog about_dialog;
 
 		const int FILTER_THROTTLE_MSEC = 300;
 		TimerThrottle filter_throttle;

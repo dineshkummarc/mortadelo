@@ -39,7 +39,8 @@ shared_sources =				\
 mortadelo_specific_sources =	\
 	$(srcdir)/main.cs			\
 	$(srcdir)/main-window.cs		\
-	$(srcdir)/syscall-tree-view.cs
+	$(srcdir)/syscall-tree-view.cs		\
+	$(srcdir)/version.cs
 
 mortadelo_sources = 			\
 	$(shared_sources)		\
@@ -51,6 +52,12 @@ memprof_specific_sources =	\
 memprof_sources =			\
 	$(shared_sources)		\
 	$(memprof_specific_sources)
+
+$(srcdir)/version.cs: $(srcdir)/version.cs.in
+	sed -e "s#@VERSION_STRING@#$(VERSION)#g" < $(srcdir)/version.cs.in > $(srcdir)/version.cs
+
+BUILT_SOURCES = \
+	$(srcdir)/version.cs
 
 mortadelodir=$(pkglibdir)
 mortadelo_SCRIPTS = mortadelo.exe
@@ -66,12 +73,14 @@ EXTRA_DIST =				\
 	$(shared_sources)		\
 	$(mortadelo_specific_sources)	\
 	$(memprof_specific_sources)	\
-	$(intltool_bullshit)
+	$(intltool_bullshit)		\
+	$(srcdir)/version.cs.in
 
 CLEANFILES =			\
 	mortadelo.exe		\
 	mortadelo.exe.mdb	\
-	mortadelo
+	mortadelo		\
+	$(BUILT_SOURCES)
 
 DISTCLEANFILES =		\
 	intltool-extract	\

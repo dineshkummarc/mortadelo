@@ -1,3 +1,13 @@
+2008-10-01  Federico Mena Quintero  <federico@novell.com>
+
+	* util.cs: Remove Version from here...
+
+	* version.cs.in: ... and put it here.
+
+	* main-window.cs: Use Version.Version.
+
+	* Makefile.am (version.cs): Generate version.cs from version.cs.in.
+
 2008-09-25  Federico Mena Quintero  <federico@novell.com>
 
 	* Makefile.am: Removed the obsolete "make upload" target.

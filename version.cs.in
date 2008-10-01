@@ -1,0 +1,5 @@
+namespace Mortadelo {
+	public class Version {
+		public const string VersionString = "@VERSION_STRING@";
+	}
+}
