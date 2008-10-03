@@ -53,7 +53,6 @@ namespace Mortadelo {
 			this.aggregator = aggregator;
 
 			try {
-				int fl;
 				int[] pipe;
 
 				spawn = new Spawn ();
@@ -103,12 +102,6 @@ namespace Mortadelo {
 					throw new ApplicationException ("Could not get the child process group");
 
 				state = State.Running;
-
-				fl = unix.fcntl (child_stdout, FcntlCommand.F_GETFL);
-
-				unix.fcntl (child_stdout,
-					    FcntlCommand.F_SETFL,
-					    fl | (int) OpenFlags.O_NONBLOCK);
 
 				stdout_reader = new UnixReader (child_stdout);
 				stdout_reader.DataAvailable += stdout_reader_data_available_cb;

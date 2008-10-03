@@ -32,6 +32,7 @@ namespace Mortadelo {
 			stream = new UnixStream (fd, false);
 
 			io_channel = new NDesk.GLib.IOChannel (fd);
+			io_channel.Flags |= NDesk.GLib.IOFlags.Nonblock;
 			watch_id = NDesk.GLib.IO.AddWatch (io_channel,
 							   NDesk.GLib.IOCondition.In | NDesk.GLib.IOCondition.Hup,
 							   io_callback);
