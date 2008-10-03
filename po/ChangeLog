@@ -1,3 +1,8 @@
+2008-10-02  Robert-André Mauchin  <zebob.m@pengzone.org>
+
+	* fr.po: Initial French translation.
+	* LINGUAS: Added fr.
+
 2007-10-31  Federico Mena Quintero  <federico@novell.com>
 
 	* es.po: First version of the Spanish translation.
