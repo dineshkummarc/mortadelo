@@ -1,3 +1,8 @@
+=== ChangeLog discontinued ===
+
+	With the move to Git, Mortadelo is switching form a ChangeLog file
+	to relying on commit messages to provide change history.
+
 2008-10-01  Federico Mena Quintero  <federico@novell.com>
 
 	* configure.ac: Bump version number to 0.3.

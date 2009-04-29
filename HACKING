@@ -46,13 +46,14 @@ Use lowercase_identifiers for private members.
 
 
 
-ChangeLog entries
------------------
+Commit messages
+---------------
 
-Every patch must come with a ChangeLog entry in the usual GNU format.
-Try to say *why* you made a change, not to painstakingly describe
-*what* the change is (it's easy to know what the change is by looking
-at a diff).
+Give a meaninful commit message to every commit (or patch).  In the
+first line of the message, say what the commit does.  If more
+explanation is necessary, use the following lines to say *why* you
+made the change, not to painstakingly describe *what* the change is
+(it's easy to know what the change is by looking at a diff).
 
 
 Unit tests
