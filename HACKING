@@ -31,6 +31,10 @@ of the program.  To summarize:
 	if (foo (5)) {
           ^----^----^----- space
             ^------^------ no space
+                yay ();
+        } else {
+                wow ();
+        }
 
 StudlyCaps
 ----------
