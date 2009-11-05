@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mortadelo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-10-28 23:40+0100\n"
-"PO-Revision-Date: 2009-10-28 23:45+0100\n"
+"POT-Creation-Date: 2009-11-05 07:30+0100\n"
+"PO-Revision-Date: 2009-11-05 07:30+0100\n"
 "Last-Translator: Daniel Nylander <po@danielnylander.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "MIME-Version: 1.0\n"
@@ -155,7 +155,7 @@ msgstr "Inga fler fel"
 
 #: ../syscall-tree-view.cs:97
 msgid "#"
-msgstr ""
+msgstr "#"
 
 #: ../syscall-tree-view.cs:98
 msgid "Time"
