@@ -1,0 +1,193 @@
+# Danish translation for mortadelo.
+# Copyright (C) 2009 mortadelo & Joe Hansen.
+# This file is distributed under the same license as the mortadelo package.
+# Joe Hansen (joedalton2@yahoo.dk), 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mortadelo master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-12-01 00:34+0100\n"
+"PO-Revision-Date: 2009-11-28 14:52+0000\n"
+"Last-Translator: Joe Hansen <joedalton2@yahoo.dk>\n"
+"Language-Team: Danish <dansk@dansk-gruppen.dk>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../main.cs:61
+msgid "This program can only be run by the system administrator."
+msgstr "Dette program kan kun køres af systemadministratoren."
+
+#: ../main-window.cs:42
+msgid "Viewer for system calls"
+msgstr "Fremviser for systemkald"
+
+#: ../main-window.cs:236
+#, csharp-format
+msgid "Could not find a paired system call for index {0}"
+msgstr "Kunne ikke finde et parret systemkald for indeks {0}"
+
+#: ../main-window.cs:317
+msgid "_File"
+msgstr "_Fil"
+
+#: ../main-window.cs:323
+msgid "_Help"
+msgstr "_Hjælp"
+
+#: ../main-window.cs:329
+msgid "_Open..."
+msgstr "_Åbn..."
+
+#: ../main-window.cs:331
+msgid "Load a log of system calls from a file"
+msgstr "Indlæs en log over systemkald fra en fil"
+
+#: ../main-window.cs:335
+msgid "Save _As..."
+msgstr "Gem _som..."
+
+#: ../main-window.cs:337
+msgid "Save the displayed log to a file"
+msgstr "Gem den viste log til en fil"
+
+#: ../main-window.cs:341
+msgid "C_lear"
+msgstr "_Ryd"
+
+#: ../main-window.cs:343
+msgid "Clear the current log"
+msgstr "Ryd den aktuelle log"
+
+#: ../main-window.cs:347
+msgid "_Next Error"
+msgstr "_Næste fejl"
+
+#: ../main-window.cs:349
+msgid "Jumps to the next system call that returned an error"
+msgstr "Hop til det næste systemkald som returnerede en fejl"
+
+#: ../main-window.cs:353
+msgid "_Quit"
+msgstr "_Afslut"
+
+#: ../main-window.cs:355
+msgid "Exit the program"
+msgstr "Afslut programmet"
+
+#: ../main-window.cs:359
+msgid "_About Mortadelo"
+msgstr "_Om Mortadelo"
+
+#: ../main-window.cs:361
+msgid "Show version information about this program"
+msgstr "Vis versionsinformation om dette program"
+
+#: ../main-window.cs:373
+msgid "S_top Recording"
+msgstr "S_top optagelse"
+
+#: ../main-window.cs:375
+msgid "Stop recording system calls"
+msgstr "Stop optagelse af systemkald"
+
+#: ../main-window.cs:379
+msgid "Start _Recording"
+msgstr "Start _optagelse"
+
+#: ../main-window.cs:381
+msgid "Start recording system calls"
+msgstr "Start optagelse af systemkald"
+
+#: ../main-window.cs:393
+msgid "_Compact"
+msgstr "_Komprimeret"
+
+#: ../main-window.cs:395
+msgid "Compact view (start/end of system call in the same line)"
+msgstr "Komprimeret visning (start/slut på systemkald i den samme linje)"
+
+#: ../main-window.cs:399
+msgid "_Full"
+msgstr "_Fuld"
+
+# engelsk fejl )
+#: ../main-window.cs:401
+msgid "Full view (start/end of system call in separate lines"
+msgstr "Fuld visning (start/slut på systemkald i separate linjer)"
+
+#: ../main-window.cs:413
+msgid "Stop"
+msgstr "Stop"
+
+#: ../main-window.cs:416
+msgid "Record"
+msgstr "Optag"
+
+#: ../main-window.cs:423
+msgid "Open a log of system calls"
+msgstr "Åbn en log over systemkald"
+
+#: ../main-window.cs:465
+msgid "Save log of system calls"
+msgstr "Gem log over systemkald"
+
+#: ../main-window.cs:730
+msgid "Starting the capture process..."
+msgstr "Starter optagelsesprocessen..."
+
+#: ../main-window.cs:787
+msgid "Errors from the capture process"
+msgstr "Fejl fra optagelsesprocessen"
+
+#: ../main-window.cs:923
+msgid ""
+"This program lets you view the system calls from all processes in the system."
+msgstr ""
+"Dette program giver dig mulighed for at se systemkald fra alle processer i "
+"systemet."
+
+#: ../main-window.cs:925
+msgid "Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+msgstr "Ophavsret (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+
+#. wheeee!
+#: ../main-window.cs:1000
+msgid "No further errors"
+msgstr "Ikke flere fejl"
+
+#: ../syscall-tree-view.cs:97
+msgid "#"
+msgstr "#"
+
+#: ../syscall-tree-view.cs:98
+msgid "Time"
+msgstr "Tid"
+
+#: ../syscall-tree-view.cs:99
+msgid "Process"
+msgstr "Proces"
+
+#: ../syscall-tree-view.cs:100
+msgid "Syscall"
+msgstr "Systemkald"
+
+#: ../syscall-tree-view.cs:101
+msgid "Result"
+msgstr "Resultat"
+
+#: ../syscall-tree-view.cs:102
+msgid "Arguments"
+msgstr "Argumenter"
+
+#: ../util.cs:51
+#, csharp-format
+msgid "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+msgstr "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+
+#. unknown errno code
+#: ../util.cs:67
+msgid "UNKNOWN"
+msgstr "UKENDT"
