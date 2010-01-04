@@ -1,0 +1,189 @@
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the mortadelo package.
+# Matej Urbančič <mateju@svn.gnome.org>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mortadelo\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2009-11-07 12:40+0000\n"
+"PO-Revision-Date: 2010-01-04 08:23+0100\n"
+"Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
+"Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%100==1 ? 1 : n%100==2 ? 2 : n%100==3 || n%100==4 ? 3 : 0);\n"
+"X-Poedit-Country: SLOVENIA\n"
+"X-Poedit-Language: Slovenian\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../main.cs:61
+msgid "This program can only be run by the system administrator."
+msgstr "Program zahteva skrbniška dovoljenja"
+
+#: ../main-window.cs:42
+msgid "Viewer for system calls"
+msgstr "Pregledovalnik sistemskega dnevnika"
+
+#: ../main-window.cs:236
+#, csharp-format
+msgid "Could not find a paired system call for index {0}"
+msgstr "Ni mogoče najti parnega sistemskega sklica za kazalo {0}"
+
+#: ../main-window.cs:317
+msgid "_File"
+msgstr "_Datoteka"
+
+#: ../main-window.cs:323
+msgid "_Help"
+msgstr "Pomo_č"
+
+#: ../main-window.cs:329
+msgid "_Open..."
+msgstr "_Odpri ..."
+
+#: ../main-window.cs:331
+msgid "Load a log of system calls from a file"
+msgstr "Naloži dnevnik sistemskih klicev iz datoteke"
+
+#: ../main-window.cs:335
+msgid "Save _As..."
+msgstr "Shrani _kot ..."
+
+#: ../main-window.cs:337
+msgid "Save the displayed log to a file"
+msgstr "_Shrani dnevnik napak v datoteko ..."
+
+#: ../main-window.cs:341
+msgid "C_lear"
+msgstr "Po_čisti"
+
+#: ../main-window.cs:343
+msgid "Clear the current log"
+msgstr "Počisti trenutni dnevnik"
+
+#: ../main-window.cs:347
+msgid "_Next Error"
+msgstr "_Naslednja napaka"
+
+#: ../main-window.cs:349
+msgid "Jumps to the next system call that returned an error"
+msgstr "Skoči na naslednji sistemski klic, ki je vrnil napako"
+
+#: ../main-window.cs:353
+msgid "_Quit"
+msgstr "_Končaj"
+
+#: ../main-window.cs:355
+msgid "Exit the program"
+msgstr "Končaj program"
+
+#: ../main-window.cs:359
+msgid "_About Mortadelo"
+msgstr "_O programu"
+
+#: ../main-window.cs:361
+msgid "Show version information about this program"
+msgstr "Pokaži podrobnosti različice programa"
+
+#: ../main-window.cs:373
+msgid "S_top Recording"
+msgstr "Zaustavi snemanje"
+
+#: ../main-window.cs:375
+msgid "Stop recording system calls"
+msgstr "Zaustavitev snemanja sistemskih klicev"
+
+#: ../main-window.cs:379
+msgid "Start _Recording"
+msgstr "Začni s snemanjem"
+
+#: ../main-window.cs:381
+msgid "Start recording system calls"
+msgstr "Začetek snemanja sistemskih klicev"
+
+#: ../main-window.cs:393
+msgid "_Compact"
+msgstr "_Skrčeno"
+
+#: ../main-window.cs:395
+msgid "Compact view (start/end of system call in the same line)"
+msgstr "Skrčen pogled (začetek/konec sistemskega klica v isti vrstici)"
+
+#: ../main-window.cs:399
+msgid "_Full"
+msgstr "_Polno"
+
+#: ../main-window.cs:401
+msgid "Full view (start/end of system call in separate lines"
+msgstr "Poln pogled (začetek/konec sistemskega klica v ločenih vrsticah"
+
+#: ../main-window.cs:413
+msgid "Stop"
+msgstr "Zaustavi"
+
+#: ../main-window.cs:416
+msgid "Record"
+msgstr "Snemanje"
+
+#: ../main-window.cs:423
+msgid "Open a log of system calls"
+msgstr "Odpri dnevnik sistemskih klicev"
+
+#: ../main-window.cs:465
+msgid "Save log of system calls"
+msgstr "Shrani dnevnik sistemskih klicev"
+
+#: ../main-window.cs:730
+msgid "Starting the capture process..."
+msgstr "začenjanje opravila zajemanja ..."
+
+#: ../main-window.cs:787
+msgid "Errors from the capture process"
+msgstr "Napake opravila zajemanja"
+
+#: ../main-window.cs:923
+msgid "This program lets you view the system calls from all processes in the system."
+msgstr "S programom je mogoče pregledovati sistemske klice vseh opravil sistema."
+
+#. wheeee!
+#: ../main-window.cs:925
+#: ../main-window.cs:1000
+msgid "No further errors"
+msgstr "Ni drugih napak"
+
+#: ../syscall-tree-view.cs:97
+msgid "#"
+msgstr "#"
+
+#: ../syscall-tree-view.cs:98
+msgid "Time"
+msgstr "Čas"
+
+#: ../syscall-tree-view.cs:99
+msgid "Process"
+msgstr "Opravilo"
+
+#: ../syscall-tree-view.cs:100
+msgid "Syscall"
+msgstr "Sistemski klic"
+
+#: ../syscall-tree-view.cs:101
+msgid "Result"
+msgstr "Rezultat"
+
+#: ../syscall-tree-view.cs:102
+msgid "Arguments"
+msgstr "Argumenti"
+
+#: ../util.cs:51
+#, csharp-format
+msgid "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+msgstr "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+
+#. unknown errno code
+#: ../util.cs:67
+msgid "UNKNOWN"
+msgstr "NEZNANO"
+
