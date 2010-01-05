@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mortadelo\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2009-11-07 12:40+0000\n"
-"PO-Revision-Date: 2010-01-04 08:23+0100\n"
+"POT-Creation-Date: 2010-01-04 14:43+0000\n"
+"PO-Revision-Date: 2010-01-05 09:50+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -147,8 +147,11 @@ msgstr "Napake opravila zajemanja"
 msgid "This program lets you view the system calls from all processes in the system."
 msgstr "S programom je mogoče pregledovati sistemske klice vseh opravil sistema."
 
-#. wheeee!
 #: ../main-window.cs:925
+msgid "Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+msgstr "Avtorske pravice (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+
+#. wheeee!
 #: ../main-window.cs:1000
 msgid "No further errors"
 msgstr "Ni drugih napak"
