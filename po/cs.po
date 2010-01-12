@@ -1,0 +1,196 @@
+# Czech translation for mortadelo.
+# Copyright (C) 2009 the author(s) of mortadelo.
+# This file is distributed under the same license as the mortadelo package.
+# Marek Černocký <marek@manet.cz>, 2009.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mortadelo master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-01-12 02:02+0100\n"
+"PO-Revision-Date: 2009-11-16 12:33+0100\n"
+"Last-Translator: Marek Černocký <marek@manet.cz>\n"
+"Language-Team: Czech <gnome-cs-list@gnome.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Poedit-Language: Czech\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: ../main.cs:61
+msgid "This program can only be run by the system administrator."
+msgstr "Tuto aplikaci může spouštět pouze správce systému"
+
+#: ../main-window.cs:42
+msgid "Viewer for system calls"
+msgstr "Prohlížeč systémových volání"
+
+#: ../main-window.cs:236
+#, csharp-format
+msgid "Could not find a paired system call for index {0}"
+msgstr "Nelze najít spárované systémové volání pro index {0}"
+
+#: ../main-window.cs:317
+msgid "_File"
+msgstr "_Soubor"
+
+#: ../main-window.cs:323
+msgid "_Help"
+msgstr "_Nápověda"
+
+#: ../main-window.cs:329
+msgid "_Open..."
+msgstr "_Otevřít…"
+
+#: ../main-window.cs:331
+msgid "Load a log of system calls from a file"
+msgstr "Načíst evidenci systémových volání ze souboru"
+
+#: ../main-window.cs:335
+msgid "Save _As..."
+msgstr "Uložit _jako…"
+
+#: ../main-window.cs:337
+msgid "Save the displayed log to a file"
+msgstr "Uložit zobrazenou evidenci do souboru"
+
+#: ../main-window.cs:341
+msgid "C_lear"
+msgstr "_Vymazat"
+
+#: ../main-window.cs:343
+msgid "Clear the current log"
+msgstr "Vymazat současnou evidenci"
+
+#: ../main-window.cs:347
+msgid "_Next Error"
+msgstr "_Následující chyba"
+
+#: ../main-window.cs:349
+msgid "Jumps to the next system call that returned an error"
+msgstr "Přejít na následující systémové volání, které vrátilo chybu"
+
+#: ../main-window.cs:353
+msgid "_Quit"
+msgstr "U_končit"
+
+#: ../main-window.cs:355
+msgid "Exit the program"
+msgstr "Ukončit aplikaci"
+
+#: ../main-window.cs:359
+msgid "_About Mortadelo"
+msgstr "O _aplikaci Mortadelo"
+
+#: ../main-window.cs:361
+msgid "Show version information about this program"
+msgstr "Zobrazit informace o verzi této aplikace"
+
+#: ../main-window.cs:373
+msgid "S_top Recording"
+msgstr "Zas_tavit zaznám"
+
+#: ../main-window.cs:375
+msgid "Stop recording system calls"
+msgstr "Zastavit záznam systémových volání"
+
+#: ../main-window.cs:379
+msgid "Start _Recording"
+msgstr "Začít _zaznamenávat"
+
+#: ../main-window.cs:381
+msgid "Start recording system calls"
+msgstr "Začít zaznamenávat systémová volání"
+
+#: ../main-window.cs:393
+msgid "_Compact"
+msgstr "_Kompaktní"
+
+#: ../main-window.cs:395
+msgid "Compact view (start/end of system call in the same line)"
+msgstr ""
+"Kompaktní zobrazení (začátek/konec systémového volání na stejném řádku)"
+
+#: ../main-window.cs:399
+msgid "_Full"
+msgstr "Ú_plné"
+
+#: ../main-window.cs:401
+msgid "Full view (start/end of system call in separate lines"
+msgstr ""
+"Úplné zobrazení (začátek/konec systémového volání na zvláštních řádcích)"
+
+#: ../main-window.cs:413
+msgid "Stop"
+msgstr "Zastavit"
+
+#: ../main-window.cs:416
+msgid "Record"
+msgstr "Záznam"
+
+#: ../main-window.cs:423
+msgid "Open a log of system calls"
+msgstr "Otevření evidence systémových volání"
+
+#: ../main-window.cs:465
+msgid "Save log of system calls"
+msgstr "Uložení evidence systémových volání"
+
+#: ../main-window.cs:730
+msgid "Starting the capture process..."
+msgstr "Začíná proces zachytávání…"
+
+#: ../main-window.cs:787
+msgid "Errors from the capture process"
+msgstr "Chyby ze zachytávacího procesu"
+
+#: ../main-window.cs:923
+msgid ""
+"This program lets you view the system calls from all processes in the system."
+msgstr ""
+"Tato aplikace vám umožní prohlížet systémová volání ze všech procesů v "
+"systému."
+
+#: ../main-window.cs:925
+msgid "Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+msgstr "Copyright © 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+
+#. wheeee!
+#: ../main-window.cs:1000
+msgid "No further errors"
+msgstr "Žádné další chyby"
+
+#: ../syscall-tree-view.cs:97
+msgid "#"
+msgstr "Č."
+
+#: ../syscall-tree-view.cs:98
+msgid "Time"
+msgstr "Čas"
+
+#: ../syscall-tree-view.cs:99
+msgid "Process"
+msgstr "Proces"
+
+#: ../syscall-tree-view.cs:100
+msgid "Syscall"
+msgstr "Sys. volání"
+
+#: ../syscall-tree-view.cs:101
+msgid "Result"
+msgstr "Výsledek"
+
+#: ../syscall-tree-view.cs:102
+msgid "Arguments"
+msgstr "Argumenty"
+
+#: ../util.cs:51
+#, csharp-format
+msgid "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+msgstr "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+
+#. unknown errno code
+#: ../util.cs:67
+msgid "UNKNOWN"
+msgstr "NEZNÁMÝ"
