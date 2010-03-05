@@ -1,0 +1,195 @@
+# Galician translation for mortadelo.
+# Copyright (C) 2010 mortadelo's COPYRIGHT HOLDER
+# This file is distributed under the same license as the mortadelo package.
+# Fran Diéguez <frandieguez@ubuntu.com>, 2010.
+msgid ""
+msgstr ""
+"Project-Id-Version: mortadelo master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-01-12 01:03+0000\n"
+"PO-Revision-Date: 2010-02-13 14:39+0100\n"
+"Last-Translator: Fran Diéguez <frandieguez@ubuntu.com>\n"
+"Language-Team: Galician <proxecto@trasno.net>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: ../main.cs:61
+msgid "This program can only be run by the system administrator."
+msgstr "Este programa só pode executalo o administrador do sistema"
+
+#: ../main-window.cs:42
+msgid "Viewer for system calls"
+msgstr "Visor das chamadas ao sistema"
+
+#: ../main-window.cs:236
+#, csharp-format
+msgid "Could not find a paired system call for index {0}"
+msgstr ""
+"Non foi posíbel encontrar unha chamada ao sistema emparellada para o índice "
+"{0}"
+
+#: ../main-window.cs:317
+msgid "_File"
+msgstr "_Ficheiro"
+
+#: ../main-window.cs:323
+msgid "_Help"
+msgstr "_Axuda"
+
+#: ../main-window.cs:329
+msgid "_Open..."
+msgstr "_Abrir..."
+
+#: ../main-window.cs:331
+msgid "Load a log of system calls from a file"
+msgstr "Cargar un rexistro das chamadas ao sistema desde un ficheiro"
+
+#: ../main-window.cs:335
+msgid "Save _As..."
+msgstr "Gardar _como..."
+
+#: ../main-window.cs:337
+msgid "Save the displayed log to a file"
+msgstr "Gardar o rexistro mostrado a un ficheiro"
+
+#: ../main-window.cs:341
+msgid "C_lear"
+msgstr "L_impar"
+
+#: ../main-window.cs:343
+msgid "Clear the current log"
+msgstr "Limpar o rexistro actual"
+
+#: ../main-window.cs:347
+msgid "_Next Error"
+msgstr "_Seguinte erro"
+
+#: ../main-window.cs:349
+msgid "Jumps to the next system call that returned an error"
+msgstr "Saltar á seguinte chamada do sistema que devolveu un erro"
+
+#: ../main-window.cs:353
+msgid "_Quit"
+msgstr "_Saír"
+
+#: ../main-window.cs:355
+msgid "Exit the program"
+msgstr "Saír do programa"
+
+#: ../main-window.cs:359
+msgid "_About Mortadelo"
+msgstr "_Sobre Mostadelo"
+
+#: ../main-window.cs:361
+msgid "Show version information about this program"
+msgstr "Mostrar a versión sobre este programa"
+
+#: ../main-window.cs:373
+msgid "S_top Recording"
+msgstr "_Deter a gravación"
+
+#: ../main-window.cs:375
+msgid "Stop recording system calls"
+msgstr "Deter a gravación de chamadas ao sistema"
+
+#: ../main-window.cs:379
+msgid "Start _Recording"
+msgstr "Iniciar a _gravación"
+
+#: ../main-window.cs:381
+msgid "Start recording system calls"
+msgstr "Iniciar a gravación de chamadas ao sistema"
+
+#: ../main-window.cs:393
+msgid "_Compact"
+msgstr "_Compacta"
+
+#: ../main-window.cs:395
+msgid "Compact view (start/end of system call in the same line)"
+msgstr "Visualización compacta (iniciar/deter a gravación "
+
+#: ../main-window.cs:399
+msgid "_Full"
+msgstr "_Completa"
+
+#: ../main-window.cs:401
+msgid "Full view (start/end of system call in separate lines"
+msgstr ""
+"Visualización completa (inicio/fin da chamada ao sistema en liñas separadas="
+
+#: ../main-window.cs:413
+msgid "Stop"
+msgstr "Deter"
+
+#: ../main-window.cs:416
+msgid "Record"
+msgstr "Gravar"
+
+#: ../main-window.cs:423
+msgid "Open a log of system calls"
+msgstr "Abrir o rexistro das chamadas ao sistema"
+
+#: ../main-window.cs:465
+msgid "Save log of system calls"
+msgstr "Gardar o rexistro ás chamadas ao sistema"
+
+#: ../main-window.cs:730
+msgid "Starting the capture process..."
+msgstr "Iniciando a captura de procesos..."
+
+#: ../main-window.cs:787
+msgid "Errors from the capture process"
+msgstr "Producíronse erros ao capturar os procesos"
+
+#: ../main-window.cs:923
+msgid ""
+"This program lets you view the system calls from all processes in the system."
+msgstr ""
+"Este programa permítelle ver as chamadas ao sistema de todos os procesos no "
+"sistema."
+
+#: ../main-window.cs:925
+msgid "Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+msgstr "Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+
+#. wheeee!
+#: ../main-window.cs:1000
+msgid "No further errors"
+msgstr "Non hai máis erros"
+
+#: ../syscall-tree-view.cs:97
+msgid "#"
+msgstr "#"
+
+#: ../syscall-tree-view.cs:98
+msgid "Time"
+msgstr "Data"
+
+#: ../syscall-tree-view.cs:99
+msgid "Process"
+msgstr "Proceso"
+
+#: ../syscall-tree-view.cs:100
+msgid "Syscall"
+msgstr "Chamada ao sistema"
+
+#: ../syscall-tree-view.cs:101
+msgid "Result"
+msgstr "Resultado"
+
+#: ../syscall-tree-view.cs:102
+msgid "Arguments"
+msgstr "Argumentos"
+
+#: ../util.cs:51
+#, csharp-format
+msgid "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+msgstr "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+
+#. unknown errno code
+#: ../util.cs:67
+msgid "UNKNOWN"
+msgstr "DESCOÑECIDO"
+
