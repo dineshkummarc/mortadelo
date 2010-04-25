@@ -1,13 +1,15 @@
+# Slovenian translation for mortadelo.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the mortadelo package.
+#
 # Matej Urbančič <mateju@svn.gnome.org>, 2010.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: mortadelo\n"
+"Project-Id-Version: mortadelo master\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2010-01-04 14:43+0000\n"
-"PO-Revision-Date: 2010-01-05 09:50+0100\n"
+"PO-Revision-Date: 2010-04-24 10:14+0100\n"
 "Last-Translator: Matej Urbančič <mateju@svn.gnome.org>\n"
 "Language-Team: Slovenian GNOME Translation Team <gnome-si@googlegroups.com>\n"
 "MIME-Version: 1.0\n"
@@ -20,16 +22,16 @@ msgstr ""
 
 #: ../main.cs:61
 msgid "This program can only be run by the system administrator."
-msgstr "Program zahteva skrbniška dovoljenja"
+msgstr "Program je mogoče zagnati le s skrbniškimi dovoljenji."
 
 #: ../main-window.cs:42
 msgid "Viewer for system calls"
-msgstr "Pregledovalnik sistemskega dnevnika"
+msgstr "Pregledovalnik sistemskih klicev"
 
 #: ../main-window.cs:236
 #, csharp-format
 msgid "Could not find a paired system call for index {0}"
-msgstr "Ni mogoče najti parnega sistemskega sklica za kazalo {0}"
+msgstr "Ni mogoče najti parnega sistemskega klica za kazalo {0}"
 
 #: ../main-window.cs:317
 msgid "_File"
@@ -53,7 +55,7 @@ msgstr "Shrani _kot ..."
 
 #: ../main-window.cs:337
 msgid "Save the displayed log to a file"
-msgstr "_Shrani dnevnik napak v datoteko ..."
+msgstr "Shrani dnevnik napak v datoteko"
 
 #: ../main-window.cs:341
 msgid "C_lear"
@@ -69,7 +71,7 @@ msgstr "_Naslednja napaka"
 
 #: ../main-window.cs:349
 msgid "Jumps to the next system call that returned an error"
-msgstr "Skoči na naslednji sistemski klic, ki je vrnil napako"
+msgstr "Skoči na naslednji sistemski klic z vrnjeno napako"
 
 #: ../main-window.cs:353
 msgid "_Quit"
@@ -137,7 +139,7 @@ msgstr "Shrani dnevnik sistemskih klicev"
 
 #: ../main-window.cs:730
 msgid "Starting the capture process..."
-msgstr "začenjanje opravila zajemanja ..."
+msgstr "Začenjanje opravila zajemanja ..."
 
 #: ../main-window.cs:787
 msgid "Errors from the capture process"
@@ -189,4 +191,3 @@ msgstr "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
 #: ../util.cs:67
 msgid "UNKNOWN"
 msgstr "NEZNANO"
-
