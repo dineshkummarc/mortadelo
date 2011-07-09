@@ -1,0 +1,194 @@
+# Catalan translation for mortadelo.
+# Copyright (C) 2010 mortadelo's COPYRIGHT HOLDER
+# This file is distributed under the same license as the mortadelo package.
+# zytum <zytumelmillor@gmail.com>, 2010.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: mortadelo master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-06-03 21:58+0200\n"
+"PO-Revision-Date: 2011-07-10 00:50+0200\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Catalan <gnome-dl@llistes.softcatala.org>\n"
+"Language: ca\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: ../main.cs:61
+msgid "This program can only be run by the system administrator."
+msgstr "Aquest programa només el pot executar l'administrador del sistema."
+
+#: ../main-window.cs:42
+msgid "Viewer for system calls"
+msgstr "Visualitzador de crides del sistema"
+
+#: ../main-window.cs:236
+#, csharp-format
+msgid "Could not find a paired system call for index {0}"
+msgstr "No s'ha pogut trobar la crida del sistema corresponent a l'índex {0}"
+
+#: ../main-window.cs:317
+msgid "_File"
+msgstr "_Fitxer"
+
+#: ../main-window.cs:323
+msgid "_Help"
+msgstr "A_juda"
+
+#: ../main-window.cs:329
+msgid "_Open..."
+msgstr "_Obre..."
+
+#: ../main-window.cs:331
+msgid "Load a log of system calls from a file"
+msgstr "Carrega un registre de crides del sistema des d'un fitxer"
+
+#: ../main-window.cs:335
+msgid "Save _As..."
+msgstr "_Anomena i desa..."
+
+#: ../main-window.cs:337
+msgid "Save the displayed log to a file"
+msgstr "Desa el registre que es mostra en un fitxer"
+
+#: ../main-window.cs:341
+msgid "C_lear"
+msgstr "_Neteja"
+
+#: ../main-window.cs:343
+msgid "Clear the current log"
+msgstr "Neteja el registre actual"
+
+#: ../main-window.cs:347
+msgid "_Next Error"
+msgstr "Error _següent"
+
+#: ../main-window.cs:349
+msgid "Jumps to the next system call that returned an error"
+msgstr "Vés a la crida del sistema següent que hagi retornat un error"
+
+#: ../main-window.cs:353
+msgid "_Quit"
+msgstr "_Surt"
+
+#: ../main-window.cs:355
+msgid "Exit the program"
+msgstr "Surt del programa"
+
+#: ../main-window.cs:359
+msgid "_About Mortadelo"
+msgstr "_Quant a Mortadelo"
+
+#: ../main-window.cs:361
+msgid "Show version information about this program"
+msgstr "Mostra la informació de la versió del programa"
+
+#: ../main-window.cs:373
+msgid "S_top Recording"
+msgstr "A_tura l'enregistrament"
+
+#: ../main-window.cs:375
+msgid "Stop recording system calls"
+msgstr "Deixa d'enregistrar crides del sistema"
+
+#: ../main-window.cs:379
+msgid "Start _Recording"
+msgstr "Inicia l'_enregistrament"
+
+#: ../main-window.cs:381
+msgid "Start recording system calls"
+msgstr "Inicia l'enregistrament de crides del sistema"
+
+#: ../main-window.cs:393
+msgid "_Compact"
+msgstr "_Compacta"
+
+#: ../main-window.cs:395
+msgid "Compact view (start/end of system call in the same line)"
+msgstr ""
+"Mode compacte (mostra el principi i el final de la crida del sistema en la mateixa línia)"
+
+#: ../main-window.cs:399
+msgid "_Full"
+msgstr "C_ompleta"
+
+#: ../main-window.cs:401
+msgid "Full view (start/end of system call in separate lines"
+msgstr ""
+"Visualització completa (mostra el principi i el final de la crida del sistema en diferents "
+"línies)"
+
+#: ../main-window.cs:413
+msgid "Stop"
+msgstr "Atura"
+
+#: ../main-window.cs:416
+msgid "Record"
+msgstr "Enregistra"
+
+#: ../main-window.cs:423
+msgid "Open a log of system calls"
+msgstr "Obre un registre de crides al sistema"
+
+#: ../main-window.cs:465
+msgid "Save log of system calls"
+msgstr "Desa el registre de crides del sistema"
+
+#: ../main-window.cs:730
+msgid "Starting the capture process..."
+msgstr "S'està iniciant el procés de captura..."
+
+#: ../main-window.cs:787
+msgid "Errors from the capture process"
+msgstr "Errors del procés de captura"
+
+#: ../main-window.cs:923
+msgid ""
+"This program lets you view the system calls from all processes in the system."
+msgstr ""
+"Aquest programa us permet veure les crides del sistema de tots els processos del sistema"
+
+#: ../main-window.cs:925
+msgid "Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+msgstr "Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+
+#. wheeee!
+#: ../main-window.cs:1000
+msgid "No further errors"
+msgstr "No hi han més errors"
+
+#: ../syscall-tree-view.cs:97
+msgid "#"
+msgstr "#"
+
+#: ../syscall-tree-view.cs:98
+msgid "Time"
+msgstr "Temps"
+
+#: ../syscall-tree-view.cs:99
+msgid "Process"
+msgstr "Procés"
+
+#: ../syscall-tree-view.cs:100
+msgid "Syscall"
+msgstr "Crida del sistema"
+
+#: ../syscall-tree-view.cs:101
+msgid "Result"
+msgstr "Resultat"
+
+#: ../syscall-tree-view.cs:102
+msgid "Arguments"
+msgstr "Arguments"
+
+#: ../util.cs:51
+#, csharp-format
+msgid "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+msgstr "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+
+#. unknown errno code
+#: ../util.cs:67
+msgid "UNKNOWN"
+msgstr "DESCONEGUT"
