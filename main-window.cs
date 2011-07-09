@@ -398,7 +398,7 @@ namespace Mortadelo {
 						      Stock.Zoom100,
 						      Mono.Unix.Catalog.GetString ("_Full"),
 						      "<control>2",
-						      Mono.Unix.Catalog.GetString ("Full view (start/end of system call in separate lines"),
+						      Mono.Unix.Catalog.GetString ("Full view (start/end of system call in separate lines)"),
 						      (int) ViewMode.Full)
 			};
 
