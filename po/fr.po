@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: mortaledo 0.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-08-25 18:09+0200\n"
+"POT-Creation-Date: 2011-07-09 22:53+0000\n"
 "PO-Revision-Date: 2008-10-02 23:00+0200\n"
 "Last-Translator: Robert-André Mauchin <zebob.m@pengzone.org>\n"
 "Language-Team: GNOME French Team <gnomefr@traduc.org>\n"
@@ -115,8 +115,9 @@ msgid "_Full"
 msgstr "_Complet"
 
 #: ../main-window.cs:401
-msgid "Full view (start/end of system call in separate lines"
-msgstr "Affichage complet (début/fin de l'appel système sur des lignes distinctes)"
+msgid "Full view (start/end of system call in separate lines)"
+msgstr ""
+"Affichage complet (début/fin de l'appel système sur des lignes distinctes)"
 
 #: ../main-window.cs:413
 msgid "Stop"
@@ -146,7 +147,8 @@ msgstr "Erreurs du processus de capture"
 msgid ""
 "This program lets you view the system calls from all processes in the system."
 msgstr ""
-"Ce programme vous permet d'afficher les appels système de tous les processus du système."
+"Ce programme vous permet d'afficher les appels système de tous les processus "
+"du système."
 
 #: ../main-window.cs:925
 msgid "Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
