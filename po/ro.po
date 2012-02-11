@@ -1,0 +1,200 @@
+# Romanian translation for mortadelo.
+# Copyright (C) 2010 mortadelo's COPYRIGHT HOLDER
+# This file is distributed under the same license as the mortadelo package.
+# Toma Tabacu <toma.tabacu@gmail.com>, 2010.
+# Daniel Șerbănescu <daniel@serbanescu.tk>, 2012.
+msgid ""
+msgstr ""
+"Project-Id-Version: mortadelo master\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-07-09 22:53+0000\n"
+"PO-Revision-Date: 2012-02-11 22:40+0200\n"
+"Last-Translator: Daniel Șerbănescu <daniel@serbanescu.tk>\n"
+"Language-Team: Echipa de traducere în limba română Gnome România <gnomero-"
+"list@lists.sourceforge.net>\n"
+"Language: ro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : (n==0 || (n%100 > 0 && n%100 < "
+"20)) ? 1 : 2);;\n"
+"X-Generator: Virtaal 0.7.0\n"
+
+#: ../main.cs:61
+msgid "This program can only be run by the system administrator."
+msgstr "Numai administratorul sistemului poate rula acest program."
+
+#: ../main-window.cs:42
+msgid "Viewer for system calls"
+msgstr "Vizualizator pentru apeluri de sistem"
+
+#: ../main-window.cs:236
+#, csharp-format
+msgid "Could not find a paired system call for index {0}"
+msgstr "Nu s-a găsit un apel de sistem pereche pentru indexul {0}"
+
+#: ../main-window.cs:317
+msgid "_File"
+msgstr "_Fișier"
+
+#: ../main-window.cs:323
+msgid "_Help"
+msgstr "_Ajutor"
+
+#: ../main-window.cs:329
+msgid "_Open..."
+msgstr "_Deschide..."
+
+#: ../main-window.cs:331
+msgid "Load a log of system calls from a file"
+msgstr "Încarcă un istoric de apeluri de sistem dintr-un fișier"
+
+#: ../main-window.cs:335
+msgid "Save _As..."
+msgstr "S_alvează ca..."
+
+#: ../main-window.cs:337
+msgid "Save the displayed log to a file"
+msgstr "Salvează într-un fișier istoricul afișat"
+
+#: ../main-window.cs:341
+msgid "C_lear"
+msgstr "_Curăță"
+
+#: ../main-window.cs:343
+msgid "Clear the current log"
+msgstr "Curăță istoricul curent"
+
+#: ../main-window.cs:347
+msgid "_Next Error"
+msgstr "Eroarea _următoare"
+
+#: ../main-window.cs:349
+msgid "Jumps to the next system call that returned an error"
+msgstr "Sare la următorul apel de sistem care a returnat o eroare"
+
+#: ../main-window.cs:353
+msgid "_Quit"
+msgstr "_Ieșire"
+
+#: ../main-window.cs:355
+msgid "Exit the program"
+msgstr "Ieși din program"
+
+#: ../main-window.cs:359
+msgid "_About Mortadelo"
+msgstr "_Despre Mortadelo"
+
+#: ../main-window.cs:361
+msgid "Show version information about this program"
+msgstr "Afișează informații despre versiunea programului"
+
+#: ../main-window.cs:373
+msgid "S_top Recording"
+msgstr "Opreș_te înregistrarea"
+
+#: ../main-window.cs:375
+msgid "Stop recording system calls"
+msgstr "Oprește înregistrarea apelurilor de sistem"
+
+#: ../main-window.cs:379
+msgid "Start _Recording"
+msgstr "Po_rnește înregistrarea"
+
+#: ../main-window.cs:381
+msgid "Start recording system calls"
+msgstr "Pornește înregistrarea apelurilor de sistem"
+
+#: ../main-window.cs:393
+msgid "_Compact"
+msgstr "C_ompact"
+
+#: ../main-window.cs:395
+msgid "Compact view (start/end of system call in the same line)"
+msgstr ""
+"Afișare compactă (începutul/sfârșitul apelului de sistem pe aceeași linie)"
+
+#: ../main-window.cs:399
+msgid "_Full"
+msgstr "Afișare _totală"
+
+#: ../main-window.cs:401
+#| msgid "Full view (start/end of system call in separate lines"
+msgid "Full view (start/end of system call in separate lines)"
+msgstr ""
+"Afișare completă (începutul/sfârșitul apelului de sistem pe linii separate)"
+
+#: ../main-window.cs:413
+msgid "Stop"
+msgstr "Oprește"
+
+#: ../main-window.cs:416
+msgid "Record"
+msgstr "Înregistrează"
+
+#: ../main-window.cs:423
+msgid "Open a log of system calls"
+msgstr "Deschide un istoric de apeluri de sistem"
+
+#: ../main-window.cs:465
+msgid "Save log of system calls"
+msgstr "Salvează un istoric de apeluri de sistem"
+
+#: ../main-window.cs:730
+msgid "Starting the capture process..."
+msgstr "Pornește procesul de captură..."
+
+#: ../main-window.cs:787
+msgid "Errors from the capture process"
+msgstr "Erori din procesul de captură"
+
+#: ../main-window.cs:923
+msgid ""
+"This program lets you view the system calls from all processes in the system."
+msgstr ""
+"Acest program vă permite să vizualizați apelurile de sistem efectuate de "
+"toate procesele din sistem."
+
+#: ../main-window.cs:925
+msgid "Copyright (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+msgstr ""
+"Drepturi de autor (C) 2007 Federico Mena-Quintero, Carlos Alberto Cortez"
+
+#. wheeee!
+#: ../main-window.cs:1000
+msgid "No further errors"
+msgstr "Nu există erori suplimentare"
+
+#: ../syscall-tree-view.cs:97
+msgid "#"
+msgstr "#"
+
+#: ../syscall-tree-view.cs:98
+msgid "Time"
+msgstr "Timp"
+
+#: ../syscall-tree-view.cs:99
+msgid "Process"
+msgstr "Proces"
+
+#: ../syscall-tree-view.cs:100
+msgid "Syscall"
+msgstr "Apel de sistem"
+
+#: ../syscall-tree-view.cs:101
+msgid "Result"
+msgstr "Rezultat"
+
+#: ../syscall-tree-view.cs:102
+msgid "Arguments"
+msgstr "Argumente"
+
+#: ../util.cs:51
+#, csharp-format
+msgid "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+msgstr "{0:d2}:{1:d2}:{2:d2}.{3:d6}"
+
+#. unknown errno code
+#: ../util.cs:67
+msgid "UNKNOWN"
+msgstr "NECUNOSCUT"
